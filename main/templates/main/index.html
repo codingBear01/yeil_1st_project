@@ -1,0 +1,8 @@
+{% extends "main/layout.html" %} 
+{% block body %}
+  <h1>This is main page!</h1>
+  <a href="{% url 'users:login' %}">go to login page</a>
+  {% for user in users%}
+    <div>{{ user }}</div>
+  {% endfor %}
+{% endblock %}
