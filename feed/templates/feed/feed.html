@@ -1,0 +1,20 @@
+{% extends "main/layout.html" %} 
+{% block main %}
+  {% if user.is_authenticated %}
+    <div>title: {{ feed.title }}</div>
+    <div>author: {{ feed.author }}</div>
+    <div>created time: {{ feed.createdTime }}</div>
+    <div>content: {{ feed.content }}</div>
+    {% if user.id == feed.author.id %}
+      <a href="{% url 'feed:edit' feed.id %}">edit this feed</a>
+      <form
+        action="{% url 'feed:delete' feed.id %}"
+        method="POST"
+        style="display: flex; flex-direction: column"
+      >
+        {% csrf_token%}
+        <input type="submit" value="delete this page" />
+      </form>
+    {% endif %}
+  {% endif %}
+{% endblock %}

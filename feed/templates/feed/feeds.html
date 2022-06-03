@@ -1,0 +1,16 @@
+{% extends "main/layout.html" %} 
+{% block main %}
+  {% if user.is_authenticated %}
+  <ul>
+    {% for feed in feeds %}
+      <li>
+        <a href="{% url 'feed:show' feed.id %}">
+          {{ feed.title }}by {{ feed.author}}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'feed:create' %}">create your feed!</a>
+  <a href="{% url 'main:index' %}">return to main page</a>
+  {% endif %}
+{% endblock %}

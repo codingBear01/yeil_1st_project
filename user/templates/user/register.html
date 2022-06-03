@@ -1,0 +1,18 @@
+{% extends "main/layout.html" %} 
+{% block main %}
+  <h1>This is register page</h1>
+
+  <form 
+    action="{% url 'user:register' %}" 
+    method="POST"
+    style="display:flex; flex-direction: column;" 
+  >
+    {% csrf_token %}
+    <input type="text" name="username" placeholder="username" />
+    <input type="email" name="email" placeholder="email" />
+    <input type="password" name="password" placeholder="password" />
+    <input type="password" name="confirmation" placeholder="confirmation" />
+    <input type="submit" />
+  </form>
+  <a href="{% url 'main:index' %}">return to main page</a>
+{% endblock %}

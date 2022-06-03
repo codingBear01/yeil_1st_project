@@ -1,4 +1,13 @@
+# main
 layout.html
 index.html
+
+# user
 login.html
 register.html
+
+# feed
+feeds.html
+feed.html
+create.html
+edit.html

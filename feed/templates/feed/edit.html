@@ -1,0 +1,28 @@
+{% extends "main/layout.html" %} 
+{% block main %}
+  {% if user.is_authenticated%}
+    {% if user.id == feed.author.id %}
+        <form
+        action="{% url 'feed:edit' feed.id %}"
+        method="POST"
+        style="display: flex; flex-direction: column"
+      >
+        {% csrf_token%}
+        <input 
+          type="text" 
+          name="title" 
+          placeholder="title" 
+          value="{{ feed.title }}"/>
+        <textarea name="content" placeholder="content">{{ feed.content }}</textarea>
+        <input 
+          type="text" 
+          name="imageUrl" 
+          placeholder="image URL" 
+          value="{{ feed.imageUrl }}"/>
+        <input type="submit" value="update" />
+      </form>
+      
+      <a href="{% url 'feed:all_feeds' %}">return to feeds page</a>
+    {% endif %}
+  {% endif %}
+{% endblock %}
