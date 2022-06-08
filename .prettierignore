@@ -11,3 +11,11 @@ feeds.html
 feed.html
 create.html
 edit.html
+
+# userPage
+userPage.html
+editUserInfo.html
+follower.html
+following.html
+userFeeds.html
+followingFeeds.html

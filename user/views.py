@@ -12,9 +12,9 @@ def login_view(request):
     if request.method == "POST":
 
         # Attempt to sign user in
-        username = request.POST["username"]
-        password = request.POST["password"]
-        user = authenticate(request, username=username, password=password)
+        userId = request.POST.get("user_id")
+        userPw = request.POST.get("user_pw")
+        user = authenticate(request, username=userId, password=userPw)
 
         # Check if authentication successful
         if user is not None:
@@ -37,24 +37,28 @@ def logout_view(request):
 
 def register(request):
     if request.method == "POST":
-        username = request.POST["username"]
-        email = request.POST["email"]
+        username = request.POST.get("user_id")
+        email = request.POST.get("user_email")
+        nickname = request.POST.get("user_nickname")
+        profilePic = request.FILES["user_profile_pic"]
 
         # Ensure password matches confirmation
-        password = request.POST["password"]
-        confirmation = request.POST["confirmation"]
+        password = request.POST.get("user_pw")
+        confirmation = request.POST.get("user_confirmation")
         if password != confirmation:
             return render(
-                request, "user/register.html", {"message": "Passwords must match."}
+                request, "user/register.html", {"pwError": "Passwords must match."}
             )
 
         # Attempt to create new user
         try:
             user = User.objects.create_user(username, email, password)
+            user.nickname = nickname
+            user.profilePic = profilePic
             user.save()
         except IntegrityError:
             return render(
-                request, "user/register.html", {"message": "Username already taken."}
+                request, "user/register.html", {"idError": "Username already taken."}
             )
         login(request, user)
         return HttpResponseRedirect(reverse("user:login"))

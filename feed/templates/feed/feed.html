@@ -2,9 +2,12 @@
 {% block main %}
   {% if user.is_authenticated %}
     <div>title: {{ feed.title }}</div>
-    <div>author: {{ feed.author }}</div>
+    <a href="{% url 'userPage:userPage' feed.author.id %}">
+      author: {{ feed.author}}
+    </a>
     <div>created time: {{ feed.createdTime }}</div>
     <div>content: {{ feed.content }}</div>
+    <a href="{% url 'feed:all_feeds' %}">see all feeds</a>
     {% if user.id == feed.author.id %}
       <a href="{% url 'feed:edit' feed.id %}">edit this feed</a>
       <form

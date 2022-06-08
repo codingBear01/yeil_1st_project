@@ -1,0 +1,44 @@
+{% extends "main/layout.html" %} 
+{% load static %} 
+{% block main %}
+  <h1>This is edit user info page</h1>
+  <form 
+    action="{% url 'userPage:editUserInfo' user.id %}"
+    method="POST"
+    enctype="multipart/form-data"
+    style="display: flex; flex-direction: column;"  
+  >
+    {% csrf_token %}
+    <input name="user_username" value="{{ user.username }}" disabled />
+    <input
+      name="user_password"
+      placeholder="password" 
+      type="password" 
+      value=""/>
+    <input 
+      name="user_confirmation" 
+      placeholder="password confirmation"
+      type="password" 
+      value=""
+    />
+    {% if pwError %}
+      <span style="font-size:12px; font-weight: 400; color: red;">{{ pwError }}</span>
+    {% endif %}
+    <input name="user_email" value="{{ user.email }}" disabled />
+    <input 
+      name="user_last_name"
+      placeholder="last name" 
+      value="{{ user.last_name }}"
+      disabled
+    />
+    <input 
+      name="user_first_name" 
+      placeholder="first name" 
+      value="{{ user.first_name }}"
+      disabled
+    />
+    <input type="file" name="user_profile_pic"/>
+    <input type="submit" value="submit" />
+  </form>
+  <a href="{% url 'userPage:userPage' user.id %}">back to my user page</a>
+{% endblock %}

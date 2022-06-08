@@ -39,6 +39,7 @@ def create(request):
 def edit(request, feed_id):
     if request.user.is_authenticated:
         feed = Feed.objects.get(pk=feed_id)
+        test = Feed.objects.all().filter(author_id=request.user.id)
 
         if request.method == "POST":
             title = request.POST["title"]
@@ -51,7 +52,7 @@ def edit(request, feed_id):
 
             feed.save()
             return redirect("feed:all_feeds")
-        return render(request, "feed/edit.html", {"feed": feed})
+        return render(request, "feed/edit.html", {"feed": feed, "test": test})
     else:
         return render(request, "user/login.html")
 

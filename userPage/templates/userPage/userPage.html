@@ -1,0 +1,27 @@
+{% extends "main/layout.html" %} 
+{% load static %}
+{% block main %}
+  <div style="display: flex; flex-direction: column;">
+    {% if user.profilePic %}
+      <img 
+      src="{{ user.profilePic.url }}" 
+      style="width: 120px; height: 120px; border: 1px solid black; border-radius: 50%;" 
+      />
+    {% else %}
+      <div>프사 엄떠ㅋ</div>
+    {% endif %}
+    
+    <h1>Hello {{ user.nickname }}</h1>
+    {% if user.id != request.user.id %}
+      <button>follow</button>
+    {% endif %}
+
+    <a href="{% url 'main:index' %}">back to main page</a>
+    <a href="{% url 'userPage:editUserInfo' user.id %}">edit</a>
+    <a href="{% url 'userPage:followers' %}">followers: 5</a>
+    <a href="{% url 'userPage:followings' %}">followings: 3</a>
+    <a href="{% url 'userPage:myFeeds' user.id %}">see my feeds</a>
+    <a href="{% url 'userPage:followingFeeds' %}">see followings' feeds</a>
+  </div>
+{% endblock %}
+

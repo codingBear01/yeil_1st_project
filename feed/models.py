@@ -17,6 +17,9 @@ class Feed(models.Model):
     )
     like = models.ManyToManyField(User, blank=True, related_name="feed_like")
 
+    def __str__(self):
+        return f"title: {self.title} by {self.author}"
+
 
 # Comment 기능은 추후 app 따로 파서 관리
 # class Comment(models.Model):

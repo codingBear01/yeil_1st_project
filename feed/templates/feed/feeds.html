@@ -5,7 +5,7 @@
     {% for feed in feeds %}
       <li>
         <a href="{% url 'feed:show' feed.id %}">
-          {{ feed.title }}by {{ feed.author}}
+          {{ feed.title }} by {{ feed.author}}
         </a>
       </li>
     {% endfor %}
