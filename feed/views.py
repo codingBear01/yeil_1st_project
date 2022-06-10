@@ -20,13 +20,11 @@ def create(request):
         if request.method == "POST":
             title = request.POST["create_title"]
             content = request.POST["create_content"]
-            imageUrl = request.POST["create_imageUrl"]
 
             feed = Feed(
                 author=user,
                 title=title,
                 content=content,
-                imageUrl=imageUrl,
             )
 
             feed.save()
@@ -44,11 +42,9 @@ def edit(request, feed_id):
         if request.method == "POST":
             title = request.POST["title"]
             content = request.POST["content"]
-            imageUrl = request.POST["imageUrl"]
 
             feed.title = title
             feed.content = content
-            feed.imageUrl = imageUrl
 
             feed.save()
             return redirect("feed:all_feeds")

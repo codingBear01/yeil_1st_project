@@ -1,27 +1,96 @@
 {% extends "main/layout.html" %} 
 {% load static %}
 {% block main %}
-  <div style="display: flex; flex-direction: column;">
-    {% if user.profilePic %}
-      <img 
-      src="{{ user.profilePic.url }}" 
-      style="width: 120px; height: 120px; border: 1px solid black; border-radius: 50%;" 
-      />
-    {% else %}
-      <div>프사 엄떠ㅋ</div>
-    {% endif %}
-    
-    <h1>Hello {{ user.nickname }}</h1>
-    {% if user.id != request.user.id %}
-      <button>follow</button>
-    {% endif %}
+  {% block css %}
+    <link href="{% static 'userPage/css/style.css' %}" rel="stylesheet" />
+  {% endblock %}
 
-    <a href="{% url 'main:index' %}">back to main page</a>
-    <a href="{% url 'userPage:editUserInfo' user.id %}">edit</a>
-    <a href="{% url 'userPage:followers' %}">followers: 5</a>
-    <a href="{% url 'userPage:followings' %}">followings: 3</a>
-    <a href="{% url 'userPage:myFeeds' user.id %}">see my feeds</a>
-    <a href="{% url 'userPage:followingFeeds' %}">see followings' feeds</a>
+  <div class="profile_box">
+    <a href="{% url 'main:index' %}">
+      <i class="fa-solid fa-arrow-left"></i>
+    </a>
+    <div class="profile_wrap">
+      <div class="profile_top">
+        {% if user.profilePic %}
+          <img src="{{ user.profilePic.url }}" alt="profile_pic" />
+        {% else %}
+          <i class="fa-solid fa-user-large default_profile_pic"></i>
+        {% endif %}
+        <div class="profile_name_box">
+          {% if user.id != request.user.id %}
+            <p>{{ user.nickname }}</p>
+          {% else %}
+            <p>{{ request.user.nickname }}</p>
+          {% endif %}
+          {% if user.id != request.user.id %}
+            <button
+              class="follow_btn"
+              data-user="{{ user.pk }}"
+            >
+              {% if user in request.user.following.all %}
+                unfollow
+              {% else %}
+                follow
+              {% endif %}
+            </button>
+          {% else %}
+            <a href="{% url 'userPage:editUserInfo' user.id %}">edit</a>
+          {% endif %}
+        </div>
+      </div>
+      
+      <div class="profile_fs">
+          <div class="profile_follower profile_cnt" user-id="{{ user.id }}" logged-user-id="{{ request.user.id }}">
+            {% if user.id != request.user.id %}
+            <p>팔로워</p>
+            <span class="follower_cnt">{{ user.follower.count }}</span>
+          </div>
+          <div class="profile_following profile_cnt">
+            <p>팔로잉</p>
+            <span class="following_cnt">{{ user.following.count }}</span>
+            {% else %}
+            <p>팔로워</p>
+            <span class="follower_cnt">{{ request.user.follower.count }}</span>
+          </div>
+          <div class="profile_following profile_cnt">
+            <p>팔로잉</p>
+            <span class="following_cnt">{{ request.user.following.count }}</span>
+            {% endif %}
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="profile_main">
+    <div class="profile_left">
+      {% if user.id == request.user.id %}
+      <div class="my_feeds" data-user-id="{{ request.user.id }}">작성한 피드 보기</div>
+      <div class="following_feeds">팔로잉 피드 보기</div>
+      {% else %}
+      <div>{{ user.nickname }}이 작성한 피드</div>
+      {% endif %}
+    </div>
+
+    <div class="profile_right">
+      {% if user.id != request.user.id %}
+        {% for feed in feeds %}
+        <div>Feed No. {{ feed.pk }}</div>
+        <div>작성 시간: {{ feed.createdTime }}</div>
+        <div>작성자: {{ feed.author.nickname }}</div>
+        <div>제목: {{ feed.title }}</div>
+        <div>내용: {{ feed.content }}</div>
+        {% endfor %}
+      {% endif %}
+    </div>
   </div>
 {% endblock %}
 
+{% block script %}
+  {% if user.id != request.user.id %}
+    <script src="{% static 'userPage/javascript/follow.js' %}"></script>
+    <script src="{% static 'userPage/javascript/showFollow.js' %}"></script>
+  {% else %}
+    <script src="{% static 'userPage/javascript/showFollow.js' %}"></script>
+    <script src="{% static 'userPage/javascript/showFeed.js' %}"></script>
+  {% endif %}
+{% endblock %}

@@ -8,7 +8,6 @@ class Feed(models.Model):
     )
     title = models.CharField(max_length=100, blank=True, null=False)
     content = models.TextField(max_length=1000, blank=True, null=False)
-    imageUrl = models.TextField(blank=True)
     createdTime = models.DateTimeField(
         null=True, blank=True, auto_now=False, auto_now_add=True
     )
@@ -17,19 +16,14 @@ class Feed(models.Model):
     )
     like = models.ManyToManyField(User, blank=True, related_name="feed_like")
 
+    def serialize(self):
+        return {
+            "pk": self.pk,
+            "author": self.author.nickname,
+            "title": self.title,
+            "content": self.content,
+            "createdTime": self.createdTime,
+        }
+
     def __str__(self):
         return f"title: {self.title} by {self.author}"
-
-
-# Comment 기능은 추후 app 따로 파서 관리
-# class Comment(models.Model):
-#     author = models.ForeignKey(
-#         User, on_delete=models.CASCADE, related_name="comment_author"
-#     )
-#     feed = models.ForeignKey(
-#         Feed, on_delete=models.CASCADE, related_name="comment_feed"
-#     )
-#     content = models.TextField(max_length=500, blank=True, null=False)
-#     createdTime = models.DateTimeField(auto_now=False, auto_now_add=True)
-#     updatedTime = models.DateTimeField(auto_now=True, auto_now_add=False)
-#     like = models.ManyToManyField(User, blank=True, related_name="comment_like")

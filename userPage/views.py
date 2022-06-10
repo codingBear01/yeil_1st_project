@@ -2,20 +2,25 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import make_password
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
-
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 
 from user.models import User
 from feed.models import Feed
 
 # Create your views here.
-## logged in user.id랑 params user_id랑 일치하면 기능 구현 if not? err page
 def userPage(request, user_id):
     if request.user.is_authenticated:
         user = User.objects.get(id=user_id)
+        feeds = Feed.objects.all().filter(author_id=user_id)
         return render(
             request,
             "userPage/userPage.html",
-            {"user": user},
+            {
+                "user": user,
+                "feeds": feeds,
+            },
         )
 
     return render(request, "userPage/userPage.html")
@@ -52,49 +57,133 @@ def editUserInfo(request, user_id):
     return render(request, "userPage/userPage.html")
 
 
-def showFollowers(request):
+@login_required
+@csrf_exempt
+def follow(request):
+    if request.method == "POST":
+        user = request.POST.get("user")
+        action = request.POST.get("action")
+
+        if action == "follow":
+            try:
+                # FOLLOW
+                user = User.objects.get(pk=user)
+                loggedUser = User.objects.get(pk=request.user.id)
+                loggedUser.following.add(user)
+                loggedUser.save()
+
+                user.follower.add(loggedUser)
+                user.save()
+
+                return JsonResponse(
+                    {
+                        "status": 201,
+                        "action": "unfollow",
+                        "followerCnt": user.follower.count(),
+                    },
+                    status=201,
+                )
+            except:
+                return JsonResponse({"error": "error"}, status=404)
+        else:
+            try:
+                # UNFOLLOW
+                user = User.objects.get(pk=user)
+                loggedUser = User.objects.get(pk=request.user.id)
+                loggedUser.following.remove(user)
+                loggedUser.save()
+
+                user.follower.remove(loggedUser)
+                user.save()
+
+                return JsonResponse(
+                    {
+                        "status": 201,
+                        "action": "follow",
+                        "followerCnt": user.follower.count(),
+                    },
+                    status=201,
+                )
+            except:
+                return JsonResponse({"error": "error"}, status=404)
+    return JsonResponse({}, status=400)
+
+
+@login_required
+def showFollow(request, user_id, showStatus):
     if request.user.is_authenticated:
-        user = User.objects.get(id=request.user.id)
-        return render(request, "userPage/follower.html", {"user": user})
+        user = User.objects.get(pk=user_id)
 
-    return render(request, "userPage/userPage.html")
+    if showStatus == "followers":
+        follows = user.follower.all()
+    elif showStatus == "followings":
+        follows = user.following.all()
+    else:
+        return JsonResponse({"error": "Invalid followers"}, status=400)
+
+    return JsonResponse([follow.serialize() for follow in follows], safe=False)
 
 
-def showFollowings(request):
+@login_required
+@csrf_exempt
+def deleteFollower(request):
+    if request.method == "POST":
+        user = request.POST.get("user")
+        action = request.POST.get("action")
+
+        if action == "삭제":
+            try:
+                user = User.objects.get(pk=user)
+                loggedUser = User.objects.get(pk=request.user.id)
+
+                user.following.remove(loggedUser)
+                loggedUser.follower.remove(user)
+                user.save()
+                loggedUser.save()
+
+                return JsonResponse(
+                    {
+                        "status": 201,
+                        "action": "되돌리기",
+                        "followerCnt": loggedUser.follower.count(),
+                    },
+                    status=201,
+                )
+            except:
+                return JsonResponse({"error": "error"}, status=404)
+        else:
+            try:
+                user = User.objects.get(pk=user)
+                loggedUser = User.objects.get(pk=request.user.id)
+
+                user.following.add(loggedUser)
+                loggedUser.follower.add(user)
+                user.save()
+                loggedUser.save()
+
+                return JsonResponse(
+                    {
+                        "status": 201,
+                        "action": "삭제",
+                        "followerCnt": loggedUser.follower.count(),
+                    },
+                    status=201,
+                )
+            except:
+                return JsonResponse({"error": "error"}, status=404)
+    return JsonResponse({}, status=400)
+
+
+def showFeeds(request, user_id, showStatus):
     if request.user.is_authenticated:
-        user = User.objects.get(id=request.user.id)
-        return render(request, "userPage/following.html", {"user": user})
+        user = User.objects.get(pk=user_id)
 
-    return render(request, "userPage/userPage.html")
+    if showStatus == "mine":
+        feeds = Feed.objects.all().filter(author_id=user)
+    elif showStatus == "followings":
+        followings = User.objects.get(pk=user_id).following.all()
+        feeds = Feed.objects.filter(author__in=followings).order_by("-createdTime")
+    else:
+        return JsonResponse({"error": "error"}, status=400)
 
-
-def showUserFeeds(request, user_id):
-    if request.user.is_authenticated:
-        user = User.objects.get(id=user_id)
-        feeds = Feed.objects.all().filter(author_id=user.id)
-        return render(
-            request,
-            "userPage/userFeeds.html",
-            {
-                "user": user,
-                "feeds": feeds,
-            },
-        )
-
-    return render(request, "userPage/userPage.html")
-
-
-def showFollowingFeeds(request):
-    if request.user.is_authenticated:
-        user = User.objects.get(id=request.user.id)
-        feeds = Feed.objects.all().filter(author_id=request.user.id)
-        return render(
-            request,
-            "userPage/followingFeeds.html",
-            {
-                "user": user,
-                "feeds": feeds,
-            },
-        )
-
-    return render(request, "userPage/userPage.html")
+    return JsonResponse([feed.serialize() for feed in feeds], safe=False)

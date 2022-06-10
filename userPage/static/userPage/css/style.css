@@ -1,0 +1,25 @@
+/* variables */
+@import './variables.css';
+
+/* pages */
+@import './userPage.css';
+@import './follow.css';
+
+/* components */
+/* fonts */
+@import url('https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@500;700&display=swap');
+
+* {
+  font-family: 'Noto Sans KR', sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+input {
+  outline: none;
+}
+
+li {
+  list-style: none;
+}

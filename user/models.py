@@ -18,3 +18,10 @@ class User(AbstractUser):
     )
     profilePic = models.ImageField(upload_to="images/", blank=True, null=True)
     nickname = models.CharField(max_length=20, blank=True, null=False)
+
+    def serialize(self):
+        return {
+            "pk": self.pk,
+            "nickname": self.nickname,
+            "profilePic": self.profilePic.url,
+        }
