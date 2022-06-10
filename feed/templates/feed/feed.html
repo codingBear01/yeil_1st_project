@@ -20,4 +20,30 @@
       </form>
     {% endif %}
   {% endif %}
+  {% if user.is_authenticated %}
+  <br><br><hr>
+  <div class="feed_comment_wrapper">
+    <h5>New Comment</h5>
+    
+    <form method="POST" action="{% url 'comment:comment' feed.id %}" class="comment_content_wrapper">
+      {% csrf_token %}
+      <textarea name="comment_content" class="comment_textarea" required="required"></textarea>
+      <div class="comment_submit_btn">
+        <input type="submit" class="comment_submit_btn" value="Submit" />
+      </div>
+    </form>
+  <div>
+  {% endif %}
+
+  <br><hr>
+  {% for comment in comments %}
+  <div class="comment">
+    <strong>작성자: {{ comment.author }}</strong>
+    <p>댓글 내용: {{ comment.content }}</p>
+    <div class="c_time">작성 시간: {{ comment.createdTime }}</div>
+    <div class="u_time">수정 시간: {{ comment.updatedTime }}</div>
+  </div>
+  {% empty %}
+  <p>No comments here yet 😥</p>
+  {% endfor %}
 {% endblock %}

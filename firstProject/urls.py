@@ -9,4 +9,5 @@ urlpatterns = [
     path("user/", include("user.urls")),
     path("feed/", include("feed.urls")),
     path("userPage/", include("userPage.urls")),
+    path("comment/", include("comment.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

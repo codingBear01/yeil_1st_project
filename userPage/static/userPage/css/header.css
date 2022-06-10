@@ -1,0 +1,128 @@
+/* * {
+  border: solid 1px black;
+} */
+
+.header {
+  background-color: #fff;
+  /* position: fixed; */
+  width: 100%;
+  height: 45px;
+}
+
+.header a {
+  color: var(--black);
+}
+
+.header ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow: hidden;
+  background-color: #fff;
+  /* display: flex;
+  flex-direction: column;
+  justify-content: center; */
+}
+
+.header ul a {
+  display: block;
+  padding: 20px;
+  text-decoration: none;
+}
+
+.header ul a:hover {
+  background-color: var(--lightBlue);
+}
+
+.header .logo {
+  float: left;
+  display: block;
+  padding: 3px 20px;
+}
+
+.logo img {
+  width: 38px;
+  height: 29px;
+}
+
+.header .menu {
+  clear: both;
+  max-height: 0;
+  transition: max-height 0.2s ease-out;
+}
+
+.menu_icon {
+  padding: 19px 20px;
+  position: relative;
+  float: right;
+  cursor: pointer;
+}
+
+.header .menu_icon .nav_icon {
+  background-color: #333;
+  display: block;
+  height: 3px;
+  width: 18px;
+  position: relative;
+  transition: all 0.2s ease-out;
+  top: -2px;
+}
+
+.header .menu_icon .nav_icon:before {
+  background: #333;
+  content: '';
+  display: block;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  transition: all 0.2s ease-out;
+  top: 4.5px;
+}
+
+.header .menu_icon .nav_icon::after {
+  background: #333;
+  content: '';
+  display: block;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  transition: all 0.2s ease-out;
+  top: -5px;
+}
+
+.header .menu_btn {
+  display: none;
+}
+
+.header .menu_btn:checked ~ .menu {
+  max-height: 276px;
+}
+
+.header .menu_btn:checked ~ .menu_icon .nav_icon {
+  background: transparent;
+}
+.header .menu_btn:checked ~ .menu_icon .nav_icon:before {
+  transform: rotate(-45deg);
+  top: 0;
+}
+.header .menu_btn:checked ~ .menu_icon .nav_icon:after {
+  transform: rotate(45deg);
+  top: 0;
+}
+
+@media (min-width: 48em) {
+  .header li {
+    float: left;
+  }
+  .header li a {
+    padding: 6px 30px;
+  }
+  .header .menu {
+    clear: none;
+    float: right;
+    max-height: none;
+  }
+  .header .menu_icon {
+    display: none;
+  }
+}

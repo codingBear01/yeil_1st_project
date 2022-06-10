@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 
 from .models import User, Feed
+from comment.models import Comment
 
 # Create your views here.
 def allFeeds(request):
@@ -10,7 +11,8 @@ def allFeeds(request):
 
 def show(request, feed_id):
     feed = Feed.objects.get(pk=feed_id)
-    return render(request, "feed/feed.html", {"feed": feed})
+    comments = Comment.objects.all().filter(feed_id=feed_id).order_by("-createdTime")
+    return render(request, "feed/feed.html", {"feed": feed, "comments": comments,})
 
 
 def create(request):

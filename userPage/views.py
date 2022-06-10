@@ -179,7 +179,7 @@ def showFeeds(request, user_id, showStatus):
         user = User.objects.get(pk=user_id)
 
     if showStatus == "mine":
-        feeds = Feed.objects.all().filter(author_id=user)
+        feeds = Feed.objects.all().filter(author_id=user).order_by("-createdTime")
     elif showStatus == "followings":
         followings = User.objects.get(pk=user_id).following.all()
         feeds = Feed.objects.filter(author__in=followings).order_by("-createdTime")

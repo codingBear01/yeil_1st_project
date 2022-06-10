@@ -12,8 +12,18 @@
     <title>{% block title %} first project {% endblock %}</title>
   </head>
   <body>
-    <header style="background-color: tomato;">
-      <h1>This is header</h1>
+    <header class="header">
+      <a href="{% url 'main:index' %}" class="logo"><img src="{% static 'main/src/image/logo_wrap.png'%}" /></a>
+      <input class="menu_btn" type="checkbox" id="menu_btn" />
+      <label class="menu_icon" for="menu_btn"
+        ><span class="nav_icon"></span
+      ></label>
+      <ul class="menu">
+        <li><a href="#1">menu1</a></li>
+        <li><a href="#2">menu2</a></li>
+        <li><a href="#3">menu3</a></li>
+        <li><a href="#4">menu4</a></li>
+      </ul>
     </header>
     <main>
       {% block main %}
