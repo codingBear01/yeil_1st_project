@@ -5,7 +5,12 @@
     {% for feed in feeds %}
       <li>
         <a href="{% url 'feed:show' feed.id %}">
-          {{ feed.title }} by {{ feed.author}}
+          <div>피드 제목: {{ feed.title }}</div>
+          <div>작성자: {{ feed.author.nickname }}</div>
+          <div>작성 일자: {{ feed.createdTime }}</div>
+          {% if feed.comment_feed.count > 0 %}
+          <div>댓글 수: {{ feed.comment_feed.count }}</div>
+          {% endif %}
         </a>
       </li>
     {% endfor %}

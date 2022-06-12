@@ -6,13 +6,28 @@ from comment.models import Comment
 # Create your views here.
 def allFeeds(request):
     feeds = Feed.objects.all()
-    return render(request, "feed/feeds.html", {"feeds": feeds})
+    comments = Comment.objects.all().order_by("-createdTime")
+    return render(
+        request,
+        "feed/feeds.html",
+        {
+            "feeds": feeds,
+            "comments": comments,
+        },
+    )
 
 
 def show(request, feed_id):
     feed = Feed.objects.get(pk=feed_id)
     comments = Comment.objects.all().filter(feed_id=feed_id).order_by("-createdTime")
-    return render(request, "feed/feed.html", {"feed": feed, "comments": comments,})
+    return render(
+        request,
+        "feed/feed.html",
+        {
+            "feed": feed,
+            "comments": comments,
+        },
+    )
 
 
 def create(request):
