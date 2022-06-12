@@ -1,0 +1,7 @@
+.edit_btn_box {
+  display: none;
+}
+
+.comment:hover .edit_btn_box {
+  display: block;
+}

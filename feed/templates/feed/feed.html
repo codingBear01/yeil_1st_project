@@ -1,4 +1,6 @@
-{% extends "main/layout.html" %} 
+{% extends "main/layout.html" %}
+{% load static %}
+
 {% block main %}
   {% if user.is_authenticated %}
     <div>title: {{ feed.title }}</div>
@@ -38,15 +40,33 @@
   <br><hr>
   {% for comment in comments %}
   <div class="comment">
-    {% if comment.author.id == request.user.id %}
-    
-    {% endif %}
     <strong>작성자: {{ comment.author }}</strong>
-    <p>댓글 내용: {{ comment.content }}</p>
+    <div>
+      댓글 내용: 
+      <div class="comment_content{{ comment.id }}">{{ comment.content }}</div>
+    </div>
     <div class="c_time">작성 시간: {{ comment.createdTime }}</div>
     <div class="u_time">수정 시간: {{ comment.updatedTime }}</div>
+    {% if comment.author.id == request.user.id %}
+    <div class="edit_btn_box">
+      <button 
+        type="submit" 
+        class="comment_edit_btn" 
+        data-commentid="{{ comment.id }}"
+      >
+      수정
+      </button>
+      <span class="comment_divider">|</span>
+      <button class="comment_delete_btn">삭제</button>
+    </div>
+      {% endif %}
   </div>
+
   {% empty %}
   <p>No comments here yet 😥</p>
   {% endfor %}
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'feed/javascript/editComment.js' %}"></script>
 {% endblock %}

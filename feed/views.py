@@ -1,4 +1,7 @@
 from django.shortcuts import render, redirect
+import json
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 from .models import User, Feed
 from comment.models import Comment
@@ -80,3 +83,29 @@ def delete(request, feed_id):
         return render(request, "feed/editFeed.html", {"feed": feed})
     else:
         return render(request, "user/login.html")
+
+
+@csrf_exempt
+def editComment(request):
+    if request.method != "PUT":
+        return JsonResponse({"error": "PUT request required."}, status=400)
+
+    if not request.user.is_authenticated:
+        return redirect("user:login")
+
+    data = json.loads(request.body)
+    commentId = data.get("commentId", "")
+    comment = Comment.objects.get(pk=commentId)
+    commentContentTextarea = data.get("commentContentTextarea", "")
+
+    if commentContentTextarea:
+        if request.user.pk != comment.author.pk:
+            return JsonResponse({"error": "You can't edit other's comment"})
+
+        comment.content = commentContentTextarea
+        comment.save()
+
+    return JsonResponse(
+        {"message": "Edited comment successfully!"},
+        status=201,
+    )

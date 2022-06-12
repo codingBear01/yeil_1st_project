@@ -9,4 +9,5 @@ urlpatterns = [
     path("create", views.create, name="create"),
     path("edit/<int:feed_id>", views.edit, name="edit"),
     path("delete/<int:feed_id>", views.delete, name="delete"),
+    path("feed/editComment", views.editComment, name="editComment"),
 ]
