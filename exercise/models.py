@@ -13,6 +13,15 @@ class Session(models.Model):
     count = models.IntegerField(blank=True, null=False)
     set = models.IntegerField(blank=True, null=False)
 
+    def serialize(self):
+        return {
+            "pk": self.pk,
+            "bodyPart": self.bodyPart.name,
+            "name": self.name,
+            "count": self.count,
+            "set": self.set,
+        }
+
 
 class RecommendSession(models.Model):
     session = models.ForeignKey(

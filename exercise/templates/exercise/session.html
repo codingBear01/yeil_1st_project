@@ -1,39 +1,35 @@
-{% extends 'main/layout.html' %} {% load static %} {% block main %}
+{% extends 'main/layout.html' %} 
+{% load static %} 
+
+{% block main %}
 <div class="session_box recommend_session_box">
   추천 세션:
   <ul>
     {% for recommendSession in recommendSessions%}
     <li><button>{{ recommendSession.category }}</button></li>
-    {% endfor %} {% comment %}
-    <li>
-      <button data-rec-part="2주복근">할 수 있다! 2주 완성 복근 운동</button>
-    </li>
-    <li><button data-rec-part="2주등">등</button></li>
-    <li><button data-rec-part="2주어깨">어깨</button></li>
-    <li><button data-rec-part="2주엉덩이">엉덩이</button></li>
-    {% endcomment %}
+    {% endfor %}
   </ul>
 </div>
 
 <div class="session_box">
   부위별 운동:
   <ul>
-    <li><button data-body-part="복근">복근</button></li>
-    <li><button data-body-part="등">등</button></li>
-    <li><button data-body-part="어깨">어깨</button></li>
-    <li><button data-body-part="엉덩이">엉덩이</button></li>
+    {% for bodyPart in bodyParts %}
+    <li>
+      <button 
+        class="body_part_btn"
+        data-body-part="{{ bodyPart.pk }}"
+      >
+        {{ bodyPart.name }}
+      </button>
+    </li>
+    {% endfor %}
   </ul>
 </div>
 
-<div class="session_result_box">
-  {% for session in sessions %}
-  <div>운동 이름: {{ session.name }}</div>
-  <div>횟수: {{ session.count }}</div>
-  <div>세트: {{ session.set }}</div>
-  {% endfor %} {% for recommendSession in recommendSessions %}
-  <div>운동 이름: {{ recommendSession.session.name }}</div>
-  {% endfor %}
-</div>
-{% endblock %} {% block script %}
-<script src="{% static 'session/javascript/session.js' %}"></script>
+<div class="session_result_box"></div>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'exercise/javascript/bodyPartSession.js' %}"></script>
 {% endblock %}

@@ -5,4 +5,5 @@ app_name = "exercise"
 
 urlpatterns = [
     path("", views.exercise, name="exercise"),
+    path("bodyPartSession", views.bodyPartSession),
 ]
