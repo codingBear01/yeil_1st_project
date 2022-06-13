@@ -8,6 +8,7 @@
 @import './pages/userEdit.css';
 @import './pages/userPage.css';
 @import './pages/feed.css';
+@import './pages/session.css';
 
 /* components */
 @import './components/header.css';

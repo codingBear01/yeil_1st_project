@@ -1,27 +1,27 @@
 import json
 from django.shortcuts import redirect, render
-from .models import User, Comment
+from .models import User, Comment, Feed
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 
 # Create your views here.
-def comment(request, comment_id):
+def comment(request, feed_id):
     if request.user.is_authenticated:
         user = User.objects.get(username=request.user.username)
-        comment = comment.objects.get(pk=comment_id)
+        feed = Feed.objects.get(pk=feed_id)
 
     if request.method == "POST":
         commentContent = request.POST.get("comment_content")
 
         comment = Comment(
             author=user,
-            comment=comment,
+            feed=feed,
             content=commentContent,
         )
         comment.save()
-        return redirect("comment:show", comment_id=comment.id)
-    return render(request, "comment/comment.html")
+        return redirect("feed:show", feed_id=feed.id)
+    return render(request, "feed/feed.html")
 
 
 @csrf_exempt
