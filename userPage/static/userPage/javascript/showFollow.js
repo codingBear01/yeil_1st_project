@@ -6,10 +6,16 @@ myFollowings.addEventListener('click', () => showFollows('followings'));
 
 const showFollows = (showStatus) => {
   const profileRight = document.querySelector('.profile_right');
+  const profileLeft = document.querySelector('.profile_left');
   const userId = myFollowers.getAttribute('user-id');
+  const userNickname = myFollowers.getAttribute('user-nickname');
   const loggedUserId = myFollowers.getAttribute('logged-user-id');
 
   profileRight.innerHTML = '';
+
+  showStatus === 'followers'
+    ? (profileLeft.textContent = `${userNickname}의 팔로워`)
+    : (profileLeft.textContent = `${userNickname}의 팔로잉`);
 
   fetch(`follow/${userId}/${showStatus}`)
     .then((res) => res.json())

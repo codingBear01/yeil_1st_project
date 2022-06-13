@@ -2,6 +2,15 @@
   display: none;
 }
 
-.comment:hover .edit_btn_box {
-  display: block;
+.comment_wrapper:hover .edit_btn_box {
+  display: flex;
+}
+
+.like_box {
+  cursor: pointer;
+}
+
+.prohibited {
+  cursor: not-allowed;
+  pointer-events: none;
 }

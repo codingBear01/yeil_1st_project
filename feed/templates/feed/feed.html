@@ -3,25 +3,45 @@
 
 {% block main %}
   {% if user.is_authenticated %}
-    <div>title: {{ feed.title }}</div>
-    <a href="{% url 'userPage:userPage' feed.author.id %}">
-      author: {{ feed.author}}
-    </a>
-    <div>created time: {{ feed.createdTime }}</div>
-    <div>content: {{ feed.content }}</div>
-    <a href="{% url 'feed:all_feeds' %}">see all feeds</a>
+  <div>제목: {{ feed.title }}</div>
+  <a href="{% url 'userPage:userPage' feed.author.pk %}">
+    작성자: {{ feed.author}}
+  </a>
+  <div>작성 시간: {{ feed.createdTime }}</div>
+  <div>내용: {{ feed.content }}</div>
+  <div
+    id="feed_like_{{ feed.pk }}"
+    class="like_box feed_like like {% if feed.author.pk == request.user.pk %}prohibited {% endif %}"
+    feed-id="{{ feed.pk }}"
+    {% if not request.user in feed.like.all %}
+    feed-is-liked="no"
+    {% else %}
+    feed-is-liked="yes"
+    {% endif %}
+  >
+    <span id="feed_heart_{{ feed.pk }}">
+      {% if not request.user in feed.like.all %}
+      🤍
+      {% else %}
+      💖
+      {% endif %}
+    </span>
+    <span id="feed_like_count_{{ feed.pk }}">{{ feed.like.count }}</span>
+  </div>
+  <a href="{% url 'feed:all_feeds' %}">see all feeds</a>
     {% if user.id == feed.author.id %}
-      <a href="{% url 'feed:edit' feed.id %}">edit this feed</a>
-      <form
-        action="{% url 'feed:delete' feed.id %}"
-        method="POST"
-        style="display: flex; flex-direction: column"
-      >
-        {% csrf_token%}
-        <input type="submit" value="delete this page" />
-      </form>
+    <a href="{% url 'feed:edit' feed.id %}">edit this feed</a>
+    <form
+      action="{% url 'feed:delete' feed.id %}"
+      method="POST"
+      style="display: flex; flex-direction: column"
+    >
+      {% csrf_token%}
+      <input type="submit" value="delete this page" />
+    </form>
     {% endif %}
   {% endif %}
+
   {% if user.is_authenticated %}
   <br><br><hr>
   <div class="feed_comment_wrapper">
@@ -38,35 +58,59 @@
   {% endif %}
 
   <br><hr>
-  {% for comment in comments %}
-  <div class="comment">
-    <strong>작성자: {{ comment.author }}</strong>
-    <div>
-      댓글 내용: 
-      <div class="comment_content{{ comment.id }}">{{ comment.content }}</div>
-    </div>
-    <div class="c_time">작성 시간: {{ comment.createdTime }}</div>
-    <div class="u_time">수정 시간: {{ comment.updatedTime }}</div>
-    {% if comment.author.id == request.user.id %}
-    <div class="edit_btn_box">
-      <button 
-        type="submit" 
-        class="comment_edit_btn" 
-        data-commentid="{{ comment.id }}"
+  <div class="comment_container">
+    <div class="edit_comment_box"></div>
+    {% for comment in comments %}
+    <div class="comment_wrapper">
+      <strong>작성자: {{ comment.author }}</strong>
+      <div>
+      댓글 내용: <div class="comment_content{{ comment.id }}">{{ comment.content }}</div>
+      </div>
+      <div class="c_time">작성 시간: {{ comment.createdTime }}</div>
+      <div class="u_time">수정 시간: {{ comment.updatedTime }}</div>
+      <div
+        id="comment_like_{{ comment.pk }}"
+        class="like_box comment_like like {% if comment.author.pk == request.user.pk %}prohibited {% endif %}"
+        comment-id="{{ comment.pk }}"
+        {% if not request.user in comment.like.all %}
+        comment-is-liked="no"
+        {% else %}
+        comment-is-liked="yes"
+        {% endif %}
       >
-      수정
-      </button>
-      <span class="comment_divider">|</span>
-      <button class="comment_delete_btn">삭제</button>
+        <span id="comment_heart_{{ comment.pk }}">
+          {% if not request.user in comment.like.all %}
+          🤍
+          {% else %}
+          💖
+          {% endif %}
+        </span>
+        <span id="comment_like_count_{{ comment.pk }}">{{ comment.like.count }}</span>
+      </div>
+      {% if comment.author.id == request.user.id %}
+      <div class="edit_btn_box">
+        <button 
+          type="submit" 
+          class="edit_comment_btn" 
+          data-commentid="{{ comment.id }}"
+        >수정</button>
+        <span class="comment_divider">|</span>
+        <button 
+          type="submit"
+          class="delete_comment_btn"
+          comment-id="{{ comment.id }}"
+        >삭제</button>
+      </div>
     </div>
       {% endif %}
+      {% empty %}
+      <p>No comments here yet 😥</p>
+    {% endfor %}
   </div>
-
-  {% empty %}
-  <p>No comments here yet 😥</p>
-  {% endfor %}
 {% endblock %}
 
 {% block script %}
-<script src="{% static 'feed/javascript/editComment.js' %}"></script>
+<script src="{% static 'feed/javascript/handleLike.js' %}"></script>
+<script src="{% static 'comment/javascript/editComment.js' %}"></script>
+<script src="{% static 'comment/javascript/deleteComment.js' %}"></script>
 {% endblock %}

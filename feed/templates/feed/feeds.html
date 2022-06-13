@@ -11,6 +11,9 @@
           {% if feed.comment_feed.count > 0 %}
           <div>댓글 수: {{ feed.comment_feed.count }}</div>
           {% endif %}
+          {% if feed.like.count > 0 %}
+          <div>💖 {{ feed.like.count }}</div>
+          {% endif %}
         </a>
       </li>
     {% endfor %}

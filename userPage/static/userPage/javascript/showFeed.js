@@ -1,16 +1,17 @@
-const myFeeds = document.querySelector('.my_feeds');
-const followingFeeds = document.querySelector('.following_feeds');
+const profileFeed = document.querySelector('.profile_feed');
 
-myFeeds.addEventListener('click', () => showFeeds('mine'));
-followingFeeds.addEventListener('click', () => showFeeds('followings'));
+profileFeed.addEventListener('click', () => showFeeds());
 
 const showFeeds = (showStatus) => {
   const profileRight = document.querySelector('.profile_right');
-  const userId = myFeeds.getAttribute('data-user-id');
+  const profileLeft = document.querySelector('.profile_left');
+  const userNickname = myFollowers.getAttribute('user-nickname');
+  const userId = profileFeed.getAttribute('user-id');
 
   profileRight.innerHTML = '';
+  profileLeft.innerHTML = `${userNickname}의 피드`;
 
-  fetch(`feeds/${userId}/${showStatus}`)
+  fetch(`feeds/${userId}`)
     .then((res) => res.json())
     .then((data) => {
       data.forEach((feedsInfo) => {

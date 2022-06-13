@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 
 from .models import User, Feed
 from comment.models import Comment
@@ -86,26 +87,37 @@ def delete(request, feed_id):
 
 
 @csrf_exempt
-def editComment(request):
-    if request.method != "PUT":
-        return JsonResponse({"error": "PUT request required."}, status=400)
+def feedLike(request):
+    if request.method == "POST":
+        feedId = request.POST.get("feedId")
+        feedIsLiked = request.POST.get("feedIsLiked")
 
-    if not request.user.is_authenticated:
-        return redirect("user:login")
+        try:
+            feed = Feed.objects.get(pk=feedId)
+            if feedIsLiked == "no":
+                feed.like.add(request.user)
+                feedIsLiked = "yes"
+            else:
+                feed.like.remove(request.user)
+                feedIsLiked = "no"
 
-    data = json.loads(request.body)
-    commentId = data.get("commentId", "")
-    comment = Comment.objects.get(pk=commentId)
-    commentContentTextarea = data.get("commentContentTextarea", "")
+            feed.save()
 
-    if commentContentTextarea:
-        if request.user.pk != comment.author.pk:
-            return JsonResponse({"error": "You can't edit other's comment"})
+            return JsonResponse(
+                {
+                    "feedLikeCnt": feed.like.count(),
+                    "feedIsLiked": feedIsLiked,
+                    "status": 201,
+                },
+                status=201,
+            )
+        except:
+            return JsonResponse(
+                {
+                    "error": "Feed not found",
+                    "status": 404,
+                },
+                status=404,
+            )
 
-        comment.content = commentContentTextarea
-        comment.save()
-
-    return JsonResponse(
-        {"message": "Edited comment successfully!"},
-        status=201,
-    )
+    return JsonResponse({}, status=400)
