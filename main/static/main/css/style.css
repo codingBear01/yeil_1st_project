@@ -9,9 +9,12 @@
 @import './pages/userPage.css';
 @import './pages/feed.css';
 @import './pages/session.css';
+@import './pages/exercise.css';
+@import './pages/recordSession.css';
 
 /* components */
 @import './components/header.css';
+@import './components/footer.css';
 
 /* fonts */
 @import url('https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@500;700&display=swap');

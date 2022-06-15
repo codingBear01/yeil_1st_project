@@ -30,11 +30,11 @@ const showFollows = (showStatus) => {
         if (followInfo.profilePic === '') followInfo.profilePic = 'none';
 
         item.innerHTML = `
-            <img src="${followInfo.profilePic}" class="follow_img"/>
-            <a href="${followInfo.pk}" class="follower_nickname">
-              ${followInfo.nickname}
-            </a>
-          `;
+          <img src="${followInfo.profilePic}" class="follow_img"/>
+          <a href="${followInfo.pk}" class="follower_nickname">
+            ${followInfo.nickname}
+          </a>
+        `;
 
         profileRight.appendChild(profileContent);
         profileContent.appendChild(item);

@@ -15,9 +15,7 @@
     <header class="header">
       <a href="{% url 'main:index' %}" class="logo"><img src="{% static 'main/src/image/logo_wrap.png'%}" /></a>
       <input class="menu_btn" type="checkbox" id="menu_btn" />
-      <label class="menu_icon" for="menu_btn"
-        ><span class="nav_icon"></span
-      ></label>
+      <label class="menu_icon" for="menu_btn"><span class="nav_icon"></span></label>
       <ul class="menu">
         <li><a href="#1">menu1</a></li>
         <li><a href="#2">menu2</a></li>
@@ -25,14 +23,20 @@
         <li><a href="#4">menu4</a></li>
       </ul>
     </header>
+
     <main>
       {% block main %}
       {% endblock %}
     </main>
-    <footer style="background-color: blue;">
-      <h1>This is footer</h1>
+    <footer>
+      <div class="copyright_wrap">
+        <span>
+          <img src="{% static 'main/src/image/all_types.png'%}" /> Copyright © AllTypes. All
+          Rights Reserved.</span
+        >
+      </div>
     </footer>
-    {% block script%}
+    {% block script %}
     {% endblock %}
   </body>
 </html>

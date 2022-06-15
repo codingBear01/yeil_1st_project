@@ -32,3 +32,43 @@ def bodyPartSession(request):
         return JsonResponse({"error": "error"}, status=400)
 
     return JsonResponse([session.serialize() for session in sessions], safe=False)
+
+
+@login_required
+@csrf_exempt
+def storeSession(request):
+    if request.method == "POST":
+        sessionName = request.POST.get("sessionName")
+        session = Session.objects.get(name=sessionName)
+    else:
+        return JsonResponse({"error": "error"}, status=400)
+
+    return JsonResponse([session.serialize()], safe=False)
+
+
+@login_required
+@csrf_exempt
+def startSession(request):
+    if request.method == "POST":
+        sessionName = request.POST.get("sessionName")
+        sessionBodyPart = request.POST.get("sessionBodyPart")
+        sessionCnt = request.POST.get("sessionCnt")
+        sessionSet = request.POST.get("sessionSet")
+
+        return JsonResponse(
+            {
+                "sessionName": sessionName,
+                "sessionBodyPart": sessionBodyPart,
+                "sessionCnt": sessionCnt,
+                "sessionSet": sessionSet,
+            },
+            status=201,
+        )
+    else:
+        return JsonResponse({"error": "error"}, status=400)
+
+
+@login_required
+@csrf_exempt
+def recordSession(request):
+    return render(request, "exercise/recordSession.html")

@@ -61,7 +61,7 @@
   <div class="comment_container">
     <div class="edit_comment_box"></div>
     {% for comment in comments %}
-    <div class="comment_wrapper">
+    <div class="comment_wrapper comment_wrapper{{ comment.pk }}">
       <strong>작성자: {{ comment.author }}</strong>
       <div>
       댓글 내용: <div class="comment_content{{ comment.id }}">{{ comment.content }}</div>
@@ -101,11 +101,11 @@
           comment-id="{{ comment.id }}"
         >삭제</button>
       </div>
-    </div>
       {% endif %}
-      {% empty %}
-      <p>No comments here yet 😥</p>
-    {% endfor %}
+    </div>
+  {% empty %}
+  <p>No comments here yet 😥</p>
+  {% endfor %}
   </div>
 {% endblock %}
 

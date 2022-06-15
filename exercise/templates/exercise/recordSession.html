@@ -1,0 +1,38 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block main %}
+    <div class="timer_box">
+      <span>세션시작</span>
+      <div class="total_time">00:00:00</div>
+      <div class="timer_form_btn">
+        <div class="timer_btn timer_start_btn">
+          <i class="fa-solid fa-play"></i>
+        </div>
+        <div class="timer_btn timer_reset_btn">
+          <i class="fa-solid fa-pause"></i>
+        </div>
+        <div class="timer_btn timer_stop_btn">
+          <i class="fa-solid fa-stop"></i>
+        </div>
+        <div class="timer_btn timer_refresh_btn">
+          <i class="fa-solid fa-arrow-rotate-right"></i>
+        </div>
+      </div>
+    </div>
+
+<ul class="session_record_container"></ul>
+
+<div class="session_modal">
+  <div class="session_modal_content">
+    <ul class="session_modal_list"></ul>
+    <a href="{% url 'exercise:recordSession' %}" class="session_record_save_btn">저장하기</a>
+    <button class="session_modal_return_btn">돌아가기</button>
+    <a href="{% url 'exercise:exercise' %}" class="session_modal_start_btn">세션 선택 화면으로</a>
+  </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'exercise/javascript/recordSession.js' %}"></script>
+{% endblock %}

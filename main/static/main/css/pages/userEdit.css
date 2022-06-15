@@ -32,8 +32,8 @@
   height: 30px;
 }
 
-.edit_submit_button {
-  width: 500px;
+.edit_submit_btn {
+  width: 100%;
   height: 48px;
   border: solid 1px var(--blue);
   margin-top: 10px;

@@ -13,7 +13,7 @@ from feed.models import Feed
 def userPage(request, user_id):
     if request.user.is_authenticated:
         user = User.objects.get(id=user_id)
-        feeds = Feed.objects.all().filter(author_id=user_id)
+        feeds = Feed.objects.all().filter(author_id=user_id).order_by('-createdTime')
         return render(
             request,
             "userPage/userPage.html",
@@ -31,8 +31,8 @@ def editUserInfo(request, user_id):
         user = User.objects.get(id=user_id)
 
         if request.method == "POST":
-            password = request.POST.get("user_password")
-            confirmation = request.POST.get("user_confirmation")
+            password = request.POST.get("user_pw")
+            confirmation = request.POST.get("user_pw_confirmation")
             profilePic = request.FILES.get("user_profile_pic")
 
             if password != confirmation:
@@ -49,7 +49,7 @@ def editUserInfo(request, user_id):
 
             if user is not None:
                 login(request, user)
-                return render(request, "userPage/userPage.html")
+                return redirect('userPage:userPage', user_id)
             else:
                 return render(request, "user/login.html")
         return render(request, "userPage/editUserInfo.html", {"user": user})

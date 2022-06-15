@@ -15,13 +15,13 @@ commentEditBtns.forEach((btn, idx) => {
     );
 
     editCommentBox.innerHTML = `
-    <form class="comment_edit_form">
-    <div>
-    <textarea class="comment_edit_textarea">${commentContent.textContent}</textarea>
-    </div>
-    <input type="submit" value="저장" />
-    <button type="button" class="edit_cancle_btn">취소</button>
-    </form>
+      <form class="comment_edit_form">
+      <div>
+      <textarea class="comment_edit_textarea">${commentContent.textContent}</textarea>
+      </div>
+      <input type="submit" value="저장" />
+      <button type="button" class="edit_cancle_btn">취소</button>
+      </form>
     `;
 
     const commentEditForm = document.querySelector('.comment_edit_form');

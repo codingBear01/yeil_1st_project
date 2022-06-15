@@ -4,7 +4,8 @@ deleteBtns.forEach((btn, idx) => {
   btn.addEventListener('click', () => {
     const deleteStatus = confirm('이 댓글을 삭제하시겠습니까?');
     const commentId = btn.getAttribute('comment-id');
-    const comment = document.querySelector('.comment_wrapper');
+    const commentContainer = document.querySelector('.comment_container');
+    const comment = document.querySelector(`.comment_wrapper${commentId}`);
 
     fetch('/comment/deleteComment', {
       method: 'DELETE',
@@ -16,7 +17,7 @@ deleteBtns.forEach((btn, idx) => {
       .then((res) => res.json())
       .then((res) => {
         if (deleteStatus === true) {
-          comment.innerHTML = '';
+          commentContainer.removeChild(comment);
         }
         return;
       });

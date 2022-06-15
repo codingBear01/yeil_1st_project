@@ -2,32 +2,163 @@
 {% load static %} 
 
 {% block main %}
-<div class="session_box recommend_session_box">
-  추천 세션:
-  <ul>
-    {% for recommendSession in recommendSessions%}
-    <li><button>{{ recommendSession.category }}</button></li>
-    {% endfor %}
-  </ul>
+<div class="session_container">
+  <div class="session_box recommend_session_box">
+    추천 세션:
+    <ul>
+      {% for recommendSession in recommendSessions%}
+      <li><button>{{ recommendSession.category }}</button></li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="session_box">
+    부위별 운동:
+    <ul>
+      {% for bodyPart in bodyParts %}
+      <li>
+        <button 
+          class="body_part_btn"
+          data-body-part="{{ bodyPart.pk }}"
+        >
+          {{ bodyPart.name }}
+        </button>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="session_result_box">
+    <ul class="session_result_list"></ul>
+    <ul class="session_store_list">
+      <li><button class="session_store_btn">저장</button></li>
+      <li><button class="session_start_btn" disabled >운동 시작</button></li>
+    </ul>
+  </div>
+
+  <div class="session_modal">
+    <div class="session_modal_content">
+      <span class="session_modal_close">✖</span>
+      <ul class="session_modal_list"></ul>
+      <a href="{% url 'exercise:recordSession' %}" class="session_modal_start_btn">시작하기</a>
+    </div>
+  </div>
 </div>
 
-<div class="session_box">
-  부위별 운동:
-  <ul>
-    {% for bodyPart in bodyParts %}
-    <li>
-      <button 
-        class="body_part_btn"
-        data-body-part="{{ bodyPart.pk }}"
-      >
-        {{ bodyPart.name }}
-      </button>
-    </li>
-    {% endfor %}
-  </ul>
-</div>
+{% comment %} <div class="workout_main_container">
+  <section class="workout_top_container">
+    <div class="workout_menu_container">
+      <span class="head_block">부위</span>
+      <div class="menus">
+        <button class=".custom-btn btn-fade">
+          할수있다! 2주완성 복근운동
+        </button>
+        <button class=".custom-btn btn-fade">
+          <span>할수있다! 2주완성 등운동</span>
+        </button>
+        <button class=".custom-btn btn-fade">
+          <span> 할수있다! 2주완성 어깨운동</span>
+        </button>
+        <button class=".custom-btn btn-fade">
+          <span>할수있다! 2주완성 둔근운동</span>
+        </button>
+      </div>
+    </div>
 
-<div class="session_result_box"></div>
+    <div class="workout_menu_container">
+      <span class="head_block">운동기구</span>
+      <div class="menus">
+        <button class=".custom-btn btn-fade"><span>전신</span></button>
+        <button class=".custom-btn btn-fade"><span>등</span></button>
+        <button><span>가슴</span></button>
+        <button class=".custom-btn btn-fade"><span>어깨</span></button>
+        <button class=".custom-btn btn-fade"><span>이두</span></button>
+        <button class=".custom-btn btn-fade"><span>삼두</span></button>
+        <button class=".custom-btn btn-fade"><span>복근</span></button>
+        <button class=".custom-btn btn-fade"><span>하체</span></button>
+        <button class=".custom-btn btn-fade"><span>둔근</span></button>
+      </div>
+    </div>
+  </section>
+
+  <span class="workout_title_main">추천 운동</span>
+  <div class="recommended_workout">
+    <p>운동 이름 : 크런치</p>
+    <p>부위: 복근</p>
+  </div>
+  <span class="workout_title_main">커스텀 운동</span>
+  <div class="workout_container">
+    <div class="workout_box">
+      <div class="workout_leftside">
+        <div class="workout_title">
+          <span>로잉머신</span>
+        </div>
+        <span>복근, 등, 유산소, 둔근, 가슴</span>
+      </div>
+      <div class="workout_rightside">
+        <div class="workout_description">
+          <span>
+            로잉 머신입니다 운동하는 로잉머쉰 뿌슝빠슝 로잉은 힘들어 힘든데
+            유산소는 재미있어 유산소 최고 근력 노잼 유산소 최고야
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="workout_box">
+      <div class="workout_leftside">
+        <div class="workout_title">
+          <span>로잉머신</span>
+        </div>
+        <span>유산소, 둔근, 가슴</span>
+
+      </div>
+      <div class="workout_rightside">
+        <div class="workout_description">
+          <span>
+            로잉 머신입니다 운동하는 로잉머쉰 뿌슝빠슝 로잉은 힘들어 힘든데
+            유산소는 재미있어 유산소 최고 근력 노잼 유산소 최고야
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="workout_box">
+      <div class="workout_leftside">
+        <div class="workout_title">
+          <span>로잉머신</span>
+        </div>
+        <span>유산소, 둔근, 가슴, 복근, 삼두</span>
+
+      </div>
+      <div class="workout_rightside">
+        <div class="workout_description">
+          <span>
+            로잉 머신입니다 운동하는 로잉머쉰 뿌슝빠슝 로잉은 힘들어 힘든데
+            유산소는 재미있어 유산소 최고 근력 노잼 유산소 최고야
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="workout_box">
+      <div class="workout_leftside">
+        <div class="workout_title">
+          <span>로잉머신</span>
+        </div>
+        <span>유산소, 둔근, 가슴, 복근, 삼두, 등, 어깨, 이두</span>
+      </div>
+      <div class="workout_rightside">
+        <div class="workout_description">
+          <span>
+            로잉 머신입니다 운동하는 로잉머쉰 뿌슝빠슝 로잉은 힘들어 힘든데
+            유산소는 재미있어 유산소 최고 근력 노잼 유산소 최고야
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> {% endcomment %}
 {% endblock %}
 
 {% block script %}
