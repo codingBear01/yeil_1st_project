@@ -9,5 +9,5 @@ urlpatterns = [
     path("storeSession", views.storeSession),
     path("startSession", views.startSession),
     path("sessionPractice", views.sessionPractice, name="sessionPractice"),
-    # path("recordSession", views.recordSession),
+    path("recordSession", views.recordSession),
 ]

@@ -9,7 +9,7 @@ if (localStorage.getItem('data')) {
     '.session_record_container'
   );
 
-  for (let i = 0; i < sessionNames.length; i++) {
+  for (let i = sessionNames.length - 1; i >= 0; i--) {
     const item = document.createElement('li');
     item.classList.add('session_record_wrapper');
 
@@ -35,7 +35,7 @@ if (localStorage.getItem('data')) {
       <button class="session_fin_btn" type="submit">완료</button>
     `;
 
-    sessionRecordContainer.appendChild(item);
+    sessionRecordContainer.prepend(item);
   }
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -49,23 +49,23 @@ if (localStorage.getItem('data')) {
   };
 
   const timerBtnEvt = () => {
+    const timerStartBtn = document.querySelector('.timer_start_btn');
+    const timerPauseBtn = document.querySelector('.timer_reset_btn');
+    const timerRefreshBtn = document.querySelector('.timer_refresh_btn');
+    const sessionResultBtn = document.querySelector('.session_result_btn');
+    const sessionRecordWrappers = document.querySelectorAll(
+      '.session_record_wrapper'
+    );
+    const eachSessionTimes = document.querySelectorAll('.each_session_time');
+    const sessionFinBtns = document.querySelectorAll('.session_fin_btn');
+
     let time = 0;
     let clickedStatus = true;
     let hour = 0;
     let min = 0;
     let sec = 0;
     let timer;
-
-    const timerStartBtn = document.querySelector('.timer_start_btn');
-    const timerPauseBtn = document.querySelector('.timer_reset_btn');
-    const timerStopBtn = document.querySelector('.timer_stop_btn');
-    const timerRefreshBtn = document.querySelector('.timer_refresh_btn');
-
-    const sessionRecordWrappers = document.querySelectorAll(
-      '.session_record_wrapper'
-    );
-    const eachSessionTimes = document.querySelectorAll('.each_session_time');
-    const sessionFinBtns = document.querySelectorAll('.session_fin_btn');
+    let clicked;
 
     sessionRecordWrappers.forEach((sessionRecordWrapper) => {
       sessionRecordWrapper.classList.add('wrap_disabled');
@@ -75,23 +75,19 @@ if (localStorage.getItem('data')) {
       sessionFinBtn.classList.add('btn_disabled');
     });
 
-    let clicked;
     timerStartBtn.addEventListener('click', () => {
       let curTime = 0;
       let prevTime = 0;
       let temp = 0;
 
+      timerStartBtn.style.display = 'none';
+      timerPauseBtn.style.display = 'none';
+      timerPauseBtn.style.display = 'flex';
+
       if (!clicked) {
         sessionFinBtns[0].classList.remove('btn_disabled');
         sessionRecordWrappers[0].classList.remove('wrap_disabled');
-        clicked = true;
-      } else {
-        sessionFinBtns[0].classList.add('btn_disabled');
-        sessionRecordWrappers[0].classList.add('wrap_disabled');
-        clicked = false;
       }
-
-      console.log(clicked);
 
       sessionFinBtns.forEach((sessionFinBtn, idx) => {
         sessionFinBtn.addEventListener(
@@ -105,6 +101,10 @@ if (localStorage.getItem('data')) {
             }
 
             if (sessionFinBtn === sessionFinBtns[0]) {
+              clicked = true;
+              sessionFinBtns[0].classList.add('btn_disabled');
+              sessionRecordWrappers[0].classList.add('wrap_disabled');
+
               temp = time;
 
               min = Math.floor(time / 60);
@@ -168,45 +168,15 @@ if (localStorage.getItem('data')) {
               sessionRecordWrappers[
                 sessionRecordWrappers.length - 1
               ].classList.add('wrap_disabled');
-              timerStartBtn.style.color = 'black';
               timerStartBtn.style.pointerEvents = 'none';
               timerPauseBtn.style.pointerEvents = 'none';
-              timerStopBtn.style.pointerEvents = 'none';
+            }
 
+            sessionResultBtn.addEventListener('click', () => {
               const recordModal = document.querySelector('.session_modal');
-              recordModal.style.display = 'block';
-
               const recordModalCloseBtn = document.querySelector(
                 '.session_modal_close'
               );
-              recordModalCloseBtn.addEventListener('click', () => {
-                recordModal.style.display = 'none';
-              });
-              window.addEventListener('click', (e) => {
-                if (e.target === recordModal) {
-                  recordModal.style.display = 'none';
-                }
-              });
-
-              timerStopBtn.style.display = 'none';
-              timerRefreshBtn.style.display = 'flex';
-
-              timerRefreshBtn.addEventListener('click', () => {
-                timerStopBtn.style.display = 'flex';
-                timerRefreshBtn.style.display = 'none';
-                eachSessionTimes.forEach(
-                  (eachSessionTime) => (eachSessionTime.innerHTML = '')
-                );
-                timerStartBtn.style.pointerEvents = 'auto';
-                timerPauseBtn.style.pointerEvents = 'auto';
-                timerStopBtn.style.pointerEvents = 'auto';
-
-                clearInterval(timer);
-                clickedStatus = true;
-                time = 0;
-                init();
-              });
-
               const sessionRecordNames =
                 document.querySelectorAll('.session_name span');
               const sessionRecordBodyParts = document.querySelectorAll(
@@ -217,13 +187,18 @@ if (localStorage.getItem('data')) {
               const sessionRecordSets =
                 document.querySelectorAll('.set_cnt span');
 
-              const storedRecords = {
+              recordModalCloseBtn.addEventListener('click', () => {
+                recordModal.style.display = 'none';
+              });
+              recordModal.style.display = 'block';
+
+              let storedRecords = {
                 name: [],
                 bodyPart: [],
                 count: [],
                 set: [],
                 eachTime: [],
-                totalTime: [],
+                totalTime: '',
               };
 
               sessionRecordNames.forEach((sessionRecordName) => {
@@ -241,28 +216,71 @@ if (localStorage.getItem('data')) {
               eachSessionTimes.forEach((eachSessionTime) => {
                 storedRecords.eachTime.push(eachSessionTime.textContent);
               });
-              storedRecords.totalTime.push(totalTime.innerHTML);
-              //modal창에 뿌려주기
+              storedRecords.totalTime = totalTime.innerHTML;
+
               const form = new FormData();
               form.append('sessionRecordNames', storedRecords.name);
               form.append('sessionRecordBodyParts', storedRecords.bodyPart);
               form.append('sessionRecordCnts', storedRecords.count);
               form.append('sessionRecordSets', storedRecords.set);
-              form.append('sessionRecordDurations', storedRecords.duration);
-              console.log(storedRecords);
-              // fetch('/exercise/recordSession', {
-              //   method: 'POST',
-              //   body: form,
-              // }).then((res) => res.json());
-            }
+              form.append('sessionRecordDurations', storedRecords.eachTime);
+              form.append('totalTime', storedRecords.totalTime);
+
+              fetch('/exercise/recordSession', {
+                method: 'POST',
+                body: form,
+              })
+                .then((res) => res.json())
+                .then((res) => {
+                  const sessionRecordNames = res.sessionRecordNames.split(',');
+                  const sessionRecordBodyParts =
+                    res.sessionRecordBodyParts.split(',');
+                  const sessionRecordCnts = res.sessionRecordCnts.split(',');
+                  const sessionRecordSets = res.sessionRecordSets.split(',');
+                  const sessionRecordDurations =
+                    res.sessionRecordDurations.split(',');
+                  const totalTime = document.createElement('div');
+                  totalTime.textContent = `총 운동 수행 시간: ${res.totalTime}`;
+                  const today = new Date();
+                  const year = today.getFullYear();
+                  const month = today.getMonth() + 1;
+                  const date = today.getDate();
+                  const day = today.getDay();
+                  const dayArr = ['일', '월', '화', '수', '목', '금', '토'];
+                  const recordDay = document.createElement('div');
+                  recordDay.textContent = `
+                    ${year}년 ${month}년 ${date}년 ${dayArr[day]}요일
+                  `;
+
+                  const recordModalList =
+                    document.querySelector('.record_modal_list');
+                  recordModalList.innerHTML = '';
+
+                  recordModalList.appendChild(recordDay);
+                  recordModalList.appendChild(totalTime);
+
+                  for (let i = 0; i < sessionRecordNames.length; i++) {
+                    const item = document.createElement('li');
+                    item.classList.add('record_modal_list_item');
+
+                    item.innerHTML = `
+                      <div>운동 이름: ${sessionRecordNames[i]}</div>
+                      <div>운동 부위: ${sessionRecordBodyParts[i]}</div>
+                      <div>수행 횟수: ${sessionRecordCnts[i]}</div>
+                      <div>세트 수: ${sessionRecordSets[i]}</div>
+                      <div>수행 시간: ${sessionRecordDurations[i]}</div>
+                    `;
+
+                    recordModalList.appendChild(item);
+                  }
+                });
+            });
           },
           { once: true }
         );
       });
 
       if (clickedStatus) {
-        timerStartBtn.style.color = '#7aa5ff';
-        timerPauseBtn.style.color = 'black';
         clickedStatus = false;
       }
 
@@ -298,22 +316,24 @@ if (localStorage.getItem('data')) {
 
     timerPauseBtn.addEventListener('click', () => {
       if (time !== 0) {
-        timerStartBtn.style.color = 'black';
-        timerPauseBtn.style.color = '#7aa5ff';
-
-        sessionFinBtns[0].classList.add('btn_disabled');
-        sessionRecordWrappers[0].classList.add('wrap_disabled');
-        clicked = false;
+        timerStartBtn.style.display = 'flex';
+        timerPauseBtn.style.display = 'none';
 
         clearInterval(timer);
         clickedStatus = true;
       }
     });
 
-    timerStopBtn.addEventListener('click', () => {
+    timerRefreshBtn.addEventListener('click', () => {
       if (time !== 0) {
-        timerStartBtn.style.color = 'black';
-        timerPauseBtn.style.color = 'black';
+        timerStartBtn.style.display = 'flex';
+        timerPauseBtn.style.display = 'none';
+
+        clicked = false;
+
+        timerStartBtn.style.pointerEvents = 'auto';
+        timerPauseBtn.style.pointerEvents = 'auto';
+        timerRefreshBtn.style.pointerEvents = 'auto';
 
         eachSessionTimes.forEach(
           (eachSessionTime) => (eachSessionTime.innerHTML = '')

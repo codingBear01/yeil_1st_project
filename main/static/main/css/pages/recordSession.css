@@ -42,10 +42,6 @@
   cursor: pointer;
 }
 
-.timer_refresh_btn {
-  display: none;
-}
-
 /* 세션 시작 */
 .session_record_wrapper {
   display: flex;
@@ -72,7 +68,8 @@
   justify-content: center;
 }
 
-.session_fin_btn {
+.session_fin_btn,
+.session_result_btn {
   width: 80px;
   height: 45px;
   background-color: var(--lightBlue);

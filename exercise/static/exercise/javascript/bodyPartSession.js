@@ -251,11 +251,11 @@ const startSession = () => {
           item.classList.add('session_modal_list_item');
 
           item.innerHTML = `
-        <div>운동 이름: ${sessionNames[i]}</div>
-        <div>운동 부위: ${sessionBodyParts[i]}</div>
-        <div>횟수: ${sessionCnts[i]}</div>
-        <div>세트 수: ${sessionSets[i]}</div>
-        `;
+            <div>운동 이름: ${sessionNames[i]}</div>
+            <div>운동 부위: ${sessionBodyParts[i]}</div>
+            <div>횟수: ${sessionCnts[i]}</div>
+            <div>세트 수: ${sessionSets[i]}</div>
+          `;
 
           sessionModalList.appendChild(item);
         }

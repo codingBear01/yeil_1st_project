@@ -73,25 +73,27 @@ def sessionPractice(request):
     return render(request, "exercise/sessionPractice.html")
 
 
-# @login_required
-# @csrf_exempt
-# def recordSession(request):
-#     if request.method == "POST":
-#         sessionRecordNames = request.POST.get("sessionRecordNames")
-#         sessionRecordBodyParts = request.POST.get("sessionRecordBodyParts")
-#         sessionRecordCnts = request.POST.get("sessionRecordCnts")
-#         sessionRecordSets = request.POST.get("sessionRecordSets")
-#         sessionRecordDurations = request.POST.get("sessionRecordDurations")
+@login_required
+@csrf_exempt
+def recordSession(request):
+    if request.method == "POST":
+        sessionRecordNames = request.POST.get("sessionRecordNames")
+        sessionRecordBodyParts = request.POST.get("sessionRecordBodyParts")
+        sessionRecordCnts = request.POST.get("sessionRecordCnts")
+        sessionRecordSets = request.POST.get("sessionRecordSets")
+        sessionRecordDurations = request.POST.get("sessionRecordDurations")
+        totalTime = request.POST.get("totalTime")
 
-#         return JsonResponse(
-#             {
-#                 "sessionRecordNames": sessionRecordNames,
-#                 "sessionRecordBodyParts": sessionRecordBodyParts,
-#                 "sessionRecordCnts": sessionRecordCnts,
-#                 "sessionRecordSets": sessionRecordSets,
-#                 "sessionRecordDurations": sessionRecordDurations,
-#             },
-#             status=201,
-#         )
-#     else:
-#         return JsonResponse({"error": "error"}, status=400)
+        return JsonResponse(
+            {
+                "sessionRecordNames": sessionRecordNames,
+                "sessionRecordBodyParts": sessionRecordBodyParts,
+                "sessionRecordCnts": sessionRecordCnts,
+                "sessionRecordSets": sessionRecordSets,
+                "sessionRecordDurations": sessionRecordDurations,
+                "totalTime": totalTime,
+            },
+            status=201,
+        )
+    else:
+        return JsonResponse({"error": "error"}, status=400)
