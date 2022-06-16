@@ -204,7 +204,7 @@ const storeSession = (_sessionName) => {
 let modalSession = {};
 const sessionStartBtn = document.querySelector('.session_start_btn');
 
-const startSession = (clickedBtn) => {
+const startSession = () => {
   const sessionModal = document.querySelector('.session_modal');
   const sessionModalClose = document.querySelector('.session_modal_close');
 
@@ -228,45 +228,41 @@ const startSession = (clickedBtn) => {
   form.append('sessionCnt', sessionObj.count);
   form.append('sessionSet', sessionObj.set);
 
-  let Url = '';
-
-  if (clickedBtn === 'start') {
-    Url = '/exercise/startSession';
-  } else {
-    Url = '/exercise/recordSession';
-  }
-
-  fetch(Url, {
+  fetch('/exercise/startSession', {
     method: 'POST',
     body: form,
   })
     .then((res) => res.json())
     .then((res) => {
-      const data = { ...res };
-      localStorage.setItem('data', JSON.stringify(data));
+      if (res.status === 201) {
+        const data = { ...res };
+        localStorage.setItem('data', JSON.stringify(data));
 
-      const sessionNames = res.sessionName.split(',');
-      const sessionBodyParts = res.sessionBodyPart.split(',');
-      const sessionCnts = res.sessionCnt.split(',');
-      const sessionSets = res.sessionSet.split(',');
+        const sessionNames = res.sessionName.split(',');
+        const sessionBodyParts = res.sessionBodyPart.split(',');
+        const sessionCnts = res.sessionCnt.split(',');
+        const sessionSets = res.sessionSet.split(',');
 
-      const sessionModalList = document.querySelector('.session_modal_list');
-      sessionModalList.innerHTML = '';
+        const sessionModalList = document.querySelector('.session_modal_list');
+        sessionModalList.innerHTML = '';
 
-      for (let i = 0; i < sessionNames.length; i++) {
-        const item = document.createElement('li');
-        item.classList.add('session_modal_list_item');
+        for (let i = 0; i < sessionNames.length; i++) {
+          const item = document.createElement('li');
+          item.classList.add('session_modal_list_item');
 
-        item.innerHTML = `
+          item.innerHTML = `
         <div>운동 이름: ${sessionNames[i]}</div>
         <div>운동 부위: ${sessionBodyParts[i]}</div>
         <div>횟수: ${sessionCnts[i]}</div>
         <div>세트 수: ${sessionSets[i]}</div>
         `;
 
-        sessionModalList.appendChild(item);
+          sessionModalList.appendChild(item);
+        }
+      } else {
+        console.log(res.error);
       }
     });
 };
 
-sessionStartBtn.addEventListener('click', () => startSession('start'));
+sessionStartBtn.addEventListener('click', startSession);

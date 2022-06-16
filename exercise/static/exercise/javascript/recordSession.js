@@ -17,7 +17,7 @@ if (localStorage.getItem('data')) {
       <div class="session_record_box session_name">
         <span>${sessionNames[i]}</span>
       </div>
-      <div class="session_record_box session_name">
+      <div class="session_record_box session_body_part">
         <span>${sessionBodyParts[i]}</span>
       </div>
       <div class="session_record_box session_cnt_box">
@@ -71,13 +71,27 @@ if (localStorage.getItem('data')) {
       sessionRecordWrapper.classList.add('wrap_disabled');
     });
 
-    sessionFinBtns.forEach((sessionFinBtn, idx) => {
+    sessionFinBtns.forEach((sessionFinBtn) => {
       sessionFinBtn.classList.add('btn_disabled');
     });
 
+    let clicked;
     timerStartBtn.addEventListener('click', () => {
-      sessionFinBtns[0].classList.remove('btn_disabled');
-      sessionRecordWrappers[0].classList.remove('wrap_disabled');
+      let curTime = 0;
+      let prevTime = 0;
+      let temp = 0;
+
+      if (!clicked) {
+        sessionFinBtns[0].classList.remove('btn_disabled');
+        sessionRecordWrappers[0].classList.remove('wrap_disabled');
+        clicked = true;
+      } else {
+        sessionFinBtns[0].classList.add('btn_disabled');
+        sessionRecordWrappers[0].classList.add('wrap_disabled');
+        clicked = false;
+      }
+
+      console.log(clicked);
 
       sessionFinBtns.forEach((sessionFinBtn, idx) => {
         sessionFinBtn.addEventListener(
@@ -90,29 +104,63 @@ if (localStorage.getItem('data')) {
               sessionRecordWrappers[idx].classList.add('wrap_disabled');
             }
 
-            min = Math.floor(time / 60);
-            hour = Math.floor(min / 60);
-            sec = time % 60;
-            min = min % 60;
+            if (sessionFinBtn === sessionFinBtns[0]) {
+              temp = time;
 
-            let th = hour;
-            let tm = min;
-            let ts = sec;
+              min = Math.floor(time / 60);
+              hour = Math.floor(min / 60);
+              sec = time % 60;
+              min = min % 60;
 
-            if (th < 10) {
-              th = '0' + hour;
-            }
-            if (tm < 10) {
-              tm = '0' + min;
-            }
-            if (ts < 10) {
-              ts = '0' + sec;
-            }
+              let th = hour;
+              let tm = min;
+              let ts = sec;
 
-            eachSessionTimes[idx].innerHTML = `${th}:${tm}:${ts}`;
+              if (th < 10) {
+                th = '0' + hour;
+              }
+              if (tm < 10) {
+                tm = '0' + min;
+              }
+              if (ts < 10) {
+                ts = '0' + sec;
+              }
+
+              eachSessionTimes[0].innerHTML = `${th}:${tm}:${ts}`;
+            } else {
+              let resTime;
+
+              if (sessionFinBtn === sessionFinBtns[1]) {
+                prevTime = temp;
+              }
+
+              curTime = time;
+              resTime = curTime - prevTime;
+              prevTime = curTime;
+
+              min = Math.floor(resTime / 60);
+              hour = Math.floor(min / 60);
+              sec = resTime % 60;
+              min = min % 60;
+
+              let th = hour;
+              let tm = min;
+              let ts = sec;
+
+              if (th < 10) {
+                th = '0' + hour;
+              }
+              if (tm < 10) {
+                tm = '0' + min;
+              }
+              if (ts < 10) {
+                ts = '0' + sec;
+              }
+
+              eachSessionTimes[idx].innerHTML = `${th}:${tm}:${ts}`;
+            }
 
             if (sessionFinBtn === sessionFinBtns[sessionFinBtns.length - 1]) {
-              console.log('마지막이라능');
               clearInterval(timer);
               clickedStatus = true;
 
@@ -125,15 +173,19 @@ if (localStorage.getItem('data')) {
               timerPauseBtn.style.pointerEvents = 'none';
               timerStopBtn.style.pointerEvents = 'none';
 
-              const sessionModal = document.querySelector('.session_modal');
-              sessionModal.style.display = 'block';
+              const recordModal = document.querySelector('.session_modal');
+              recordModal.style.display = 'block';
 
-              const sessionModalReturnBtn = document.querySelector(
-                '.session_modal_return_btn'
+              const recordModalCloseBtn = document.querySelector(
+                '.session_modal_close'
               );
-
-              sessionModalReturnBtn.addEventListener('click', () => {
-                sessionModal.style.display = 'none';
+              recordModalCloseBtn.addEventListener('click', () => {
+                recordModal.style.display = 'none';
+              });
+              window.addEventListener('click', (e) => {
+                if (e.target === recordModal) {
+                  recordModal.style.display = 'none';
+                }
               });
 
               timerStopBtn.style.display = 'none';
@@ -150,9 +202,58 @@ if (localStorage.getItem('data')) {
                 timerStopBtn.style.pointerEvents = 'auto';
 
                 clearInterval(timer);
+                clickedStatus = true;
                 time = 0;
                 init();
               });
+
+              const sessionRecordNames =
+                document.querySelectorAll('.session_name span');
+              const sessionRecordBodyParts = document.querySelectorAll(
+                '.session_body_part span'
+              );
+              const sessionRecordCnts =
+                document.querySelectorAll('.session_cnt span');
+              const sessionRecordSets =
+                document.querySelectorAll('.set_cnt span');
+
+              const storedRecords = {
+                name: [],
+                bodyPart: [],
+                count: [],
+                set: [],
+                eachTime: [],
+                totalTime: [],
+              };
+
+              sessionRecordNames.forEach((sessionRecordName) => {
+                storedRecords.name.push(sessionRecordName.textContent);
+              });
+              sessionRecordBodyParts.forEach((sessionRecordBodyPart) => {
+                storedRecords.bodyPart.push(sessionRecordBodyPart.textContent);
+              });
+              sessionRecordCnts.forEach((sessionRecordCnt) => {
+                storedRecords.count.push(sessionRecordCnt.textContent);
+              });
+              sessionRecordSets.forEach((sessionRecordSet) => {
+                storedRecords.set.push(sessionRecordSet.textContent);
+              });
+              eachSessionTimes.forEach((eachSessionTime) => {
+                storedRecords.eachTime.push(eachSessionTime.textContent);
+              });
+              storedRecords.totalTime.push(totalTime.innerHTML);
+              //modal창에 뿌려주기
+              const form = new FormData();
+              form.append('sessionRecordNames', storedRecords.name);
+              form.append('sessionRecordBodyParts', storedRecords.bodyPart);
+              form.append('sessionRecordCnts', storedRecords.count);
+              form.append('sessionRecordSets', storedRecords.set);
+              form.append('sessionRecordDurations', storedRecords.duration);
+              console.log(storedRecords);
+              // fetch('/exercise/recordSession', {
+              //   method: 'POST',
+              //   body: form,
+              // }).then((res) => res.json());
             }
           },
           { once: true }
@@ -192,13 +293,18 @@ if (localStorage.getItem('data')) {
         }
 
         totalTime.innerHTML = `${th}:${tm}:${ts}`;
-      }, 50);
+      }, 1000);
     });
 
     timerPauseBtn.addEventListener('click', () => {
       if (time !== 0) {
         timerStartBtn.style.color = 'black';
         timerPauseBtn.style.color = '#7aa5ff';
+
+        sessionFinBtns[0].classList.add('btn_disabled');
+        sessionRecordWrappers[0].classList.add('wrap_disabled');
+        clicked = false;
+
         clearInterval(timer);
         clickedStatus = true;
       }
@@ -208,6 +314,7 @@ if (localStorage.getItem('data')) {
       if (time !== 0) {
         timerStartBtn.style.color = 'black';
         timerPauseBtn.style.color = 'black';
+
         eachSessionTimes.forEach(
           (eachSessionTime) => (eachSessionTime.innerHTML = '')
         );
@@ -215,7 +322,7 @@ if (localStorage.getItem('data')) {
           sessionRecordWrapper.classList.add('wrap_disabled');
         });
 
-        sessionFinBtns.forEach((sessionFinBtn, idx) => {
+        sessionFinBtns.forEach((sessionFinBtn) => {
           sessionFinBtn.classList.add('btn_disabled');
         });
 

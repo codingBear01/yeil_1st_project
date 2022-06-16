@@ -8,5 +8,6 @@ urlpatterns = [
     path("bodyPartSession", views.bodyPartSession),
     path("storeSession", views.storeSession),
     path("startSession", views.startSession),
-    path("recordSession", views.recordSession, name="recordSession"),
+    path("sessionPractice", views.sessionPractice, name="sessionPractice"),
+    # path("recordSession", views.recordSession),
 ]

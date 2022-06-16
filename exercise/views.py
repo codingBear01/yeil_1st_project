@@ -61,6 +61,7 @@ def startSession(request):
                 "sessionBodyPart": sessionBodyPart,
                 "sessionCnt": sessionCnt,
                 "sessionSet": sessionSet,
+                "status": 201,
             },
             status=201,
         )
@@ -68,7 +69,29 @@ def startSession(request):
         return JsonResponse({"error": "error"}, status=400)
 
 
-@login_required
-@csrf_exempt
-def recordSession(request):
-    return render(request, "exercise/recordSession.html")
+def sessionPractice(request):
+    return render(request, "exercise/sessionPractice.html")
+
+
+# @login_required
+# @csrf_exempt
+# def recordSession(request):
+#     if request.method == "POST":
+#         sessionRecordNames = request.POST.get("sessionRecordNames")
+#         sessionRecordBodyParts = request.POST.get("sessionRecordBodyParts")
+#         sessionRecordCnts = request.POST.get("sessionRecordCnts")
+#         sessionRecordSets = request.POST.get("sessionRecordSets")
+#         sessionRecordDurations = request.POST.get("sessionRecordDurations")
+
+#         return JsonResponse(
+#             {
+#                 "sessionRecordNames": sessionRecordNames,
+#                 "sessionRecordBodyParts": sessionRecordBodyParts,
+#                 "sessionRecordCnts": sessionRecordCnts,
+#                 "sessionRecordSets": sessionRecordSets,
+#                 "sessionRecordDurations": sessionRecordDurations,
+#             },
+#             status=201,
+#         )
+#     else:
+#         return JsonResponse({"error": "error"}, status=400)

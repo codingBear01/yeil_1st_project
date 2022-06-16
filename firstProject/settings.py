@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "userPage",
     "comment",
     "exercise",
+    "record",
 ]
 
 MIDDLEWARE = [
@@ -63,7 +64,7 @@ ROOT_URLCONF = "firstProject.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(BASE_DIR, 'firstProject/templates')],
+        "DIRS": [os.path.join(BASE_DIR, "firstProject/templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
