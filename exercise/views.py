@@ -81,8 +81,9 @@ def recordSession(request):
         sessionRecordBodyParts = request.POST.get("sessionRecordBodyParts")
         sessionRecordCnts = request.POST.get("sessionRecordCnts")
         sessionRecordSets = request.POST.get("sessionRecordSets")
-        sessionRecordDurations = request.POST.get("sessionRecordDurations")
+        sessionRecordEachTimes = request.POST.get("sessionRecordEachTimes")
         totalTime = request.POST.get("totalTime")
+        date = request.POST.get("date")
 
         return JsonResponse(
             {
@@ -90,8 +91,9 @@ def recordSession(request):
                 "sessionRecordBodyParts": sessionRecordBodyParts,
                 "sessionRecordCnts": sessionRecordCnts,
                 "sessionRecordSets": sessionRecordSets,
-                "sessionRecordDurations": sessionRecordDurations,
+                "sessionRecordEachTimes": sessionRecordEachTimes,
                 "totalTime": totalTime,
+                "date": date,
             },
             status=201,
         )

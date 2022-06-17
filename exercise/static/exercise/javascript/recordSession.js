@@ -75,20 +75,54 @@ if (localStorage.getItem('data')) {
       sessionFinBtn.classList.add('btn_disabled');
     });
 
+    let saveRecords = {};
+    const recordModalSaveBtn = document.querySelector('.record_modal_save_btn');
+
+    const saveRecord = () => {
+      console.log(saveRecords);
+      const userId = recordModalSaveBtn.getAttribute('user-id');
+      const saveDate = saveRecords.date;
+      const saveTotalTime = saveRecords.totalTime;
+
+      for (let i = 0; i < saveRecords.name.length; i++) {
+        const form = new FormData();
+        form.append('userId', userId);
+        form.append('saveDate', saveDate);
+        form.append('saveTotalTime', saveTotalTime);
+        form.append('saveName', saveRecords.name[i]);
+        form.append('saveBodyPart', saveRecords.bodyPart[i]);
+        form.append('saveCnt', saveRecords.count[i]);
+        form.append('saveSet', saveRecords.set[i]);
+        form.append('saveEachTime', saveRecords.eachTime[i]);
+
+        fetch('/record/saveRecord', {
+          method: 'POST',
+          body: form,
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            if (res.status === 201) {
+              window.location.replace(res.url);
+            } else {
+              console.log('error');
+            }
+          });
+      }
+    };
+    recordModalSaveBtn.addEventListener('click', saveRecord);
+
     timerStartBtn.addEventListener('click', () => {
       let curTime = 0;
       let prevTime = 0;
       let temp = 0;
 
       timerStartBtn.style.display = 'none';
-      timerPauseBtn.style.display = 'none';
       timerPauseBtn.style.display = 'flex';
 
       if (!clicked) {
         sessionFinBtns[0].classList.remove('btn_disabled');
         sessionRecordWrappers[0].classList.remove('wrap_disabled');
       }
-
       sessionFinBtns.forEach((sessionFinBtn, idx) => {
         sessionFinBtn.addEventListener(
           'click',
@@ -186,11 +220,32 @@ if (localStorage.getItem('data')) {
                 document.querySelectorAll('.session_cnt span');
               const sessionRecordSets =
                 document.querySelectorAll('.set_cnt span');
+              const today = new Date();
+              const year = today.getFullYear();
+              const month = today.getMonth() + 1;
+              const date = today.getDate();
+              const day = today.getDay();
+              const dayArr = ['일', '월', '화', '수', '목', '금', '토'];
+              const fullDay =
+                year +
+                '년 ' +
+                month +
+                '월 ' +
+                date +
+                '일 ' +
+                dayArr[day] +
+                '요일';
 
               recordModalCloseBtn.addEventListener('click', () => {
                 recordModal.style.display = 'none';
               });
               recordModal.style.display = 'block';
+
+              window.addEventListener('click', (e) => {
+                if (e.target === recordModal) {
+                  recordModal.style.display = 'none';
+                }
+              });
 
               let storedRecords = {
                 name: [],
@@ -199,6 +254,7 @@ if (localStorage.getItem('data')) {
                 set: [],
                 eachTime: [],
                 totalTime: '',
+                date: '',
               };
 
               sessionRecordNames.forEach((sessionRecordName) => {
@@ -217,14 +273,18 @@ if (localStorage.getItem('data')) {
                 storedRecords.eachTime.push(eachSessionTime.textContent);
               });
               storedRecords.totalTime = totalTime.innerHTML;
+              storedRecords.date = fullDay;
+
+              saveRecords = storedRecords;
 
               const form = new FormData();
               form.append('sessionRecordNames', storedRecords.name);
               form.append('sessionRecordBodyParts', storedRecords.bodyPart);
               form.append('sessionRecordCnts', storedRecords.count);
               form.append('sessionRecordSets', storedRecords.set);
-              form.append('sessionRecordDurations', storedRecords.eachTime);
+              form.append('sessionRecordEachTimes', storedRecords.eachTime);
               form.append('totalTime', storedRecords.totalTime);
+              form.append('date', storedRecords.date);
 
               fetch('/exercise/recordSession', {
                 method: 'POST',
@@ -237,20 +297,12 @@ if (localStorage.getItem('data')) {
                     res.sessionRecordBodyParts.split(',');
                   const sessionRecordCnts = res.sessionRecordCnts.split(',');
                   const sessionRecordSets = res.sessionRecordSets.split(',');
-                  const sessionRecordDurations =
-                    res.sessionRecordDurations.split(',');
+                  const sessionRecordEachTimes =
+                    res.sessionRecordEachTimes.split(',');
                   const totalTime = document.createElement('div');
-                  totalTime.textContent = `총 운동 수행 시간: ${res.totalTime}`;
-                  const today = new Date();
-                  const year = today.getFullYear();
-                  const month = today.getMonth() + 1;
-                  const date = today.getDate();
-                  const day = today.getDay();
-                  const dayArr = ['일', '월', '화', '수', '목', '금', '토'];
+                  totalTime.textContent = `총 수행시간: ${res.totalTime}`;
                   const recordDay = document.createElement('div');
-                  recordDay.textContent = `
-                    ${year}년 ${month}년 ${date}년 ${dayArr[day]}요일
-                  `;
+                  recordDay.textContent = res.date;
 
                   const recordModalList =
                     document.querySelector('.record_modal_list');
@@ -268,7 +320,7 @@ if (localStorage.getItem('data')) {
                       <div>운동 부위: ${sessionRecordBodyParts[i]}</div>
                       <div>수행 횟수: ${sessionRecordCnts[i]}</div>
                       <div>세트 수: ${sessionRecordSets[i]}</div>
-                      <div>수행 시간: ${sessionRecordDurations[i]}</div>
+                      <div>수행 시간: ${sessionRecordEachTimes[i]}</div>
                     `;
 
                     recordModalList.appendChild(item);
@@ -315,10 +367,9 @@ if (localStorage.getItem('data')) {
     });
 
     timerPauseBtn.addEventListener('click', () => {
+      timerPauseBtn.style.display = 'none';
+      timerStartBtn.style.display = 'flex';
       if (time !== 0) {
-        timerStartBtn.style.display = 'flex';
-        timerPauseBtn.style.display = 'none';
-
         clearInterval(timer);
         clickedStatus = true;
       }

@@ -42,6 +42,10 @@
   cursor: pointer;
 }
 
+.timer_reset_btn {
+  display: none;
+}
+
 /* 세션 시작 */
 .session_record_wrapper {
   display: flex;

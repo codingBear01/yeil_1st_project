@@ -23,10 +23,15 @@
 </ul>
 
 <div class="session_modal">
-  <div class="session_modal_content">
+  <div 
+    class="session_modal_content"
+  >
     <span class="session_modal_close">✖</span>
     <ul class="record_modal_list"></ul>
-    <button class="record_modal_save_btn">저장하기</button>
+    <button
+      class="record_modal_save_btn"
+      user-id="{{ request.user.pk }}"
+    >저장하기</button>
     <a 
       href="{% url 'exercise:exercise' %}" 
       class="record_modal_start_btn"

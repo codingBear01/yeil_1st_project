@@ -11,4 +11,4 @@ class Record(models.Model):
     bodyParts = models.TextField(max_length=1000, blank=True, null=False)
     counts = models.TextField(max_length=1000, blank=True, null=False)
     sets = models.TextField(max_length=1000, blank=True, null=False)
-    durations = models.TextField(max_length=1000, blank=True, null=False)
+    eachTimes = models.TextField(max_length=1000, blank=True, null=False)
