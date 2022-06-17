@@ -1,0 +1,35 @@
+{% extends "main/layout.html" %} 
+{% block main %}
+  {% if user.is_authenticated%}
+    {% if user.id == group.user.id %}
+        <form
+        action="{% url 'group:edit' group.id %}"
+        method="POST"
+        style="display: flex; flex-direction: column">
+        
+        {% csrf_token %}
+        <select name="target">
+          <option value="{{ group.target }}">{{ group.target }}</option>
+          <option value="다이어트">다이어트</option>
+          <option value="체력증가">체력증가</option>
+          <option value="근력증가">근력증가</option>
+          <option value="유지어터">유지어터</option>
+        </select>
+        <input type="text" name="title" placeholder="title" value="{{ group.title }}"/>
+        <textarea name="content" placeholder="content">{{ group.content }}</textarea>
+        <input type="number" name="memberCount" id="memberCount" placeholder="참가자수" value="{{ group.memberCount }}" />
+        <p>시작일 {{ group.startDay }} </p>
+        <input required` type="date" name="startDay" id="startDay" value="{{ group.startDay }}"/>
+        <p>종료일 {{ group.finishDay }}</p>
+        <input required` type="date" name="finishDay" id="finishDay" value="{{ group.finishDay }}" />
+        {% if err %}
+        <div>{{ err }}</div>
+        {% endif %}
+        <p>그룹 사진 변경</p>
+        <input type="file" value="{{ group.groupPic }}" name="groupPic" id="groupPic" />
+      <input type="submit" value="update" />
+      </form>
+      <a href="{% url 'group:all_groups' %}">return to groups page</a>
+    {% endif %}
+  {% endif %}
+{% endblock %}

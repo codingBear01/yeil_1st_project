@@ -11,6 +11,7 @@
 @import './pages/session.css';
 @import './pages/exercise.css';
 @import './pages/recordSession.css';
+@import './pages/groups.css';
 
 /* components */
 @import './components/header.css';

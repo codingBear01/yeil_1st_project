@@ -34,7 +34,7 @@ const handleLike = (likeTarget, i) => {
           feedLikeCnt.textContent = res.feedLikeCnt;
         }
       });
-  } else {
+  } else if (likeTarget === 'comment') {
     const commentId = commentLikes[i].getAttribute('comment-id');
     const commentIsLiked = commentLikes[i].getAttribute('comment-is-liked');
     const commentLikeCnt = document.querySelector(

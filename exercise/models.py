@@ -24,7 +24,19 @@ class Session(models.Model):
 
 
 class RecommendSession(models.Model):
-    session = models.ForeignKey(
-        Session, on_delete=models.CASCADE, related_name="recommend_session_session"
+    session = models.ManyToManyField(
+        Session,
+        blank=True,
+        symmetrical=False,
+        related_name="recommend_session_session",
     )
     category = models.CharField(max_length=100, blank=True, null=False)
+
+    def serialize(self):
+        return {
+            "pk": self.pk,
+            "name": self.session.name,
+            "bodyPart": self.session.bodyPart,
+            "count": self.session.count,
+            "set": self.session.set,
+        }

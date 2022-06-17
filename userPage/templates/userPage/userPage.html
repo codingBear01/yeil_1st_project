@@ -67,6 +67,7 @@
         <span class="following_cnt">{{ request.user.following.count }}<span>
         {% endif %}
       </div>
+      <div class="profile_session_record">운동 기록</div>        
     </div>
   </div>
 </div>
@@ -94,6 +95,5 @@
   {% if user.id != request.user.id %}
   <script src="{% static 'userPage/javascript/follow.js' %}"></script>
   {% endif %}
-  <script src="{% static 'userPage/javascript/showFollow.js' %}"></script>
-  <script src="{% static 'userPage/javascript/showFeed.js' %}"></script>
+  <script src="{% static 'userPage/javascript/showContents.js' %}"></script>
 {% endblock %}

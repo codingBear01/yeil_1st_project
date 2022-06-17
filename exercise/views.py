@@ -24,10 +24,16 @@ def exercise(request):
 
 @login_required
 @csrf_exempt
-def bodyPartSession(request):
+def showSessions(request):
     if request.method == "POST":
-        bodyPart = request.POST.get("bodyPart")
-        sessions = Session.objects.all().filter(bodyPart=bodyPart)
+        getId = request.POST.get("getId")
+        action = request.POST.get("action")
+
+        if action == "recommend":
+            recommendSession = RecommendSession.objects.get(pk=getId)
+            sessions = recommendSession.session.all()
+        else:
+            sessions = Session.objects.all().filter(bodyPart=getId)
     else:
         return JsonResponse({"error": "error"}, status=400)
 

@@ -5,6 +5,7 @@
     <div style="display: flex; flex-direction: column;">
       <a href="{% url 'exercise:exercise' %}">let's go to exercise page</a>
       <a href="{% url 'feed:all_feeds' %}">see all feeds</a>
+      <a href="{% url 'group:all_groups' %}">see all groups</a>
       <a href="{% url 'userPage:userPage' user.id %}">see my user page</a>
       <a href="{% url 'user:logout' %}">logout</a>
     </div>

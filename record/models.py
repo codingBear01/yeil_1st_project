@@ -12,3 +12,16 @@ class Record(models.Model):
     counts = models.TextField(max_length=1000, blank=True, null=False)
     sets = models.TextField(max_length=1000, blank=True, null=False)
     eachTimes = models.TextField(max_length=1000, blank=True, null=False)
+
+    def serialize(self):
+        return {
+            "id": self.pk,
+            "user": self.user.nickname,
+            "date": self.date,
+            "totalTime": self.totalTime,
+            "sessions": self.sessions,
+            "bodyParts": self.bodyParts,
+            "counts": self.counts,
+            "sets": self.sets,
+            "eachTimes": self.eachTimes,
+        }

@@ -84,30 +84,28 @@ if (localStorage.getItem('data')) {
       const saveDate = saveRecords.date;
       const saveTotalTime = saveRecords.totalTime;
 
-      for (let i = 0; i < saveRecords.name.length; i++) {
-        const form = new FormData();
-        form.append('userId', userId);
-        form.append('saveDate', saveDate);
-        form.append('saveTotalTime', saveTotalTime);
-        form.append('saveName', saveRecords.name[i]);
-        form.append('saveBodyPart', saveRecords.bodyPart[i]);
-        form.append('saveCnt', saveRecords.count[i]);
-        form.append('saveSet', saveRecords.set[i]);
-        form.append('saveEachTime', saveRecords.eachTime[i]);
+      const form = new FormData();
+      form.append('userId', userId);
+      form.append('saveDate', saveDate);
+      form.append('saveTotalTime', saveTotalTime);
+      form.append('saveName', saveRecords.name);
+      form.append('saveBodyPart', saveRecords.bodyPart);
+      form.append('saveCnt', saveRecords.count);
+      form.append('saveSet', saveRecords.set);
+      form.append('saveEachTime', saveRecords.eachTime);
 
-        fetch('/record/saveRecord', {
-          method: 'POST',
-          body: form,
-        })
-          .then((res) => res.json())
-          .then((res) => {
-            if (res.status === 201) {
-              window.location.href = res.url;
-            } else {
-              console.log('error');
-            }
-          });
-      }
+      fetch('/record/saveRecord', {
+        method: 'POST',
+        body: form,
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.status === 201) {
+            window.location.replace(res.url);
+          } else {
+            console.log('error');
+          }
+        });
     };
     recordModalSaveBtn.addEventListener('click', saveRecord);
 

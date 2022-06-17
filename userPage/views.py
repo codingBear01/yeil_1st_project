@@ -8,12 +8,13 @@ from django.http import JsonResponse
 
 from user.models import User
 from feed.models import Feed
+from record.models import Record
 
 # Create your views here.
 def userPage(request, user_id):
     if request.user.is_authenticated:
         user = User.objects.get(id=user_id)
-        feeds = Feed.objects.all().filter(author_id=user_id).order_by('-createdTime')
+        feeds = Feed.objects.all().filter(author_id=user_id).order_by("-createdTime")
         return render(
             request,
             "userPage/userPage.html",
@@ -49,7 +50,7 @@ def editUserInfo(request, user_id):
 
             if user is not None:
                 login(request, user)
-                return redirect('userPage:userPage', user_id)
+                return redirect("userPage:userPage", user_id)
             else:
                 return render(request, "user/login.html")
         return render(request, "userPage/editUserInfo.html", {"user": user})
@@ -182,3 +183,12 @@ def showFeeds(request, user_id):
         return JsonResponse({"error": "error"}, status=400)
 
     return JsonResponse([feed.serialize() for feed in feeds], safe=False)
+
+
+def showRecords(request, user_id):
+    if request.user.is_authenticated:
+        records = Record.objects.all().filter(user_id=user_id)
+    else:
+        return JsonResponse({"error": "error"}, status=400)
+
+    return JsonResponse([record.serialize() for record in records], safe=False)

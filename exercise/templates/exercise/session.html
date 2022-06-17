@@ -7,7 +7,15 @@
     추천 세션:
     <ul>
       {% for recommendSession in recommendSessions%}
-      <li><button>{{ recommendSession.category }}</button></li>
+      <li>
+        <button
+          class="recommend_session_btn"
+          recommend-session-id="{{ recommendSession.pk }}"
+          action="recommend"
+        >
+        {{ recommendSession.category }}
+        </button>
+      </li>
       {% endfor %}
     </ul>
   </div>
@@ -19,7 +27,8 @@
       <li>
         <button 
           class="body_part_btn"
-          data-body-part="{{ bodyPart.pk }}"
+          body-part-id="{{ bodyPart.pk }}"
+          action="bodyPart"
         >
           {{ bodyPart.name }}
         </button>

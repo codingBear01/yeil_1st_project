@@ -1,25 +1,36 @@
+const recommendSessionBtns = document.querySelectorAll(
+  '.recommend_session_btn'
+);
 const bodyPartBtns = document.querySelectorAll('.body_part_btn');
 
-bodyPartBtns.forEach((bodyPartBtn) => {
-  bodyPartBtn.addEventListener('click', () => {
-    const bodyPart = bodyPartBtn.getAttribute('data-body-part');
-    const sessionResultList = document.querySelector('.session_result_list');
+const showSessions = (sessionStatus, idx) => {
+  let getId;
+  let action;
+  if (sessionStatus === 'recommendSession') {
+    getId = recommendSessionBtns[idx].getAttribute('recommend-session-id');
+    action = recommendSessionBtns[idx].getAttribute('action');
+  } else {
+    getId = bodyPartBtns[idx].getAttribute('body-part-id');
+    action = bodyPartBtns[idx].getAttribute('action');
+  }
 
-    sessionResultList.innerHTML = '';
+  const sessionResultList = document.querySelector('.session_result_list');
+  sessionResultList.innerHTML = '';
 
-    const form = new FormData();
-    form.append('bodyPart', bodyPart);
+  const form = new FormData();
+  form.append('getId', getId);
+  form.append('action', action);
 
-    fetch('/exercise/bodyPartSession', {
-      method: 'POST',
-      body: form,
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        res.forEach((el, idx) => {
-          const item = document.createElement('li');
+  fetch('/exercise/showSessions', {
+    method: 'POST',
+    body: form,
+  })
+    .then((res) => res.json())
+    .then((res) => {
+      res.forEach((el, idx) => {
+        const item = document.createElement('li');
 
-          item.innerHTML = `
+        item.innerHTML = `
             <div class="session_name">운동 이름: ${el.name}</div>
             <div class="session_body_part">운동 부위: ${el.bodyPart}</div>
             <div class="session_cnt">횟수: ${el.count}</div>
@@ -27,19 +38,27 @@ bodyPartBtns.forEach((bodyPartBtn) => {
             <button class="store_session_btn">➕</button>
           `;
 
-          sessionResultList.appendChild(item);
+        sessionResultList.appendChild(item);
 
-          const storeSessionBtns =
-            document.querySelectorAll('.store_session_btn');
+        const storeSessionBtns =
+          document.querySelectorAll('.store_session_btn');
 
-          const sessionName = el.name;
+        const sessionName = el.name;
 
-          storeSessionBtns[idx].addEventListener('click', () => {
-            storeSession(sessionName);
-          });
+        storeSessionBtns[idx].addEventListener('click', () => {
+          storeSession(sessionName);
         });
       });
-  });
+    });
+};
+
+recommendSessionBtns.forEach((recommendSessionBtn, idx) => {
+  recommendSessionBtn.addEventListener('click', () =>
+    showSessions('recommendSession', idx)
+  );
+});
+bodyPartBtns.forEach((bodyPartBtn, idx) => {
+  bodyPartBtn.addEventListener('click', () => showSessions('bodyPart', idx));
 });
 
 const storeSession = (_sessionName) => {

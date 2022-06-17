@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "comment",
     "exercise",
     "record",
+    "group",
 ]
 
 MIDDLEWARE = [

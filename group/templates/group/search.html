@@ -1,0 +1,32 @@
+{% extends "main/layout.html" %}
+{% block main %} 
+  {% if user.is_authenticated %}
+    {% block content %}
+      {% if search %}
+      <h3>검색하신 그룹 정보 입니다.</h3>
+      {% for i in search %}
+      <div>게시글 No. {{ i.pk }}</div>
+      <div>그룹 목표: {{ i.target }}</div>
+      <div>그룹 제목: {{ i.title }}</div>
+      <div>그룹 내용: {{ i.content }}</div>
+      {% endfor %}
+      <!-- {% for search in searched %}
+      <ul>
+        <li>그룹 No. {{ search.pk }}</li>
+        <li>그룹 목표: {{ search.target }}</li>
+        <li>그룹 제목: {{ search.title }}</li>
+        <li>그룹 내용: {{ search.content }}</li>
+      </ul>
+      {% endfor %} -->
+      {% else %}
+      <h3>찾고 있는 정보가 없습니다.</h3>
+      <ul>
+        <li>
+          <a href="{% url 'group:create' %}">create your group!</a>
+          <a href="{% url 'main:index' %}">return to main page</a>
+        </li>
+      </ul>
+      {% endif %}
+    {% endblock %}
+  {% endif %}
+{% endblock %}

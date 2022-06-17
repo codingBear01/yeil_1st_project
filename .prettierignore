@@ -20,6 +20,7 @@ follower.html
 following.html
 userFeeds.html
 followingFeeds.html
+recommend.html
 
 # comment
 comment.html
@@ -27,3 +28,10 @@ comment.html
 # exercise
 session.html
 sessionPractice.html
+
+# group
+create.html
+edit.html
+group.html
+groups.html
+search.html

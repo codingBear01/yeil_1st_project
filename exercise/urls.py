@@ -5,7 +5,7 @@ app_name = "exercise"
 
 urlpatterns = [
     path("", views.exercise, name="exercise"),
-    path("bodyPartSession", views.bodyPartSession),
+    path("showSessions", views.showSessions),
     path("storeSession", views.storeSession),
     path("startSession", views.startSession),
     path("sessionPractice", views.sessionPractice, name="sessionPractice"),
