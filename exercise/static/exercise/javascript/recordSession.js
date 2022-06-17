@@ -102,7 +102,7 @@ if (localStorage.getItem('data')) {
           .then((res) => res.json())
           .then((res) => {
             if (res.status === 201) {
-              window.location.replace(res.url);
+              window.location.href = res.url;
             } else {
               console.log('error');
             }
