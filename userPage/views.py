@@ -9,6 +9,7 @@ from django.http import JsonResponse
 from user.models import User
 from feed.models import Feed
 from record.models import Record
+from group.models import Group
 
 # Create your views here.
 def userPage(request, user_id):
@@ -192,3 +193,12 @@ def showRecords(request, user_id):
         return JsonResponse({"error": "error"}, status=400)
 
     return JsonResponse([record.serialize() for record in records], safe=False)
+
+
+def showGroups(request, user_id):
+    if request.user.is_authenticated:
+        groups = Group.objects.all().filter(joinedUser__pk=user_id)
+    else:
+        return JsonResponse({"error": "error"}, status=400)
+
+    return JsonResponse([group.serialize() for group in groups], safe=False)

@@ -20,15 +20,19 @@
   
 {% for group in groups %}
   <div class="group_indvid_box">
-      <div class="group_box">
-        <div class="group_target">
-          {{ group.target }} 
-        </div>
-        <div class="group_join"> 
-          {{ group.joinedUser.count }} 명 참가중😎 
-        </div>
-      <div class="group_like_txt"> 
-        좋아여ㅋ
+    <div class="group_box">
+      <div class="group_target">
+        {{ group.target }} 
+      </div>
+      <div class="group_join"> 
+        {{ group.joinedUser.count }} 명 참가중😎 
+      </div>
+      <div class="group_like_txt">
+        {% if group.like.count > 0%}
+          💖 {{ group.like.count }}
+        {% else %}
+          🤍 0
+        {% endif %}
       </div>
     </div>
 

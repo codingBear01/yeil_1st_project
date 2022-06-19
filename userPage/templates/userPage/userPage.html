@@ -67,7 +67,8 @@
         <span class="following_cnt">{{ request.user.following.count }}<span>
         {% endif %}
       </div>
-      <div class="profile_session_record">운동 기록</div>        
+      <div class="profile_session_record">운동 기록</div>
+      <div class="profile_group">참가 그룹</div>         
     </div>
   </div>
 </div>
@@ -81,8 +82,8 @@
   </div>
   <div class="profile_right">
     {% for feed in feeds %}
-    <div>Feed No. {{ feed.pk }}</div>
-    <div>작성 시간: {{ feed.createdTime }}</div>
+    <div>No. {{ feed.pk }}</div>
+    <div>작성 시간: {{ feed.serialize.createdTime }}</div>
     <div>작성자: {{ feed.author.nickname }}</div>
     <div>제목: {{ feed.title }}</div>
     <div>내용: {{ feed.content }}</div>

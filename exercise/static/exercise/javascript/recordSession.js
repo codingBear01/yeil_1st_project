@@ -79,7 +79,6 @@ if (localStorage.getItem('data')) {
     const recordModalSaveBtn = document.querySelector('.record_modal_save_btn');
 
     const saveRecord = () => {
-      console.log(saveRecords);
       const userId = recordModalSaveBtn.getAttribute('user-id');
       const saveDate = saveRecords.date;
       const saveTotalTime = saveRecords.totalTime;

@@ -2,11 +2,13 @@ const profileFollower = document.querySelector('.profile_follower');
 const profileFollowing = document.querySelector('.profile_following');
 const profileFeed = document.querySelector('.profile_feed');
 const profileSessionRecord = document.querySelector('.profile_session_record');
+const profileGroup = document.querySelector('.profile_group');
 
 profileFollower.addEventListener('click', () => showContents('followers'));
 profileFollowing.addEventListener('click', () => showContents('followings'));
 profileFeed.addEventListener('click', () => showContents('feeds'));
 profileSessionRecord.addEventListener('click', () => showContents('records'));
+profileGroup.addEventListener('click', () => showContents('groups'));
 
 const showContents = (showStatus) => {
   const profileRight = document.querySelector('.profile_right');
@@ -26,8 +28,8 @@ const showContents = (showStatus) => {
       .then((res) => res.json())
       .then((data) => {
         data.forEach((followInfo) => {
-          const profileContent = document.createElement('div');
-          const item = document.createElement('div');
+          const profileContent = document.createElement('ul');
+          const item = document.createElement('li');
           profileContent.classList.add('profile_content');
           item.classList.add('follow_box');
 
@@ -50,7 +52,7 @@ const showContents = (showStatus) => {
             delBtn.setAttribute('data-pk', `${followInfo.pk}`);
 
             if (showStatus === 'followers') {
-              profileContent.appendChild(delBtn);
+              item.appendChild(delBtn);
 
               delBtn.addEventListener('click', () => {
                 const user = delBtn.getAttribute('data-pk');
@@ -81,14 +83,15 @@ const showContents = (showStatus) => {
         });
       });
   } else if (showStatus === 'feeds') {
-    const profileContent = document.createElement('div');
-    const item = document.createElement('div');
     profileLeft.innerHTML = `${userNickname}의 피드`;
 
     fetch(`feeds/${userId}`)
       .then((res) => res.json())
       .then((data) => {
         data.forEach((feedsInfo) => {
+          const profileContent = document.createElement('ul');
+          const item = document.createElement('li');
+
           item.innerHTML = `
             <div>No. ${feedsInfo.pk}</div>
             <div>작성 시간: ${feedsInfo.createdTime}</div>
@@ -101,15 +104,15 @@ const showContents = (showStatus) => {
           profileContent.appendChild(item);
         });
       });
-  } else {
+  } else if (showStatus === 'records') {
     profileLeft.innerHTML = `${userNickname}의 운동기록`;
 
     fetch(`records/${userId}`)
       .then((res) => res.json())
       .then((data) => {
         data.forEach((recordsInfo) => {
-          const profileContent = document.createElement('div');
-          const item = document.createElement('div');
+          const profileContent = document.createElement('ul');
+          const item = document.createElement('li');
           const sessions = recordsInfo.sessions.split(',');
           const bodyParts = recordsInfo.bodyParts.split(',');
           const eachTimes = recordsInfo.eachTimes.split(',');
@@ -121,21 +124,51 @@ const showContents = (showStatus) => {
             <div>닉네임: ${recordsInfo.user}</div>
             <div>총 수행 시간: ${recordsInfo.totalTime}</div>
             `;
-          console.log(data);
           profileRight.appendChild(profileContent);
           profileContent.appendChild(item);
 
           for (let i = 0; i < sessions.length; i++) {
-            const recordsDiv = document.createElement('div');
-            recordsDiv.innerHTML = `
-              <div>운동 이름: ${sessions[i]}</div>
-              <div>운동 부위: ${bodyParts[i]}</div>
-              <div>수행 시간: ${eachTimes[i]}</div>
-              <div>수행 횟수: ${counts[i]}</div>
-              <div>세트 수: ${sets[i]}</div>
-            `;
-            profileContent.appendChild(recordsDiv);
+            const sessionsDiv = document.createElement('div');
+            const bodyPartsDiv = document.createElement('div');
+            const eachTimesDiv = document.createElement('div');
+            const countsDiv = document.createElement('div');
+            const setsDiv = document.createElement('div');
+
+            sessionsDiv.textContent = `운동 이름: ${sessions[i]}`;
+            bodyPartsDiv.textContent = `운동 부위: ${bodyParts[i]}`;
+            eachTimesDiv.textContent = `수행 시간: ${eachTimes[i]}`;
+            countsDiv.textContent = `수행 횟수: ${counts[i]}`;
+            setsDiv.textContent = `세트 수: ${sets[i]}`;
+
+            item.appendChild(sessionsDiv);
+            item.appendChild(bodyPartsDiv);
+            item.appendChild(eachTimesDiv);
+            item.appendChild(countsDiv);
+            item.appendChild(setsDiv);
           }
+        });
+      });
+  } else {
+    console.log('이거슨 참가그룹');
+    fetch(`groups/${userId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        data.forEach((groupInfo) => {
+          const profileContent = document.createElement('ul');
+          const item = document.createElement('li');
+
+          item.innerHTML = `
+            <img src="${groupInfo.groupPic}"/>
+            <div>그룹 목표: ${groupInfo.target}</div>
+            <div>그룹 이름: ${groupInfo.title}</div>
+            <div>그룹 인원: ${groupInfo.joinedUser} / ${groupInfo.memberCount}</div>
+            <div>시작일: ${groupInfo.startDay}</div>
+            <div>목표일: ${groupInfo.finishDay}</div>
+            <div>💖 ${groupInfo.like}</div>
+          `;
+
+          profileRight.appendChild(profileContent);
+          profileContent.appendChild(item);
         });
       });
   }

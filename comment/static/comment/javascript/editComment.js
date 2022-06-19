@@ -62,9 +62,11 @@ commentEditBtns.forEach((btn, idx) => {
 
     editCancleBtns.addEventListener('click', () => {
       editCommentBox.innerHTML = '';
-      btn.style.display = 'block';
-      commentDividers[idx].style.display = 'block';
-      commentDeleteBtns[idx].style.display = 'block';
+      for (let i = 0; i < commentEditBtns.length; i++) {
+        commentEditBtns[i].style.display = 'block';
+        commentDividers[i].style.display = 'block';
+        commentDeleteBtns[i].style.display = 'block';
+      }
     });
   });
 });

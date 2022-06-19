@@ -11,7 +11,6 @@ urlpatterns = [
     path("delete/<int:group_id>", views.delete, name="delete"),
     path("joinGroup", views.joinGroup),
     path("unjoinGroup", views.joinGroup),
-    path("feeds/<int:user_id>/<str:showStatus>", views.showFeeds),
     path("search/", views.search, name="search"),
     path("groupLike", views.groupLike),
 ]

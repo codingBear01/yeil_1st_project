@@ -10,4 +10,7 @@ urlpatterns = [
     path("edit/<int:feed_id>", views.edit, name="edit"),
     path("delete/<int:feed_id>", views.delete, name="delete"),
     path("feedLike", views.feedLike),
+    path("addOnModal/<int:user_id>", views.addOnModal),
+    path("addOnFeed/<int:session_id>", views.addOnFeed),
+    # path("addRecord", views.addRecord),
 ]

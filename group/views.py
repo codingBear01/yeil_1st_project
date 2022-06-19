@@ -122,7 +122,7 @@ def joinGroup(request):
         groupId = request.POST.get("groupId")
         action = request.POST.get("action")
 
-        if action == "JOIN":
+        if action == "참가":
             try:
                 # JOINGROUP
                 group = Group.objects.get(pk=groupId)
@@ -134,13 +134,13 @@ def joinGroup(request):
                 return JsonResponse(
                     {
                         "status": 201,
-                        "action": "UNJOIN",
+                        "action": "탈퇴",
                         "joinGroupCnt": group.joinedUser.count(),
                     },
                     status=201,
                 )
             except:
-                return JsonResponse({"error": "error1"}, status=404)
+                return JsonResponse({"error": "error"}, status=404)
         else:
             try:
                 # UNJOINGROUP
@@ -153,13 +153,13 @@ def joinGroup(request):
                 return JsonResponse(
                     {
                         "status": 201,
-                        "action": "JOIN",
+                        "action": "참가",
                         "joinGroupCnt": group.joinedUser.count(),
                     },
                     status=201,
                 )
             except:
-                return JsonResponse({"error": "error2"}, status=404)
+                return JsonResponse({"error": "error"}, status=404)
     return JsonResponse({}, status=400)
 
 
@@ -226,21 +226,6 @@ def unjoinGroup(request):
         except:
             return JsonResponse({"error": "error"}, status=404)
     return JsonResponse({}, status=400)
-
-
-def showFeeds(request, user_id, showStatus):
-    if request.user.is_authenticated:
-        user = User.objects.get(pk=user_id)
-
-    if showStatus == "mine":
-        feeds = Feed.objects.all().filter(user_id=user).order_by("-createdTime")
-    elif showStatus == "others":
-        others = User.objects.get(pk=user_id).group.all()
-        feeds - Feed.objects.filter(user__in=others).order_by("-createdTime")
-    else:
-        return JsonResponse({"error": "error"}, status=400)
-
-    return JsonResponse([feed.serialize() for feed in feeds], safe=False)
 
 
 # 검색기능

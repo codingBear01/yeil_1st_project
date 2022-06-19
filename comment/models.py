@@ -15,5 +15,8 @@ class Comment(models.Model):
     updatedTime = models.DateTimeField(auto_now=True, auto_now_add=False)
     like = models.ManyToManyField(User, blank=True, related_name="comment_like")
 
-    def approve(self):
-        self.save()
+    def serialize(self):
+        return {
+            "createdTime": self.createdTime.strftime("%Y/%m/%d, %H:%M:%S"),
+            "updatedTime": self.createdTime.strftime("%Y/%m/%d, %H:%M:%S"),
+        }

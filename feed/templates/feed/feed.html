@@ -7,7 +7,12 @@
   <a href="{% url 'userPage:userPage' feed.author.pk %}">
     작성자: {{ feed.author}}
   </a>
-  <div>작성 시간: {{ feed.createdTime }}</div>
+  <div>작성 시간: {{ feed.serialize.createdTime }}</div>
+  {% for record in records %}
+  <div>수행 일자: {{ record.date }}</div>
+  <div>총 수행 시간: {{ record.totalTime }}</div>
+  <div>수행한 운동명: {{ record.sessions }}</div>
+  {% endfor %}
   <div>내용: {{ feed.content }}</div>
   <div
     id="feed_like_{{ feed.pk }}"
@@ -66,8 +71,8 @@
       <div>
       댓글 내용: <div class="comment_content{{ comment.id }}">{{ comment.content }}</div>
       </div>
-      <div class="c_time">작성 시간: {{ comment.createdTime }}</div>
-      <div class="u_time">수정 시간: {{ comment.updatedTime }}</div>
+      <div class="c_time">작성 시간: {{ comment.serialize.createdTime }}</div>
+      <div class="u_time">수정 시간: {{ comment.serialize.updatedTime }}</div>
       <div
         id="comment_like_{{ comment.pk }}"
         class="like_box comment_like like {% if comment.author.pk == request.user.pk %}prohibited {% endif %}"
@@ -104,7 +109,7 @@
       {% endif %}
     </div>
   {% empty %}
-  <p>No comments here yet 😥</p>
+  <p>아직 댓글이 없어요. 😥</p>
   {% endfor %}
   </div>
 {% endblock %}

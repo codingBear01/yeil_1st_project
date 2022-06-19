@@ -1,15 +1,46 @@
 {% extends "main/layout.html" %} 
+{% load static %}
+
 {% block main %}
   {% if user.is_authenticated%}
-    <form 
-      action="{% url 'feed:create' %}" 
-      method="POST" 
-      style="display: flex; flex-direction: column"
+    <button 
+      class="add_on_modal_btn"
+      user-id="{{ request.user.pk }}"
+      add-status="on_modal"
     >
-      {% csrf_token %}
+    운동 기록 추가
+    </button>
+    <form 
+    action="{% url 'feed:create' %}" 
+    method="POST" 
+    style="display: flex; flex-direction: column"
+    >
+    {% csrf_token %}
+      <ul class="added_record_list"></ul>
       <input type="text" name="create_title" placeholder="title" />
       <textarea name="create_content" placeholder="content"></textarea>
-      <input type="submit" value="create feed" />
+      <input 
+        type="submit"
+        value="create_feed" 
+        class="creadte_feed_btn"
+      />
     </form> 
   {% endif %}
+
+  <div class="feed_modal">
+    <div class="feed_modal_content">
+      <span class="feed_modal_close">✖</span>
+      <form class="feed_modal_list"></form>
+      <button 
+        class="add_on_feed_btn"
+        add-status="on_feed"
+      >
+      추가
+      </button>
+    </div>
+  </div>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'feed/javascript/addRecord.js' %}"></script>
 {% endblock %}

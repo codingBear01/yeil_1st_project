@@ -15,4 +15,5 @@ urlpatterns = [
     path("followings/follow", views.follow),
     path("feeds/<int:user_id>", views.showFeeds),
     path("records/<int:user_id>", views.showRecords),
+    path("groups/<int:user_id>", views.showGroups),
 ]

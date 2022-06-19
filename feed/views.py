@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
-import json
+import re
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 
 from .models import User, Feed
+from record.models import Record
 from comment.models import Comment
 
 # Create your views here.
@@ -24,12 +25,21 @@ def allFeeds(request):
 def show(request, feed_id):
     feed = Feed.objects.get(pk=feed_id)
     comments = Comment.objects.all().filter(feed_id=feed_id).order_by("-createdTime")
+    recordIds = feed.recordIds
+    ids = re.sub(r"[^0-9]", "", recordIds)
+    records = []
+
+    for id in ids:
+        record = Record.objects.get(pk=int(id))
+        records.append(record)
+
     return render(
         request,
         "feed/feed.html",
         {
             "feed": feed,
             "comments": comments,
+            "records": records,
         },
     )
 
@@ -41,11 +51,13 @@ def create(request):
         if request.method == "POST":
             title = request.POST["create_title"]
             content = request.POST["create_content"]
+            recordIds = request.POST.getlist("added_session_id")
 
             feed = Feed(
                 author=user,
                 title=title,
                 content=content,
+                recordIds=recordIds,
             )
 
             feed.save()
@@ -121,3 +133,23 @@ def feedLike(request):
             )
 
     return JsonResponse({}, status=400)
+
+
+@login_required
+@csrf_exempt
+def addOnModal(request, user_id):
+    if request.user.is_authenticated:
+        records = Record.objects.all().filter(user_id=user_id)
+    else:
+        return JsonResponse({"error": "error"}, status=400)
+    return JsonResponse([record.serialize() for record in records], safe=False)
+
+
+@login_required
+@csrf_exempt
+def addOnFeed(request, session_id):
+    if request.user.is_authenticated:
+        records = Record.objects.all().filter(id=session_id)
+    else:
+        return JsonResponse({"error": "error"}, status=400)
+    return JsonResponse([record.serialize() for record in records], safe=False)

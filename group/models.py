@@ -27,3 +27,17 @@ class Group(models.Model):
         User, blank=True, symmetrical=False, related_name="group_like"
     )
     groupPic = models.ImageField(upload_to="images/", blank=True, null=True)
+
+    def serialize(self):
+        return {
+            "pk": self.pk,
+            "target": self.target,
+            "title": self.title,
+            "memberCount": self.memberCount,
+            "createdTime": self.createdTime.strftime("%Y/%m/%d, %H:%M:%S"),
+            "startDay": self.startDay,
+            "finishDay": self.finishDay,
+            "joinedUser": self.joinedUser.count(),
+            "like": self.like.count(),
+            "groupPic": self.groupPic.url,
+        }
