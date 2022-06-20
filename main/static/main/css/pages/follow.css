@@ -1,0 +1,13 @@
+.follow_box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.follow_img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px solid rgb(157, 193, 250, 0.5);
+  margin-right: 10px;
+}

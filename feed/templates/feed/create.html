@@ -1,0 +1,56 @@
+{% extends "main/layout.html" %} 
+{% load static %}
+
+{% block main %}
+  {% if user.is_authenticated%}
+  <div class="newfeed_main">
+    <div class="newfeed_back">
+      <form 
+        class="newfeed_box"
+        action="{% url 'feed:create' %}" 
+        method="POST"   
+      >
+        {% csrf_token %}
+        <!-- 새효과 -->
+        <div class="newfeed_bigtitle">
+          <h1>
+            <span class="first_span">오</span>
+            <span>운</span>
+            <span>완</span>
+            <span>?</span>
+          </h1>
+        </div>
+
+        <div class="newfeed_title">
+          <input name="create_title" type="text" placeholder="제목" />
+        </div>
+
+        <div class="newfeed_content">
+          <textarea name="create_content" id="" cols="30" rows="10"></textarea>
+        </div>
+
+        <div class="newfeed_submit_btn">
+          <button class="feed_btns" type="submit">피드 작성!</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="feed_modal">
+    <div class="feed_modal_content">
+      <span class="feed_modal_close">✖</span>
+      <form class="feed_modal_list"></form>
+      <button 
+        class="add_on_feed_btn"
+        add-status="on_feed"
+      >
+      추가
+      </button>
+    </div>
+  </div>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'feed/javascript/addRecord.js' %}"></script>
+{% endblock %}

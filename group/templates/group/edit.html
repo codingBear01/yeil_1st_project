@@ -1,0 +1,64 @@
+{% extends "main/layout.html" %} 
+{% block main %}
+  {% if user.is_authenticated%}
+  <div class="group_newfeed_main">
+    <div class="group_newfeed_back">
+      <form 
+        class="group_newfeed_box"
+        action="{% url 'group:edit' group.pk %}" 
+        method="POST"
+        enctype="multipart/form-data"
+      >
+        {% csrf_token %}
+        <!-- 새효과 -->
+        <div class="group_newfeed_bigtitle">
+          <h1>그룹 글 올리기</h1>
+        </div>
+
+        <select name="edit_target">
+          <option value="" selected="selected">목표선택</option>
+          <option value="다이어트">다이어트</option>
+          <option value="체력증가">체력증가</option>
+          <option value="근력증가">근력증가</option>
+          <option value="유지어터">유지어터</option>
+        </select>
+
+        <!-- 버튼 -->
+        <div class="group_newfeed_title">
+          <input name="edit_title" type="text" placeholder="제목" value="{{ group.title }}"/>
+        </div>
+
+        <div class="group_input_box group_day_box">
+          <div class="group_start_day_box">
+            <p>시작일</p>
+            <input type="date" name="edit_startDay" id="create_startDay" value="{{ group.startDay }}" />
+          </div>
+          <div class="group_finish_day_box">
+            <p>종료일</p>
+            <input type="date" name="edit_finishDay" id="create_finishDay" value="{{ group.finishDay }}" />
+          </div>
+        </div>
+
+        <div class="group_input_box group_pic_box">
+          <span>그룹 사진</span>
+          <div class="group_create_input_wrap boxtop_wrap">
+            <input type="file" name="edit_groupPic" value="{{ group.groupPic }}"/>
+          </div>  
+        </div>
+
+        <div class="group_input_box group_member_cnt_box">
+          <input type="number" name="edit_memberCount" id="create_memberCount"placeholder="참가자수" value="{{ group.memberCount }}"/>
+        </div>
+
+        <div class="group_newfeed_content">
+          <textarea name="edit_content" id="" cols="30" rows="10">{{ group.content }}</textarea>
+        </div>
+
+        <div class="group_newfeed_submit_btn">
+          <button type="submit">그룹 수정!</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  {% endif %}
+{% endblock %}

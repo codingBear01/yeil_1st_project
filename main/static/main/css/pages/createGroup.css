@@ -1,0 +1,152 @@
+.group_newfeed_main {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 1200px;
+  background-color: white;
+  overflow: hidden;
+}
+
+.group_newfeed_back {
+  /* background-color: var(--blue); */
+  background: rgb(45, 224, 167, 0.479);
+  width: 80%;
+  height: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 7px;
+  box-shadow: 2px 7px 7px rgba(0, 0, 0, 0.096);
+}
+
+.group_newfeed_box {
+  width: 80%;
+  min-height: 800px;
+}
+
+/* 피드 상위글자 */
+.group_newfeed_bigtitle {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.group_newfeed_bigtitle {
+  color: white;
+  font-size: 2vw;
+  font-weight: 200;
+  font-weight: 700;
+  text-shadow: 5px 5px 0px rgb(157, 193, 250, 0.5),
+    10px 10px 0px rgb(157, 193, 250, 0.5);
+}
+
+.group_newfeed_bigtitle h1 span:not(:first-child) {
+  animation: bounce 2s ease-in-out infinite;
+  margin-left: 50px;
+}
+.group_newfeed_bigtitle h1 span {
+  animation: bounce 2s ease-in-out infinite;
+}
+
+/* 피드 제목 */
+.group_newfeed_title {
+  background-color: white;
+  width: 100%;
+  height: 63px;
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  outline: none;
+  border: none;
+  border-radius: 6px;
+  outline-offset: 4px;
+  outline: 3px solid white;
+}
+
+.group_newfeed_title > input,
+.group_member_cnt_box > input {
+  width: 98%;
+  outline: none;
+  border: none;
+  /* border: 2px 2px solid var(--green); */
+  font-size: 20px;
+  border-radius: 6px;
+}
+
+/* 버튼 */
+.feed_btns:hover {
+  color: white;
+  background-color: var(--green);
+  transition: all 0.8s ease-in-out;
+}
+.feed_btns:not(:hover) {
+  transition: all 0.8s ease-in-out;
+}
+
+/* 날짜 */
+.group_input_box {
+  margin-top: 40px;
+  padding: 20px;
+  border-radius: 6px;
+  outline-offset: 4px;
+  outline: 3px solid white;
+  background-color: white;
+}
+
+.group_start_day_box {
+  margin-bottom: 10px;
+}
+
+/* 사진 */
+.group_pic_box {
+  margin-top: 40px;
+  padding: 20px;
+  border-radius: 6px;
+  outline-offset: 4px;
+  outline: 3px solid white;
+  background-color: white;
+}
+
+/* 내용 */
+.group_newfeed_content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 40px;
+  border-radius: 6px;
+  outline-offset: 4px;
+  outline: 3px solid white;
+}
+
+.group_newfeed_content textarea {
+  min-height: 450px;
+  font-size: 17px;
+  width: 100%;
+  border: none;
+  resize: none;
+  outline: none;
+  border-radius: 6px;
+}
+
+/* 버튼 */
+
+.group_newfeed_submit_btn {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.group_newfeed_submit_btn button {
+  width: 200px;
+  height: 50px;
+  border: 2px solid var(--green);
+  border-radius: 15px;
+  color: var(--black);
+  background-color: white;
+  cursor: pointer;
+  font-size: 20px;
+}

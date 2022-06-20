@@ -1,0 +1,71 @@
+{% extends 'main/layout.html' %} 
+{% load static %} 
+
+{% block main %}
+<div class="workout_main_container">
+  <section class="workout_top_container">
+    <div class="workout_menu_container">
+      <span class="head_block">추천 세션</span>
+      <ul class="menus">
+        {% for recommendSession in recommendSessions%}
+        <li class="menu_list">
+          <button
+            class="recommend_session_btn .custom-btn btn-fade"
+            recommend-session-id="{{ recommendSession.pk }}"
+            action="recommend"
+          >
+          {{ recommendSession.category }}
+          </button>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="workout_menu_container">
+      <span class="head_block">부위별 운동</span>
+      <ul class="menus">
+      {% for bodyPart in bodyParts %}
+      <li class="menu_list">
+        <button 
+          class="body_part_btn .custom-btn btn-fade"
+          body-part-id="{{ bodyPart.pk }}"
+          action="bodyPart"
+        >
+          {{ bodyPart.name }}
+        </button>
+      </li>
+      {% endfor %}
+      </ul>
+    </div>
+  </section>
+
+  <!-- 추천운동 -->
+  <div class="session_result_box">
+    <ul class="session_result_list"></ul>
+    <!-- 오른쪽 세션 -->
+    <ul class="session_store_list">
+      <li><button class="session_store_btn">저장</button></li>
+      <li>
+        <button class="session_start_btn" disabled>운동 시작</button>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="session_modal">
+  <div class="session_modal_content">
+    <span class="session_modal_close">✖</span>
+    <ul class="session_modal_list">
+    </ul>
+    <a
+      href="{% url 'exercise:sessionPractice' %}"
+      class="session_modal_start_btn"
+      >시작하기</a
+    >
+  </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'exercise/javascript/bodyPartSession.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,149 @@
+* {
+  font-family: 'Noto Sans KR', sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.main_container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* margin-top: 21px; */
+}
+
+.main_container .main_wrap {
+  width: 768px;
+}
+
+.logo_wrap {
+  padding-top: 150px;
+}
+
+.logo_wrap img {
+  width: 231px;
+  height: 208px;
+}
+
+.main_container .main_wrap .logo_wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login_input_section_wrap {
+  padding-top: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login_input_wrap {
+  width: 465px;
+  height: 48px;
+  border: solid 1px var(--blue);
+  background: white;
+}
+
+.login_input_section_wrap .login_input_wrap i {
+  margin-left: 10px;
+  font-size: 23px;
+  font-weight: 1px;
+  color: var(--black);
+}
+
+.login_input_section_wrap .login_input_wrap input {
+  outline: none;
+}
+
+.password_wrap {
+  margin-top: 13px;
+}
+
+.login_input_wrap input {
+  border: none;
+  width: 395px;
+  margin-top: 10px;
+  font-size: 14px;
+  margin-left: 10px;
+  height: 30px;
+}
+
+.login_button_wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 13px;
+}
+
+.alert_msg {
+  margin-bottom: 10px;
+  color: red;
+  font-size: 14px;
+  font-weight: 200;
+}
+
+.login_button_wrap button {
+  width: 465px;
+  height: 48px;
+  font-size: 18px;
+  background: var(--blue);
+  color: var(--white);
+  border: solid 1px var(--blue);
+  cursor: pointer;
+}
+
+.login_stay_sign_in {
+  width: 465px;
+  height: 52px;
+  display: flex;
+  font-size: 15px;
+  align-items: center;
+  justify-content: flex-start;
+  border-bottom: solid 1px var(--black);
+}
+
+.login_stay_sign_in i {
+  font-size: 25px;
+  color: var(--grey);
+  cursor: pointer;
+}
+
+.login_stay_sign_in span {
+  padding-left: 5px;
+  line-height: 25px;
+}
+
+.sign_up {
+  width: 465px;
+  height: 48px;
+  background: white;
+  line-height: 45px;
+  flex-direction: row;
+  align-items: center;
+  display: flex;
+  justify-content: space-around;
+}
+
+.sign_up a {
+  text-decoration: none;
+}
+
+.copyright_wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 15px;
+}
+
+footer .copyright_wrap span img {
+  width: 85px;
+  height: 18px;
+  margin-bottom: -4px;
+}
+
+footer .copyright_wrap span {
+  font-size: 13px;
+  line-height: 15px;
+}

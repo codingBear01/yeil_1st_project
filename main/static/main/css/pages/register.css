@@ -1,0 +1,125 @@
+.main_container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 21px;
+  outline: none;
+}
+
+.main_container .main_wrap {
+  width: 768px;
+}
+
+.register_input_wrap {
+  width: 400px;
+  height: 48px;
+  border: solid 1px var(--blue);
+  background: white;
+}
+
+.logo_wrap {
+  padding-top: 80px;
+}
+
+.logo_wrap img {
+  width: 231px;
+  height: 208px;
+}
+
+.main_container .main_wrap .logo_wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.register_input_section_wrap form {
+  padding-top: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.register_id,
+.register_email,
+.register_nickname {
+  position: relative;
+  left: -178px;
+  top: 4px;
+}
+
+.register_pw {
+  position: relative;
+  left: -170px;
+  top: 4px;
+}
+
+.register_pw_check {
+  position: relative;
+  left: -153px;
+  top: 4px;
+}
+
+.profile_pic_box {
+  display: flex;
+  flex-direction: column;
+}
+
+.register_input_section_wrap .register_input_wrap i {
+  margin-left: 10px;
+  font-size: 23px;
+  font-weight: 1px;
+  color: var(--black);
+}
+
+.boxtop_wrap {
+  margin-top: 8px;
+}
+
+.register_input_wrap input {
+  border: none;
+  width: 377px;
+  margin-top: 10px;
+  font-size: 14px;
+  margin-left: 10px;
+  height: 30px;
+}
+
+.register_button_wrap {
+  margin-top: 10px;
+}
+
+.register_button_wrap button {
+  width: 400px;
+  height: 48px;
+  font-size: 18px;
+  background: var(--blue);
+  color: var(--white);
+  border: solid 1px var(--blue);
+  cursor: pointer;
+}
+
+.alert_msg {
+  margin-bottom: 10px;
+  color: red;
+  font-size: 14px;
+  font-weight: 200;
+}
+
+.copyright_wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 15px;
+}
+
+footer .copyright_wrap span img {
+  width: 85px;
+  height: 18px;
+  margin-bottom: -4px;
+}
+
+footer .copyright_wrap span {
+  font-size: 13px;
+  line-height: 15px;
+}
