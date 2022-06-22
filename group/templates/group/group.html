@@ -1,0 +1,101 @@
+{% extends "main/layout.html" %} 
+{% load static %}
+
+{% block main %} 
+  {% if user.is_authenticated %}
+  <div class="group_top_container"></div>
+
+  <div class="group_main_container">
+    <div class="group_tpu_con">
+      <ul>
+        <li>
+          <div class="group_target">
+            목표는 {{ group.target }} !!! 
+          </div>
+        </li>
+        <li>
+          {% if group.groupPic %}
+            <img src="{{ group.groupPic.url }}" alt="group_pic" width="200" />
+          {% else %}
+            <i class="fa-solid fa-user-large default_group_pic"></i>
+          {% endif %}
+        </li>
+        <li>
+          <div class="group_user">
+            <a href="{% url 'userPage:userPage' group.user.id %}">
+              👤 {{ group.user }}
+            </a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  
+    <div class="group_middle_con">
+      <div class="group_title">
+        {{ group.title }}
+      </div>
+      <div class="group_content">{{ group.content }}</div>
+      <div class="group_join_box">참가 정원: <span class="joined_user_cnt">{{ group.joinedUser.count }} </span> / {{ group.memberCount }} 명
+        <button 
+          class="join_group_btn" 
+          group-id="{{ group.pk }}"
+          {% if group.user.pk == request.user.pk %}
+          disabled
+          {% endif %}
+        >
+        {% if request.user in group.joinedUser.all %}
+        탈퇴
+        {% else %}
+        참가
+        {% endif %}
+        </button>
+        <div
+          id="group_like_{{ group.pk }}"
+          class="like_box group_like like {% if group.user.pk == request.user.pk %}   prohibited {% endif %}"
+          group-id="{{ group.pk }}"
+          {% if not request.user in group.like.all %}
+          group-is-liked="no"
+          {% else %}
+          group-is-liked="yes"
+          {% endif %}
+        >
+          <span id="group_heart_{{ group.pk }}">
+            {% if not request.user in group.like.all %}
+            🤍
+            {% else %}
+            💖
+            {% endif %}
+          </span>
+          <span id="group_like_count_{{ group.pk }}">{{ group.like.count }}</span>
+        </div>
+      </div>
+      <div>시작일: {{ group.startDay }} ~ </div>
+      <div>종료일: {{ group.finishDay }}</div>
+      <div>작성 시간: {{ group.serialize.createdTime }}</div>
+    </div>
+    {% if request.user.pk == group.user.pk %}
+    <form
+    action="{% url 'group:delete' group.pk %}"
+    method="POST"
+    >
+      {% csrf_token%}
+      <div class="group_delete">
+        <input type="submit" value="그룹 삭제" />
+      </div>
+    </form>
+    {% endif %}
+  </div>
+  
+    <div class="clear">
+      <a href="{% url 'group:all_groups' %}">그룹리스트 보기</a>
+      {% if request.user.pk == group.user.pk %}
+      <a href="{% url 'group:edit' group.pk %}">그룹 수정하기</a>
+      {% endif %} 
+    </div>
+  {% endif %} 
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'group/javascript/joinGroup.js' %}"></script>
+<script src="{% static 'group/javascript/groupLike.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "main/layout.html" %}
+{% load static %}
+
+<!-- SEARCH -->
+{% block main %} 
+  {% if user.is_authenticated %}
+  <div class="groups_top_container">
+    <div class="groups_top_box">
+      <form method="GET" action="{% url 'group:search' %}">
+      {% csrf_token %}
+        <div id="groups_searchbox">
+          <input type="text" name="search" placeholder="검색어를 입력하세요." />
+          <button class="groups_search_btn" type="submit">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  {% for group in groups %}
+  <div class="groups_indvid_box">
+      <div class="groups_box">
+        <div class="groups_target">
+          {{ group.target }} 
+        </div>
+        <div class="groups_join"> 
+          {{ group.joinedUser.count }} 명 참가중😎 
+        </div>
+        <div class="groups_like_txt"> 
+          💖{{ group.like.count }}
+        </div>
+      </div>
+
+    <div class="groups_logo_box">
+      {% if group.groupPic %}
+      <img src="{{ group.groupPic.url }}" alt="group_pic" />
+      {% else %}
+      <i class="fa-solid fa-user-large default_group_pic"></i>
+      {% endif %}
+      <div class="groups_user_id">
+        <a href="{% url 'userPage:userPage' group.user.pk %}" >
+          {{ group.user }}
+        </a>
+      </div>
+    </div>
+
+    <div class="groups_rightside">
+      <div class="groups_title">
+        <a href="{% url 'group:show' group.id %}">
+          {{ group.title }} 
+        </a>
+      </div>
+      <div class="groups_description">
+        {{ group.content }}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  <div class="groups_clear">
+    <div class="groups_create_btn">
+      <a href="{% url 'group:create' %}">그룹 만들기</a>
+    </div>
+    <div class="main_btn">
+      <a href="{% url 'main:index' %}">메인페이지</a>
+  </div>
+  {% endif %}
+{% endblock %}
+

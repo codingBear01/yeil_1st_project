@@ -1,0 +1,129 @@
+.serach_main {
+  height: 100vh;
+}
+
+.search_top_container {
+  width: 100%;
+  padding-top: 50px;
+  padding-bottom: 20px;
+  margin-left: 115px;
+}
+
+.search_indvid_box {
+  width: 480px;
+  height: 300px;
+  margin-top: 20px;
+  margin-left: 115px;
+  margin-bottom: 40px;
+  padding: 20px 25px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  border: 4px solid #8eaee0;
+  border-radius: 10px;
+  border-style: outset;
+  box-shadow: 5px 5px 5px 5px #a0a0a7;
+  float: left;
+}
+
+.search_indvid_box:hover {
+  object-fit: cover;
+  transform: scale(0.95) rotate(0.001deg);
+  transition: 1s;
+}
+
+.search_target {
+  font-size: small;
+  width: 50px;
+  background-color: #6dfedf;
+  color: rgb(97, 96, 96);
+  border-radius: 3px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.search_no {
+  margin-bottom: 5px;
+  padding-left: 30px;
+  font-size: large;
+  font-weight: bold;
+}
+
+.search_tc {
+  margin-top: 15px;
+  padding-left: 45px;
+  clear: both;
+  width: 19vw;
+  height: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  text-align: left;
+  word-wrap: break-word;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+
+.search_tc p {
+  background-color: #8eade06e;
+}
+
+.searched_ok {
+  clear: both;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.searched_ok a {
+  width: 200px;
+  height: 50px;
+  background-color: rgb(122, 165, 255, 0.5);
+  border: 1px solid rgb(122, 165, 255, 0.5);
+  border-radius: 10px;
+  text-decoration-line: none;
+  text-align: center;
+  padding-top: 13px;
+  box-shadow: 5px 5px 5px 0px rgb(160, 160, 167, 0.8);
+  transition: 0.5s ease-in-out;
+  margin-top: 50px;
+  color: #3f4175;
+}
+
+.searched_ok a:hover {
+  background-color: rgb(122, 165, 255, 0.8);
+  color: white;
+  transition: 0.5s ease-in-out;
+}
+
+.search_clear {
+  clear: both;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.search_clear a {
+  width: 200px;
+  height: 50px;
+  background-color: rgb(122, 165, 255, 0.5);
+  border: 1px solid rgb(122, 165, 255, 0.5);
+  border-radius: 10px;
+  text-decoration-line: none;
+  text-align: center;
+  padding-top: 13px;
+  box-shadow: 5px 5px 5px 0px rgb(160, 160, 167, 0.8);
+  transition: 0.5s ease-in-out;
+  margin-top: 50px;
+  color: #3f4175;
+}
+
+.search_clear a:hover {
+  background-color: rgb(122, 165, 255, 0.8);
+  color: white;
+  transition: 0.5s ease-in-out;
+}

@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block css %}
+    <link href="{% static 'main/css/style.css' %}" rel="stylesheet" />
+    {% endblock %}
+    <script src="https://kit.fontawesome.com/6d66577a7c.js" crossorigin="anonymous"></script>
+    <title>{% block title %} first project {% endblock %}</title>
+  </head>
+  <body>
+    <header class="nav_container">
+      <nav class="navbar">
+        <a href="{% url 'main:index' %}" class="logo">
+          <img src="{% static 'main/src/image/logo_wrap.png'%}" />
+        </a>
+        <div class="menu_toggle" id="mobile_menu">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+        <ul class="nav_menu">
+          <li>
+            <a href="{% url 'exercise:exercise' %}" class="nav_links">
+              운동 시작
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'feed:all_feeds' %}" class="nav_links">
+              피드 모아보기
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'group:all_groups' %}" class="nav_links">
+              전체 그룹
+            </a>
+          </li>
+          {% if user.is_authenticated %}
+            {% if user.pk == request.user.pk %}
+            <li><span class="nav_greet_msg" >환영합니다 {{ user.nickname }}님!</span></li>
+            {% endif %}
+          <li><a href="{% url 'userPage:userPage' request.user.pk %}" class="nav_links">내 페이지</a></li>
+          <li>
+            <a href="{% url 'user:logout' %}" class="nav_links">
+              로그아웃
+            </a>
+          </li>
+          {% else %}
+          <li>
+            <a href="{% url 'user:login' %}" class="nav_links nav_info">
+              로그인
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'user:register' %}" class="nav_links nav_info">
+              회원가입
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+    {% block main %}
+    {% endblock %}
+    </main>
+
+    <footer>
+      <div class="copyright_wrap">
+        <span>
+          <img src="{% static 'main/src/image/all_types.png'%}" /> Copyright © AllTypes. All
+          Rights Reserved.</span
+        >
+      </div>
+    </footer>
+    {% block script %}
+    <script src="{% static 'main/javascript/app.js' %}"></script>
+    {% endblock %}
+  </body>
+</html>

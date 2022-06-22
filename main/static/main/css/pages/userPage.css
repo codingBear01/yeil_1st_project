@@ -1,0 +1,330 @@
+.userPage_main {
+  height: 100vh;
+}
+
+.profile_box {
+  position: relative;
+  padding: 20px 20px 0px 20px;
+  width: 100%;
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    360deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(142, 174, 224, 1) 100%
+  );
+}
+
+.profile_box .fa-arrow-left {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  font-size: 20px;
+  color: white;
+}
+
+.profile_wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
+  margin: 0 auto;
+}
+
+.profile_top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile_top i {
+  font-size: 50px;
+}
+
+.profile_top img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+  outline: 3px solid white;
+  outline-offset: 4px;
+}
+
+.profile_top p {
+  text-align: center;
+  margin-right: 5px;
+  font-size: large;
+  font-weight: bold;
+}
+
+.profile_name_box {
+  display: flex;
+}
+
+.profile_name_box a,
+.follow_btn,
+.delete_follower_btn {
+  background: #2de0a794;
+  display: block;
+  position: relative;
+  float: left;
+  width: 60px;
+  padding: 0;
+  text-align: center;
+  line-height: 23px;
+  color: rgb(255, 255, 255);
+  border: 1px solid #2de0a794;
+  border-radius: 10%;
+  text-decoration: none;
+  box-shadow: 2px 7px 7px rgba(0, 0, 0, 0.096);
+  cursor: pointer;
+}
+
+.profile_fs {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 40px;
+  margin-left: 40%;
+  color: #7aa5ff;
+  font-weight: bold;
+}
+
+.profile_fs div {
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.profile_fs :hover {
+  background-color: #7aa5ff;
+  color: white;
+}
+
+.profile_fs :not(hover) {
+  transition: background 0.3s ease-in-out, color 0.22s ease-in-out;
+}
+
+.profile_cnt {
+  display: flex;
+  align-items: center;
+}
+
+.profile_main {
+  display: flex;
+  /* border-top: solid 1px var(--black); */
+}
+
+.profile_left {
+  border-right: double 7px #7aa4ffa2;
+  font-size: 20px;
+  text-align: center;
+  padding-left: 15px;
+  padding-right: 15px;
+  /* white-space: nowrap; */
+}
+
+.profile_right {
+  margin-left: 60px;
+}
+
+.profile_right_feed {
+  width: 350px;
+  height: 200px;
+  margin-bottom: 20px;
+  /* display: flex; */
+  /* flex-direction: column; */
+  flex-wrap: wrap;
+  float: left;
+
+  padding: 20px;
+  border: 1px solid rgb(157, 193, 250, 0.5);
+  word-break: break-all;
+  background: rgb(157, 193, 250, 0.5);
+  box-shadow: 2px 7px 7px rgba(0, 0, 0, 0.37);
+  margin-right: 20px;
+}
+
+.userPage_feed_title {
+  height: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  text-align: left;
+  word-wrap: break-word;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  margin-top: 10px;
+}
+
+.userPage_feed_content {
+  height: 20px;
+  margin-bottom: 40px;
+  margin-left: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  text-align: left;
+  word-wrap: break-word;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+
+.my_feed {
+  padding: 10px 10px;
+}
+
+.followers_feed {
+  padding: 10px 10px;
+}
+
+.profile_content {
+  display: flex;
+}
+
+/* 피드보기 눌렀을때 나오는 내 피드 */
+
+.profile_right ul {
+  width: 70vw;
+}
+
+.feedsInfo_box {
+  width: 350px;
+  height: 200px;
+  /* display: flex;
+  flex-direction: row;
+  flex-wrap: wrap; */
+  margin-right: 21px;
+  margin-bottom: 20px;
+  justify-content: space-between;
+  padding: 20px;
+  border: 1px solid rgb(157, 193, 250, 0.5);
+  word-break: break-all;
+  background: rgb(157, 193, 250, 0.5);
+  box-shadow: 2px 7px 7px rgba(0, 0, 0, 0.37);
+  float: left;
+}
+
+.feedsInfo_title {
+  height: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  text-align: left;
+  word-wrap: break-word;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  margin-top: 10px;
+}
+
+.feedsInfo_content {
+  height: 20px;
+  margin-bottom: 40px;
+  margin-left: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  text-align: left;
+  word-wrap: break-word;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+
+/* 팔로워 눌렀을때 나오는 페이지 */
+.follow_box {
+  background-color: #7aa4ffab;
+  border-radius: 10px;
+  box-shadow: 2px 7px 7px rgba(0, 0, 0, 0.37);
+  margin-right: 21px;
+  margin-bottom: 20px;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.follower_nickname {
+  color: white;
+  text-decoration: none;
+  font-size: larger;
+}
+
+.delete_follower_btn {
+  margin-left: 15px;
+}
+
+/* 운동기록 눌렀을때 나오는 페이지 */
+.recordInfo_plain {
+  color: rgba(66, 66, 119, 0.89);
+  background-color: rgba(255, 255, 255, 0.418);
+  margin: 15px;
+  border: solid 1px rgba(123, 123, 223, 0.89);
+  padding: 20px;
+}
+
+.all_session_name {
+  color: #6dfedf;
+  margin-left: 10px;
+  margin-bottom: 20px;
+  word-wrap: break-word;
+}
+
+.recordsInfo_box {
+  width: 350px;
+  flex-wrap: wrap;
+  float: left;
+  padding: 30px;
+
+  padding: 20px 50px;
+  border: 1px solid rgba(123, 123, 223, 0.719);
+  word-break: break-all;
+  background: rgba(123, 123, 223, 0.719);
+  box-shadow: 2px 7px 7px rgba(0, 0, 0, 0.37);
+  margin-right: 20px;
+  margin-bottom: 20px;
+  color: white;
+}
+
+/* 참가 그룹 눌렀을때 나오는 페이지 */
+.groupInfo_box {
+  width: 250px;
+  height: 360px;
+  background-color: rgba(45, 224, 167, 0.479);
+  padding-bottom: 15px;
+  padding-top: 20px;
+  padding-left: 50px;
+  border-radius: 10px;
+  float: left;
+  box-shadow: 2px 7px 7px rgba(0, 0, 0, 0.096);
+}
+
+.groupInfo_box img {
+  width: 150px;
+  height: 150px;
+  border-radius: 10%;
+}
+
+.groupInfo_target {
+  font-size: small;
+  width: 50px;
+  height: 20px;
+  background-color: white;
+  color: rgb(247, 114, 243);
+  box-shadow: 2px 7px 7px rgba(0, 0, 0, 0.096);
+  border-radius: 3px;
+  margin-bottom: 10px;
+}
+
+.groupInfo_tjsf {
+  margin-bottom: 10px;
+  background-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 2px 7px 7px rgba(0, 0, 0, 0.096);
+  border-radius: 3px;
+  width: 150px;
+  text-align: center;
+}
+
+.groupInfo_like {
+  width: 40px;
+  height: 25px;
+  background-color: white;
+  box-shadow: 2px 7px 7px rgba(0, 0, 0, 0.096);
+  border-radius: 3px;
+}

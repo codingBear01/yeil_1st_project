@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% block css %}
+      <link href="{% static 'main/css/style.css' %}" rel="stylesheet" />
+    {% endblock %}
+    <title>register</title>
+  </head>
+
+  <body>
+    <div class="main_container">
+      <div class="main_wrap">
+        <div class="logo_wrap">
+          <a href="{% url 'main:index' %}">
+            <img src="{% static 'user/src/logo_wrap.png' %}" />
+          </a>
+        </div>
+
+        <section class="register_input_section_wrap">
+          <form action="{% url 'user:register' %}" method="POST"  enctype="multipart/form-data">
+            {% csrf_token %}
+            <p class="register_id">아이디</p>
+            <div class="register_input_wrap boxtop_wrap">
+              <input type="text" name="user_id" required />
+            </div>
+
+            {% if idError %}
+              <span class="alert_msg">{{ idError }}</span>
+            {% endif %}
+
+            <p class="register_pw">비밀번호</p>
+            <div class="register_input_wrap boxtop_wrap">
+              <input type="password" name="user_pw" required />
+            </div>
+
+            <p class="register_pw_check">비밀번호 확인</p>
+            <div class="register_input_wrap boxtop_wrap">
+              <input type="password" name="user_confirmation" required />
+            </div>
+            
+            {% if pwError %}
+              <span class="alert_msg">{{ pwError }}</span>
+            {% endif %}
+
+            <p class="register_email">이메일</p>
+            <div class="register_input_wrap boxtop_wrap">
+              <input type="email" name="user_email" required />
+            </div>
+            
+            <p class="register_nickname">닉네임</p>
+            <div class="register_input_wrap boxtop_wrap">
+              <input type="text" name="user_nickname" required />
+            </div>
+
+            <div class="profile_pic_box">
+              <span>프로필 사진</span>
+              <div class="register_input_wrap boxtop_wrap">
+                <input type="file" name="user_profile_pic" />
+              </div>  
+            </div>
+              
+            <div class="register_button_wrap">
+              <button type="submit">가입하기</button>
+            </div>
+          </form>
+        </section>
+      </div>
+    </div>
+
+    <footer>
+      <div class="copyright_wrap">
+        <span>
+          <img src="{% static 'user/src/AllTypes.PNG' %}" /> Copyright © AllTypes. All
+          Rights Reserved.</span
+        >
+      </div>
+    </footer>
+  </body>
+</html>

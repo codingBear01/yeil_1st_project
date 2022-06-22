@@ -1,0 +1,257 @@
+/* *{
+  border: 1px solid black;
+} */
+
+.groups_top_container {
+  width: 100%;
+  padding-top: 50px;
+}
+
+.groups_top_box {
+  width: 95vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding-bottom: 20px;
+}
+
+.groups_sort_box {
+  padding-right: 20px;
+  display: flex;
+}
+
+.groups_searchbox {
+  border: solid 2px var(--lightBlue);
+  height: 24px;
+}
+
+.groups_searchbox input {
+  outline: none;
+  border: none;
+  display: flex;
+  line-height: 20px;
+  font-size: 14px;
+}
+
+.groups_search_btn {
+  position: relative;
+  left: -25px;
+  border: none;
+  outline: none;
+  background-color: var(--lightBlue);
+  width: 25px;
+  height: 24px;
+  border: 1px solid var(--lightBlue);
+}
+
+.groups_search_btn i {
+  color: white;
+}
+
+.groups_main_container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  /* justify-content: space-evenly; */
+}
+
+.groups_indvid_box {
+  width: 780px;
+  height: 200px;
+  margin-top: 20px;
+  margin-left: 115px;
+  margin-bottom: 20px;
+  padding: 8px 9px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  border: 4px solid #8eaee0;
+  border-radius: 10px;
+  border-style: outset;
+  box-shadow: 5px 5px 5px 5px #a0a0a7;
+  float: left;
+}
+
+.groups_indvid_box:hover {
+  object-fit: cover;
+  transform: scale(0.95) rotate(0.001deg);
+  transition: 1s;
+}
+
+.groups_indvid_box:not(hover) {
+  transform: rotate(0.001deg);
+  transition: 1s;
+}
+
+.groups_leftside {
+  float: left;
+  width: 110px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.groups_logo_box img {
+  width: 100px;
+  height: 100px;
+  border: 2px solid rgb(122, 165, 255, 0.7);
+  border-style: double;
+  border-radius: 50%;
+  margin-left: 50px;
+  margin-right: 20px;
+  margin-bottom: 5px;
+}
+
+.groups_logo_box {
+  border-right: 2px #7aa5ff;
+  border-right-style: dotted;
+}
+
+.groups_left_bottom {
+  width: 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 7px;
+}
+
+.groups_rightside {
+  float: right;
+  width: 70%;
+  flex-wrap: nowrap;
+  margin-top: 20px;
+  margin-left: 50px;
+}
+
+.groups_title {
+  width: 100%;
+  padding: 5px;
+  padding-bottom: 10px;
+  padding-top: 20px;
+}
+
+.groups_title a {
+  color: #7aa5ff;
+}
+
+.groups_title a:hover {
+  color: #ae81ff;
+}
+
+.groups_description {
+  width: 400px;
+  display: flex;
+  padding: 10px;
+  padding-left: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  text-align: left;
+  word-wrap: break-word;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  height: 80px;
+}
+
+.groups_description span {
+  flex-wrap: nowrap;
+}
+
+.groups_user_id a {
+  text-decoration: none;
+  margin-left: 85px;
+  margin-bottom: 20px;
+  color: #7aa5ff;
+}
+
+.groups_user_id a:hover {
+  color: #ae81ff;
+}
+
+.groups_target {
+  font-size: small;
+  width: 50px;
+  background-color: #6dfedf;
+  color: rgb(97, 96, 96);
+  border-radius: 3px;
+  float: left;
+  margin-right: 10px;
+}
+
+.groups_join {
+  width: 80px;
+  font-size: small;
+  background-color: rgb(174, 129, 255, 0.7);
+  color: rgb(97, 96, 96);
+  border-radius: 3px;
+  float: left;
+  margin-right: 10px;
+}
+
+.groups_like_txt {
+  width: 30px;
+  font-size: small;
+  background-color: rgb(247, 114, 243, 0.7);
+  color: rgb(97, 96, 96);
+  border-radius: 3px;
+  float: left;
+}
+
+.groups_box {
+  width: 200px;
+  margin-bottom: 15px;
+}
+
+.groups_clear {
+  clear: both;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.groups_create_btn a {
+  width: 200px;
+  height: 50px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  border: 1px solid rgb(122, 165, 255, 0.5);
+  text-decoration-line: none;
+  text-align: center;
+  padding-top: 13px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  box-shadow: 5px 5px 5px 0px rgb(160, 160, 167, 0.8);
+  transition: 0.5s ease-in-out;
+}
+
+.groups_create_btn a:hover {
+  background-color: rgb(122, 165, 255, 0.8);
+  color: white;
+  transition: 0.5s ease-in-out;
+}
+
+.main_btn a {
+  width: 200px;
+  height: 50px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  border: 1px solid rgb(122, 165, 255, 0.5);
+  text-decoration-line: none;
+  text-align: center;
+  padding-top: 13px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  box-shadow: 5px 5px 5px 0px rgb(160, 160, 167, 0.8);
+  transition: 0.5s ease-in-out;
+}
+
+.main_btn a:hover {
+  background-color: rgb(122, 165, 255, 0.8);
+  color: white;
+  transition: 0.5s ease-in-out;
+}

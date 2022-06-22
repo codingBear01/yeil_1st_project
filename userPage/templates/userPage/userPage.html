@@ -1,0 +1,106 @@
+{% extends "main/layout.html" %} 
+{% load static %}
+
+{% block main %}
+<div class="userPage_main">
+  <div class="profile_box">
+    <a href="{% url 'main:index' %}">
+      <i class="fa-solid fa-arrow-left"></i>
+    </a>
+    <div class="profile_wrap">
+      <div class="profile_top">
+        {% if user.profilePic %}
+        <img src="{{ user.profilePic.url }}" alt="profile_pic" />
+        {% else %}
+        <i class="fa-solid fa-user-large default_profile_pic"></i>
+        {% endif %}
+        <div class="profile_name_box">
+          {% if user.id != request.user.id %}
+          <p>{{ user.nickname }}</p>
+          {% else %}
+          <p>{{ request.user.nickname }}</p>
+          {% endif %}
+          {% if user.id != request.user.id %}
+          <button
+            class="follow_btn"
+            data-user="{{ user.pk }}"
+          >
+            {% if user in request.user.following.all %}
+              언팔로우
+            {% else %}
+              팔로우
+            {% endif %}
+          </button>
+          {% else %}
+          <a href="{% url 'userPage:edit_user_info' user.pk %}">수정</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    
+      <div class="profile_fs">
+        <div class="profile_feed" user-id="{{ user.id }}">피드 보기</div>
+        <div 
+          class="profile_follower profile_cnt" 
+          user-id="{{ user.id }}"
+          {% if user.id != request.user.id %}
+          user-nickname="{{ user.nickname }}"
+          {% else %}
+          user-nickname="나"
+          {% endif %}
+          logged-user-id="{{ request.user.id }}"
+        >
+          {% if user.id != request.user.id %}
+          <p>팔로워</p>
+          <span class="follower_cnt">{{ user.follower.count }}</span>
+        </div>
+        <div class="profile_following profile_cnt">
+          <p>팔로잉</p>
+          <span class="following_cnt">{{ user.following.count }}</span>
+          {% else %}
+          <p>팔로워</p>
+          <span class="follower_cnt">{{ request.user.follower.count }}</span>
+        </div>
+        <div class="profile_following profile_cnt">
+          <p>팔로잉</p>
+          <span class="following_cnt">{{ request.user.following.count }}<span>
+          {% endif %}
+        </div>
+        <div class="profile_session_record">운동 기록</div> 
+        <div class="profile_group">참가 그룹</div>        
+      </div>
+    
+  </div>
+  <div class="profile_main">
+    <div class="profile_left">
+      {% if user.id != request.user.id %}
+        <p>{{ user.nickname }}의 피드</p>
+      {% else %}
+        <p>나의 피드</p>
+      {% endif %}
+    </div>
+    <div class="profile_right">
+        {% for feed in feeds %}
+        <div class="profile_right_feed">
+          <div>No. {{ feed.pk }}</div>
+          <div>{{ feed.author.nickname }}</div>
+          <div class="userPage_feed_title">
+            {{ feed.title }}
+          </div>
+          <div class="userPage_feed_content">
+            {{ feed.content }}
+          </div>
+          <div>{{ feed.createdTime }}</div>
+        </div>
+        {% endfor %}
+    </div>
+  </div>
+  </div>
+{% endblock %}
+
+{% block script %}
+  {% if user.id != request.user.id %}
+  <script src="{% static 'userPage/javascript/follow.js' %}"></script>
+  {% endif %}
+  <script src="{% static 'userPage/javascript/showContents.js' %}"></script>
+{% endblock %}

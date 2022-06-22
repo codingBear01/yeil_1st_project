@@ -1,0 +1,37 @@
+# main
+layout.html
+index.html
+header.html
+
+# user
+login.html
+register.html
+
+# feed
+feeds.html
+feed.html
+create.html
+edit.html
+
+# userPage
+userPage.html
+editUserInfo.html
+follower.html
+following.html
+userFeeds.html
+followingFeeds.html
+test.html
+
+# comment
+comment.html
+
+# exercise
+session.html
+sessionPractice.html
+
+# group
+create.html
+edit.html
+group.html
+groups.html
+search.html

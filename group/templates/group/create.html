@@ -1,0 +1,65 @@
+{% extends "main/layout.html" %} 
+{% load static %}
+{% block main %}
+  {% if user.is_authenticated %}
+  <div class="group_newfeed_main">
+    <div class="group_newfeed_back">
+      <form 
+        class="group_newfeed_box"
+        action="{% url 'group:create' %}" 
+        method="POST"
+        enctype="multipart/form-data"
+      >
+        {% csrf_token %}
+        <!-- 새효과 -->
+        <div class="group_newfeed_bigtitle">
+          <h1>그룹 글 올리기</h1>
+        </div>
+
+        <select name="create_target">
+          <option value="" selected="selected">목표선택</option>
+          <option value="다이어트">다이어트</option>
+          <option value="체력증가">체력증가</option>
+          <option value="근력증가">근력증가</option>
+          <option value="유지어터">유지어터</option>
+        </select>
+
+        <!-- 버튼 -->
+        <div class="group_newfeed_title">
+          <input name="create_title" type="text" placeholder="제목" />
+        </div>
+
+        <div class="group_input_box group_day_box">
+          <div class="group_start_day_box">
+            <p>시작일</p>
+            <input type="date" name="create_startDay" id="create_startDay" />
+          </div>
+          <div class="group_finish_day_box">
+            <p>종료일</p>
+            <input type="date" name="create_finishDay" id="create_finishDay" />
+          </div>
+        </div>
+
+        <div class="group_input_box group_pic_box">
+          <span>그룹 사진</span>
+          <div class="group_create_input_wrap boxtop_wrap">
+            <input type="file" name="create_groupPic" />
+          </div>  
+        </div>
+
+        <div class="group_input_box group_member_cnt_box">
+          <input type="number" name="create_memberCount" id="create_memberCount"placeholder="참가자수" />
+        </div>
+
+        <div class="group_newfeed_content">
+          <textarea name="create_content" id="" cols="30" rows="10"></textarea>
+        </div>
+
+        <div class="group_newfeed_submit_btn">
+          <button type="submit">그룹 생성!</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  {% endif %}
+{% endblock %}

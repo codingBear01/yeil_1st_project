@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% block css %}
+      <link href="{% static 'main/css/style.css' %}" rel="stylesheet" />
+    {% endblock %}
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.n.css"
+    />
+    <title>운동을 합시댜</title>
+  </head>
+
+  <body>
+    <main>
+      <div class="main_container">
+        <div class="main_wrap">
+          <div class="logo_wrap">
+            <a href="{% url 'main:index' %}">
+              <img src="{% static 'user/src/logo_wrap.png' %}" />
+            </a>
+          </div>
+
+          <section class="login_input_section_wrap">
+            <form action="{% url 'user:login' %}" method="POST">
+              {% csrf_token %}
+              <div class="login_input_wrap">
+                <i class="fa-regular fa-user"></i>
+                <input placeholder="아이디" type="text" name="user_id" />
+              </div>
+              <div class="login_input_wrap password_wrap">
+                <i class="fa-solid fa-lock"></i>
+                <input
+                  placeholder="비밀번호"
+                  type="password"
+                  name="user_pw"
+                />
+              </div>
+              <div class="login_button_wrap">
+                {% if message %}
+                  <span class="alert_msg">{{ message }}</span>
+                {% else %}
+                  <span class="alert_msg"></span>
+                {% endif %}
+                <button type='submit'>로그인 하기</button>
+              </div>              
+            </form>
+
+            <div class="sign_up">
+              <span>아직 회원이 아니시라면 ☞ <a href="{% url 'user:register' %}">회원가입</a></span>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <div class="copyright_wrap">
+        <span>
+          <img src="{% static 'user/src/AllTypes.PNG' %}" /> Copyright © AllTypes. All
+          Rights Reserved.</span
+        >
+      </div>
+    </footer>
+  </body>
+</html>
+  
