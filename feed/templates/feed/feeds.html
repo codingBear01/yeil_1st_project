@@ -1,24 +1,50 @@
-{% extends "main/layout.html" %} 
+{% extends "main/layout.html" %}
+{% load static %}
+
 {% block main %}
   {% if user.is_authenticated %}
-  <ul>
+  <div class="feeds_top_container"></div>
+  <div class="feeds_main_container"> 
     {% for feed in feeds %}
-    <li>
-      <a href="{% url 'feed:show' feed.id %}">
-        <div>피드 제목: {{ feed.title }}</div>
-        <div>작성자: {{ feed.author.nickname }}</div>
-        <div>작성 일자: {{ feed.serialize.createdTime }}</div>
-        {% if feed.comment_feed.count > 0 %}
-        <div>댓글 수: {{ feed.comment_feed.count }}</div>
-        {% endif %}
-        {% if feed.like.count > 0 %}
-        <div>💖 {{ feed.like.count }}</div>
-        {% endif %}
-      </a>
-    </li>
+    <div class="feeds_indvid_box">
+      <ul>
+        <li>
+          <div class="feeds_title">
+            <a href="{% url 'feed:show' feed.id %}">
+                {{ feed.title }}
+              {% if feed.comment_feed.count > 0 %}
+                ({{ feed.comment_feed.count }})
+              {% endif %}
+            </a>
+          </div>
+          <div class="feeds_user_id">
+            <a href="{% url 'userPage:userPage' feed.author.pk %}">
+              {{ feed.author.nickname }}
+            </a>
+          </div>
+          <div class="feeds_content">
+            {{ feed.content }}
+          </div>
+          <div class="feeds_time">
+            <span>
+              {{ feed.serialize.createdTime }}
+            </span>
+            <div class="feeds_like">
+              {% if feed.like.count > 0 %}
+              💖 {{ feed.like.count }}
+              {% else %}
+              🤍 0
+              {% endif %}
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
     {% endfor %}
-  </ul>
-  <a href="{% url 'feed:create' %}">create your feed!</a>
-  <a href="{% url 'main:index' %}">return to main page</a>
+  </div>
+  <div class="feeds_clear">
+    <a href="{% url 'feed:create' %}">새 글쓰기</a>
+    <a href="{% url 'main:index' %}">메인페이지</a>
+  </div>
   {% endif %}
 {% endblock %}

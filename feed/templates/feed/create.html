@@ -3,28 +3,38 @@
 
 {% block main %}
   {% if user.is_authenticated%}
-    <button 
-      class="add_on_modal_btn"
-      user-id="{{ request.user.pk }}"
-      add-status="on_modal"
-    >
-    운동 기록 추가
-    </button>
-    <form 
-    action="{% url 'feed:create' %}" 
-    method="POST" 
-    style="display: flex; flex-direction: column"
-    >
-    {% csrf_token %}
-      <ul class="added_record_list"></ul>
-      <input type="text" name="create_title" placeholder="title" />
-      <textarea name="create_content" placeholder="content"></textarea>
-      <input 
-        type="submit"
-        value="create_feed" 
-        class="creadte_feed_btn"
-      />
-    </form> 
+  <div class="newfeed_main">
+    <div class="newfeed_back">
+      <form 
+        class="newfeed_box"
+        action="{% url 'feed:create' %}" 
+        method="POST"   
+      >
+        {% csrf_token %}
+        <!-- 새효과 -->
+        <div class="newfeed_bigtitle">
+          <h1>
+            <span class="first_span">오</span>
+            <span>운</span>
+            <span>완</span>
+            <span>?</span>
+          </h1>
+        </div>
+
+        <div class="newfeed_title">
+          <input name="create_title" type="text" placeholder="제목" />
+        </div>
+
+        <div class="newfeed_content">
+          <textarea name="create_content" id="" cols="30" rows="10"></textarea>
+        </div>
+
+        <div class="newfeed_submit_btn">
+          <button class="feed_btns" type="submit">피드 작성!</button>
+        </div>
+      </form>
+    </div>
+  </div>
   {% endif %}
 
   <div class="feed_modal">

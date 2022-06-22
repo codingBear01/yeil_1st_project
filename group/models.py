@@ -35,6 +35,7 @@ class Group(models.Model):
             "title": self.title,
             "memberCount": self.memberCount,
             "createdTime": self.createdTime.strftime("%Y/%m/%d, %H:%M:%S"),
+            "updatedTime": self.updatedTime.strftime("%Y/%m/%d, %H:%M:%S"),
             "startDay": self.startDay,
             "finishDay": self.finishDay,
             "joinedUser": self.joinedUser.count(),

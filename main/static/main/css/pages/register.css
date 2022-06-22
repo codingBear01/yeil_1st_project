@@ -106,16 +106,6 @@
   font-weight: 200;
 }
 
-footer {
-  position: relative;
-  padding-top: 95px;
-  padding-bottom: 15px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-
 .copyright_wrap {
   display: flex;
   flex-direction: column;

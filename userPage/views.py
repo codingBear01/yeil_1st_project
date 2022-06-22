@@ -66,7 +66,7 @@ def follow(request):
         user = request.POST.get("user")
         action = request.POST.get("action")
 
-        if action == "follow":
+        if action == "팔로우":
             try:
                 # FOLLOW
                 user = User.objects.get(pk=user)
@@ -80,7 +80,7 @@ def follow(request):
                 return JsonResponse(
                     {
                         "status": 201,
-                        "action": "unfollow",
+                        "action": "언팔로우",
                         "followerCnt": user.follower.count(),
                     },
                     status=201,
@@ -101,7 +101,7 @@ def follow(request):
                 return JsonResponse(
                     {
                         "status": 201,
-                        "action": "follow",
+                        "action": "팔로우",
                         "followerCnt": user.follower.count(),
                     },
                     status=201,

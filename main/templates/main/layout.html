@@ -12,21 +12,61 @@
     <title>{% block title %} first project {% endblock %}</title>
   </head>
   <body>
-    <header class="header">
-      <a href="{% url 'main:index' %}" class="logo"><img src="{% static 'main/src/image/logo_wrap.png'%}" /></a>
-      <input class="menu_btn" type="checkbox" id="menu_btn" />
-      <label class="menu_icon" for="menu_btn"><span class="nav_icon"></span></label>
-      <ul class="menu">
-        <li><a href="#1">menu1</a></li>
-        <li><a href="#2">menu2</a></li>
-        <li><a href="#3">menu3</a></li>
-        <li><a href="#4">menu4</a></li>
-      </ul>
+    <header class="nav_container">
+      <nav class="navbar">
+        <a href="{% url 'main:index' %}" class="logo">
+          <img src="{% static 'main/src/image/logo_wrap.png'%}" />
+        </a>
+        <div class="menu_toggle" id="mobile_menu">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+        <ul class="nav_menu">
+          <li>
+            <a href="{% url 'exercise:exercise' %}" class="nav_links">
+              운동 시작
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'feed:all_feeds' %}" class="nav_links">
+              피드 모아보기
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'group:all_groups' %}" class="nav_links">
+              전체 그룹
+            </a>
+          </li>
+          {% if user.is_authenticated %}
+            {% if user.pk == request.user.pk %}
+            <li><span class="nav_greet_msg" >환영합니다 {{ user.nickname }}님!</span></li>
+            {% endif %}
+          <li><a href="{% url 'userPage:userPage' request.user.pk %}" class="nav_links">내 페이지</a></li>
+          <li>
+            <a href="{% url 'user:logout' %}" class="nav_links">
+              로그아웃
+            </a>
+          </li>
+          {% else %}
+          <li>
+            <a href="{% url 'user:login' %}" class="nav_links nav_info">
+              로그인
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'user:register' %}" class="nav_links nav_info">
+              회원가입
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
     </header>
 
     <main>
-      {% block main %}
-      {% endblock %}
+    {% block main %}
+    {% endblock %}
     </main>
 
     <footer>
@@ -38,6 +78,7 @@
       </div>
     </footer>
     {% block script %}
+    <script src="{% static 'main/javascript/app.js' %}"></script>
     {% endblock %}
   </body>
 </html>

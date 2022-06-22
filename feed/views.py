@@ -25,13 +25,6 @@ def allFeeds(request):
 def show(request, feed_id):
     feed = Feed.objects.get(pk=feed_id)
     comments = Comment.objects.all().filter(feed_id=feed_id).order_by("-createdTime")
-    recordIds = feed.recordIds
-    ids = re.sub(r"[^0-9]", "", recordIds)
-    records = []
-
-    for id in ids:
-        record = Record.objects.get(pk=int(id))
-        records.append(record)
 
     return render(
         request,
@@ -39,7 +32,6 @@ def show(request, feed_id):
         {
             "feed": feed,
             "comments": comments,
-            "records": records,
         },
     )
 
@@ -57,7 +49,6 @@ def create(request):
                 author=user,
                 title=title,
                 content=content,
-                recordIds=recordIds,
             )
 
             feed.save()
@@ -70,18 +61,20 @@ def create(request):
 def edit(request, feed_id):
     if request.user.is_authenticated:
         feed = Feed.objects.get(pk=feed_id)
-        test = Feed.objects.all().filter(author_id=request.user.id)
-
         if request.method == "POST":
-            title = request.POST["title"]
-            content = request.POST["content"]
+            title = request.POST.get("edit_title")
+            content = request.POST.get("edit_content")
 
             feed.title = title
             feed.content = content
 
             feed.save()
             return redirect("feed:all_feeds")
-        return render(request, "feed/edit.html", {"feed": feed, "test": test})
+        return render(
+            request,
+            "feed/edit.html",
+            {"feed": feed},
+        )
     else:
         return render(request, "user/login.html")
 

@@ -120,6 +120,9 @@ if (localStorage.getItem('data')) {
         sessionFinBtns[0].classList.remove('btn_disabled');
         sessionRecordWrappers[0].classList.remove('wrap_disabled');
       }
+
+      sessionResultBtn.setAttribute('disabled', 'true');
+
       sessionFinBtns.forEach((sessionFinBtn, idx) => {
         sessionFinBtn.addEventListener(
           'click',
@@ -196,6 +199,8 @@ if (localStorage.getItem('data')) {
               clickedStatus = true;
 
               sessionFinBtn.classList.add('btn_disabled');
+              sessionResultBtn.removeAttribute('disabled');
+
               sessionRecordWrappers[
                 sessionRecordWrappers.length - 1
               ].classList.add('wrap_disabled');
@@ -300,13 +305,16 @@ if (localStorage.getItem('data')) {
                   totalTime.textContent = `총 수행시간: ${res.totalTime}`;
                   const recordDay = document.createElement('div');
                   recordDay.textContent = res.date;
+                  const testDiv = document.createElement('div');
+                  testDiv.classList.add('test_div');
 
                   const recordModalList =
                     document.querySelector('.record_modal_list');
                   recordModalList.innerHTML = '';
 
-                  recordModalList.appendChild(recordDay);
-                  recordModalList.appendChild(totalTime);
+                  testDiv.appendChild(recordDay);
+                  testDiv.appendChild(totalTime);
+                  recordModalList.appendChild(testDiv);
 
                   for (let i = 0; i < sessionRecordNames.length; i++) {
                     const item = document.createElement('li');

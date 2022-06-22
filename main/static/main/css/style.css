@@ -2,16 +2,21 @@
 @import './variables.css';
 
 /* pages */
+@import './pages/index.css';
 @import './pages/login.css';
 @import './pages/register.css';
 @import './pages/follow.css';
 @import './pages/userEdit.css';
 @import './pages/userPage.css';
+@import './pages/feeds.css';
 @import './pages/feed.css';
-@import './pages/session.css';
+@import './pages/createFeed.css';
 @import './pages/exercise.css';
 @import './pages/recordSession.css';
 @import './pages/groups.css';
+@import './pages/group.css';
+@import './pages/createGroup.css';
+@import './pages/search.css';
 
 /* components */
 @import './components/header.css';
@@ -25,6 +30,13 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+main {
+  height: auto;
+  min-height: 100%;
+  padding-top: 80px;
+  padding-bottom: 100px;
 }
 
 input {

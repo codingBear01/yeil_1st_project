@@ -3,115 +3,133 @@
 
 {% block main %}
   {% if user.is_authenticated %}
-  <div>제목: {{ feed.title }}</div>
-  <a href="{% url 'userPage:userPage' feed.author.pk %}">
-    작성자: {{ feed.author}}
-  </a>
-  <div>작성 시간: {{ feed.serialize.createdTime }}</div>
-  {% for record in records %}
-  <div>수행 일자: {{ record.date }}</div>
-  <div>총 수행 시간: {{ record.totalTime }}</div>
-  <div>수행한 운동명: {{ record.sessions }}</div>
-  {% endfor %}
-  <div>내용: {{ feed.content }}</div>
-  <div
-    id="feed_like_{{ feed.pk }}"
-    class="like_box feed_like like {% if feed.author.pk == request.user.pk %}prohibited {% endif %}"
-    feed-id="{{ feed.pk }}"
-    {% if not request.user in feed.like.all %}
-    feed-is-liked="no"
-    {% else %}
-    feed-is-liked="yes"
-    {% endif %}
-  >
-    <span id="feed_heart_{{ feed.pk }}">
-      {% if not request.user in feed.like.all %}
-      🤍
-      {% else %}
-      💖
-      {% endif %}
-    </span>
-    <span id="feed_like_count_{{ feed.pk }}">{{ feed.like.count }}</span>
-  </div>
-  <a href="{% url 'feed:all_feeds' %}">see all feeds</a>
-    {% if user.id == feed.author.id %}
-    <a href="{% url 'feed:edit' feed.id %}">edit this feed</a>
-    <form
-      action="{% url 'feed:delete' feed.id %}"
-      method="POST"
-      style="display: flex; flex-direction: column"
-    >
-      {% csrf_token%}
-      <input type="submit" value="delete this page" />
-    </form>
-    {% endif %}
-  {% endif %}
-
-  {% if user.is_authenticated %}
-  <br><br><hr>
-  <div class="feed_comment_wrapper">
-    <h5>New Comment</h5>
-    
-    <form method="POST" action="{% url 'comment:comment' feed.id %}" class="comment_content_wrapper">
-      {% csrf_token %}
-      <textarea name="comment_content" class="comment_textarea" required="required"></textarea>
-      <div class="comment_submit_btn">
-        <input type="submit" class="comment_submit_btn" value="Submit" />
+  <div class="feed_top_con"></div>
+  <div class="feed_main_con">
+    <div class="feed_indvid_box">
+      <div class="feed_title">{{ feed.title }}</div>
+      <div class="feed_createdTime">{{ feed.serialize.createdTime }}</div>
+      <a href="{% url 'userPage:userPage' feed.author.pk %}">
+        {{ feed.author}}
+      </a>
+      <div class="feed_content">
+        <div class="feed_like">
+          <div
+            id="feed_like_{{ feed.pk }}"
+            class="like_box feed_like_box like {% if feed.author.pk == request.user.pk %} prohibited {% endif %}"
+            feed-id="{{ feed.pk }}"
+            {% if not request.user in feed.like.all %}
+            feed-is-liked="no"
+            {% else %}
+            feed-is-liked="yes"
+            {% endif %}
+          >
+            <span id="feed_heart_{{ feed.pk }}">
+              {% if not request.user in feed.like.all %} 
+              🤍 
+              {% else %} 
+              💖 
+              {% endif %}
+            </span>
+            <span id="feed_like_count_{{ feed.pk }}">{{ feed.like.count }}</span>
+          </div>
+        </div>
+        <br /><br />
+        {{ feed.content }}
       </div>
-    </form>
-  <div>
-  {% endif %}
-
-  <br><hr>
-  <div class="comment_container">
-    <div class="edit_comment_box"></div>
-    {% for comment in comments %}
-    <div class="comment_wrapper comment_wrapper{{ comment.pk }}">
-      <strong>작성자: {{ comment.author }}</strong>
-      <div>
-      댓글 내용: <div class="comment_content{{ comment.id }}">{{ comment.content }}</div>
-      </div>
-      <div class="c_time">작성 시간: {{ comment.serialize.createdTime }}</div>
-      <div class="u_time">수정 시간: {{ comment.serialize.updatedTime }}</div>
-      <div
-        id="comment_like_{{ comment.pk }}"
-        class="like_box comment_like like {% if comment.author.pk == request.user.pk %}prohibited {% endif %}"
-        comment-id="{{ comment.pk }}"
-        {% if not request.user in comment.like.all %}
-        comment-is-liked="no"
-        {% else %}
-        comment-is-liked="yes"
+      <div class="feed_btn_box">
+        {% if feed.author.pk == request.user.pk %}
+        <div>
+          <a href="{% url 'feed:edit' feed.id %}">글 수정</a>
+        </div>
+        <form class="feed_delete" action="{% url 'feed:delete' feed.id %}" method="POST">
+          {% csrf_token%}
+          <input type="submit" value="글 삭제하기" />
+        </form>
         {% endif %}
-      >
-        <span id="comment_heart_{{ comment.pk }}">
-          {% if not request.user in comment.like.all %}
-          🤍
-          {% else %}
-          💖
-          {% endif %}
-        </span>
-        <span id="comment_like_count_{{ comment.pk }}">{{ comment.like.count }}</span>
       </div>
-      {% if comment.author.id == request.user.id %}
-      <div class="edit_btn_box">
-        <button 
-          type="submit" 
-          class="edit_comment_btn" 
-          data-commentid="{{ comment.id }}"
-        >수정</button>
-        <span class="comment_divider">|</span>
-        <button 
-          type="submit"
-          class="delete_comment_btn"
-          comment-id="{{ comment.id }}"
-        >삭제</button>
-      </div>
-      {% endif %}
     </div>
-  {% empty %}
-  <p>아직 댓글이 없어요. 😥</p>
-  {% endfor %}
+  
+    <div class="feed_comment_wrapper">
+      <form
+        method="POST"
+        action="{% url 'comment:comment' feed.id %}"
+        class="comment_content_form"
+      >
+        {% csrf_token %}
+        <textarea
+        name="comment_content"
+        class="comment_textarea"
+        placeholder="댓글을 입력하세요."
+        required="required"
+        ></textarea>
+        <div class="comment_edit_btn_box">
+          <input type="submit" class="comment_submit_btn" value="작성하기" />
+        </div>
+      </form>
+      <form class="comment_edit_form"></form>
+    </div>
+    <div class="comment_box">
+    {% for comment in comments %}
+    <div class="comment_container comment_container{{ comment.pk }}">
+      <div class="comment_wrapper comment_wrapper{{ comment.pk }}">
+        <a href="{% url 'userPage:userPage' comment.author.pk %}">
+          <strong>{{ comment.author }}</strong>
+        </a>
+        <div class="comment_content{{ comment.id }}">{{ comment.content }}</div>
+        <div class="c_time">작성 시간: {{ comment.serialize.createdTime }}</div>
+        <div class="u_time">수정 시간: {{ comment.serialize.updatedTime }}</div>
+        <div
+          id="comment_like_{{ comment.pk }}"
+          class="like_box comment_like like {% if comment.author.pk == request.user.pk %} prohibited {% endif %}"
+          comment-id="{{ comment.pk }}"
+          {% if not request.user in comment.like.all %}
+          comment-is-liked="no"
+          {% else %}
+          comment-is-liked="yes"
+          {% endif %}
+        >
+          <span id="comment_heart_{{ comment.pk }}">
+            {% if not request.user in comment.like.all %} 
+            🤍 
+            {% else %} 
+            💖 
+            {% endif %}
+          </span>
+          <span id="comment_like_count_{{ comment.pk }}">
+            {{ comment.like.count }}
+          </span>
+        </div>
+  
+        {% if comment.author.id == request.user.id %}
+        <div class="edit_btn_box">
+          <button
+            type="submit"
+            class="edit_comment_btn"
+            data-commentid="{{ comment.id }}"
+          >
+            수정
+          </button>
+          <span class="comment_divider"> </span>
+          <button
+            type="submit"
+            class="delete_comment_btn"
+            comment-id="{{ comment.id }}"
+          >
+            삭제
+          </button>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    {% empty %}
+    <p>아직 댓글이 없어요. 😥</p>
+    {% endfor %}
+    <div class="feed_clear">
+      <a href="{% url 'feed:all_feeds' %}">글 목록</a>
+    </div>
   </div>
+</div>
+  {% endif %}
 {% endblock %}
 
 {% block script %}

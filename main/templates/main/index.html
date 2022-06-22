@@ -1,15 +1,113 @@
 {% extends "main/layout.html" %} 
+{% load static %}
+
 {% block main %}
-  <h1>This is main page!</h1>
-  {% if user.is_authenticated %}
-    <div style="display: flex; flex-direction: column;">
-      <a href="{% url 'exercise:exercise' %}">let's go to exercise page</a>
-      <a href="{% url 'feed:all_feeds' %}">see all feeds</a>
-      <a href="{% url 'group:all_groups' %}">see all groups</a>
-      <a href="{% url 'userPage:userPage' user.id %}">see my user page</a>
-      <a href="{% url 'user:logout' %}">logout</a>
+<div class="mainpage_container">
+  <!-- 1페이지 -->
+  <div class="maincontent">
+    <div class="background_vid">
+      <div class="cover_white">
+        <div class="first_title">
+          <span>
+            WORKOUT<br />
+            BUDDY</span
+          >
+        </div>
+        <video autoplay muted loop id="myVideo">
+          <source src="{% static 'main/src/video/yoga.mp4' %}" type="video/mp4" />
+          Your browser does not support HTML5 video.
+        </video>
+      </div>
     </div>
-  {% else%}
-    <a href="{% url 'user:login' %}">go to login page</a>
-  {% endif %}
+  </div>
+
+  <!-- 2페이지-->
+  <div class="page2 maincontent">
+    <div class="site_descrip">
+      <span>WORKOUT BUDDY란?</span>
+    </div>
+    <div class="page2_content">
+      <span
+        >혼자 운동에 지친 여러분을 위해서 준비한 홈페이지 입니다.
+        <br />
+        혼자운동할 때 할 운동을 골라 홈페이지에 따라 "운동시작"을 누르면
+        <br />
+        타이머를 사용해 운동을 얼마나 한지 다 확인이 가능합니다.
+        <br />
+        디테일 운동 하나 하나 놓칠 수 없으니까요!
+        <br />
+        그룹으로도 운동 참여가 가능합니다.
+        <br />
+        '혼자 하는 운동 지겹다고요?' 이제는 그룹에 들어가 그룹원들과 자기<br />
+        운동 기록을 공유하면서 재미있는 운동을 해보자고요!
+        <br />
+        운동은 즐기는 자의것.
+        <br />
+        즐겨요! 우리모두</span
+      >
+    </div>
+  </div>
+
+  <!-- 3페이지 -->
+  <div class="page3 maincontent">
+    <div class="about_us">
+      <h1>ABOUT US</h1>
+    </div>
+    <div class="container">
+      <div class="card card0">
+        <div class="black_background">
+          <div class="border">
+            <h2>Myeong Mo Kang</h2>
+            <div class="infos">
+              <span class="fa">🧡 팀장[백&프론트]</span>
+              <span class="fa">🧡 독서📚, 등산⛰, 집안일👨‍🍳</span>
+              <span class="fa"
+                >🧡 주특기는 항공설비(?) 및 군수(?), 일본어🎌,
+                꼰대질👴</span
+              >
+              <span class="fa">🧡 ISTJ 요약 : “어.. 엄밀히 따지자면…”</span>
+              <span class="fa">📧 jokingbear01@gmail.com</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card1">
+        <div class="black_background">
+          <div class="border">
+            <h2>Hye Won Park</h2>
+            <div class="infos">
+              <span class="fa">🧡 백&프론트</span>
+              <span class="fa">🧡 운동으로 친구 조지기🏋️‍♂️💪</span>
+              <span class="fa"
+                >🧡 남 걱정하기 😎 , 운동보조🤟, 손금봐주기🖐</span
+              >
+              <span class="fa">🧡 ESFP 요약 : 퐈!리!삐!쁠!</span>
+              <span class="fa">📧 figteabrewer@gmail.com</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card2">
+        <div class="black_background">
+          <div class="border">
+            <h2>Min Gwan Kim</h2>
+            <div class="infos">
+              <span class="fa">🧡 프론트엔드</span>
+              <span class="fa"
+                >🧡 우쿨렐레, 달리기, 클라이밍🧗 (타로도 봐드립니다🔮)</span
+              >
+              <span class="fa">🧡 특기 : 토익 945✌ </span>
+              <span class="fa"
+                >🧡 INFP / 요약 : 1년 365일 라라랜드에 있는!</span
+              >
+              <span class="fa">📧 extrobin2121@gmail.com</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

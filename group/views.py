@@ -6,14 +6,11 @@ from unicodedata import category
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.hashers import make_password
 from django.http import JsonResponse
 from django.db.models import Q
-import pkg_resources
 
 
 from user.models import User
-from feed.models import Feed
 from group.models import Group
 
 
@@ -69,17 +66,22 @@ def edit(request, group_id):
         test = Group.objects.all().filter(user_id=request.user.id)
 
         if request.method == "POST":
-            target = request.POST["target"]
-            title = request.POST["title"]
-            content = request.POST["content"]
-            memberCount = request.POST["memberCount"]
-            startDay = request.POST["startDay"]
-            finishDay = request.POST["finishDay"]
-            groupPic = request.FILES.get("groupPic")
+            target = request.POST["edit_target"]
+            title = request.POST["edit_title"]
+            content = request.POST["edit_content"]
+            memberCount = request.POST["edit_memberCount"]
+            startDay = request.POST["edit_startDay"]
+            finishDay = request.POST["edit_finishDay"]
+            groupPic = request.FILES.get("edit_groupPic")
 
             if startDay == "" or finishDay == "":
                 return render(
-                    request, "group/edit.html", {"group": group, "err": "날짜를 선택해주세요."}
+                    request,
+                    "group/edit.html",
+                    {
+                        "group": group,
+                        "err": "날짜를 선택해주세요.",
+                    },
                 )
 
             group.target = target

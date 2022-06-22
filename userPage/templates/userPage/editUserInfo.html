@@ -3,7 +3,7 @@
   <div class="edit_container">
     <div class="edit_wrap">
       <form
-        action="{% url 'userPage:editUserInfo' request.user.pk %}"
+        action="{% url 'userPage:edit_user_info' request.user.pk %}"
         method="POST"
         enctype="multipart/form-data"
       >

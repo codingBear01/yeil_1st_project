@@ -1,32 +1,43 @@
 {% extends "main/layout.html" %}
 {% block main %} 
+<div class="serach_main">
   {% if user.is_authenticated %}
-    {% block content %}
-      {% if search %}
-      <h3>검색하신 그룹 정보 입니다.</h3>
-      {% for i in search %}
-      <div>게시글 No. {{ i.pk }}</div>
-      <div>그룹 목표: {{ i.target }}</div>
-      <div>그룹 제목: {{ i.title }}</div>
-      <div>그룹 내용: {{ i.content }}</div>
-      {% endfor %}
-      <!-- {% for search in searched %}
-      <ul>
-        <li>그룹 No. {{ search.pk }}</li>
-        <li>그룹 목표: {{ search.target }}</li>
-        <li>그룹 제목: {{ search.title }}</li>
-        <li>그룹 내용: {{ search.content }}</li>
-      </ul>
-      {% endfor %} -->
-      {% else %}
-      <h3>찾고 있는 정보가 없습니다.</h3>
-      <ul>
-        <li>
-          <a href="{% url 'group:create' %}">create your group!</a>
-          <a href="{% url 'main:index' %}">return to main page</a>
-        </li>
-      </ul>
-      {% endif %}
-    {% endblock %}
+  {% block content %}
+  {% if search %}
+  <div class="search_top_container">
+    <h3>검색하신 그룹 정보 입니다.</h3>
+  </div>
+  {% for i in search %}
+  <a href="{% url 'group:show' i.pk %}">
+    <div class="search_indvid_box">
+      <div class="search_target">
+        {{ i.target }}
+      </div>
+      <div class="search_no">
+        No. {{ i.pk }}
+      </div>
+      <div class="search_tc">
+        <p>제목: {{ i.title }}</p>
+        <p>내용: {{ i.content }}</p>
+      </div>
+    </div>
+  </a>
+  {% endfor %}
+  <div class="searched_ok">
+    <a href="{% url 'group:all_groups' %}">그룹리스트 돌아가기</a>
+    <a href="{% url 'group:create' %}">그룹 만들기</a>
+    <a href="{% url 'main:index' %}">메인페이지</a>
+  </div>
+  {% else %}
+  <div class="search_top_container">
+  <h3>찾고 있는 정보가 없습니다.😥</h3>
+  </div>
+    <div class="search_clear">
+      <a href="{% url 'group:create' %}">그룹 만들기</a>
+      <a href="{% url 'main:index' %}">메인페이지</a>
+    </div>
+</div>
+  {% endif %}
+{% endblock %}
   {% endif %}
 {% endblock %}
